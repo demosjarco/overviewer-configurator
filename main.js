@@ -86,7 +86,7 @@ ipcMain.on('getVersion', (event, arg) => {
 	getVersion(event);
 });
 function getVersion(event) {
-	fs.readdir('../', function(err, files) {
+	fs.readdir(app.getPath('userData').replace(/\\/g, "/") + '/', function(err, files) {
 		if (err)
 			throw err;
 		
@@ -156,12 +156,12 @@ ipcMain.once('updateOverviewer', (event, arg) => {
 				console.log(webVersionReg.exec(a.attr('href')));
 				const fileNameReg = /(?<=htt(p:|ps:)\/\/overviewer.org\/builds\/win64\/\d+\/)overviewer-\d+\.\d+\.\d+\.\w+$/;
 				console.log('Downloading overviewer zip');
-				request(a.attr('href')).pipe(fs.createWriteStream('../' + fileNameReg.exec(a.attr('href'))[0])).on('close', function() {
+				request(a.attr('href')).pipe(fs.createWriteStream(app.getPath('userData').replace(/\\/g, "/") + '/' + fileNameReg.exec(a.attr('href'))[0])).on('close', function() {
 					console.log('Downloaded overviewer zip');
-					let zip = new AdmZip('../' + fileNameReg.exec(a.attr('href'))[0]);
-					zip.extractAllTo('../', true);
+					let zip = new AdmZip(app.getPath('userData').replace(/\\/g, "/") + '/' + fileNameReg.exec(a.attr('href'))[0]);
+					zip.extractAllTo(app.getPath('userData').replace(/\\/g, "/") + '/', true);
 					console.log('Extracted overviewer zip');
-					fs.unlink('../' + fileNameReg.exec(a.attr('href'))[0], (err) => {
+					fs.unlink(app.getPath('userData').replace(/\\/g, "/") + '/' + fileNameReg.exec(a.attr('href'))[0], (err) => {
 						if (err)
 							throw err;
 						
@@ -179,7 +179,7 @@ ipcMain.on('getOxipng', (event, arg) => {
 	getOxipng(event);
 });
 function getOxipng(event) {
-	fs.readdir('../', function(err, files) {
+	fs.readdir(app.getPath('userData').replace(/\\/g, "/") + '/', function(err, files) {
 		if (err)
 			throw err;
 		
@@ -197,7 +197,7 @@ function getOxipng(event) {
 	});
 	function readOverviewerDir(fileName) {
 		let exists = false;
-		fs.readdir('../' + fileName + '/', function(err, files) {
+		fs.readdir(app.getPath('userData').replace(/\\/g, "/") + '/' + fileName + '/', function(err, files) {
 			files.forEach(function(fileName) {
 				const versionReg = /oxipng.exe/;
 				if (versionReg.test(fileName)) {
@@ -233,19 +233,19 @@ ipcMain.once('updateOxipng', (event, arg) => {
 	});
 	function downloadOxipng(name, url) {
 		console.log('Downloading oxipng zip');
-		request(url).pipe(fs.createWriteStream('../' + name)).on('close', function() {
+		request(url).pipe(fs.createWriteStream(app.getPath('userData').replace(/\\/g, "/") + '/' + name)).on('close', function() {
 			console.log('Downloaded oxipng zip');
-			let zip = new AdmZip('../' + name);
-			fs.readdir('../', function(err, files) {
+			let zip = new AdmZip(app.getPath('userData').replace(/\\/g, "/") + '/' + name);
+			fs.readdir(app.getPath('userData').replace(/\\/g, "/") + '/', function(err, files) {
 				if (err)
 					throw err;
 				
 				files.forEach(function(fileName) {
 					const versionReg = /(?<=overviewer-)\d+\.\d+\.\d+/;
 					if (versionReg.test(fileName)) {
-						zip.extractAllTo('../' + fileName + '/', true);
+						zip.extractAllTo(app.getPath('userData').replace(/\\/g, "/") + '/' + fileName + '/', true);
 						console.log('Extracted oxipng zip');
-						fs.unlink('../' + name, (err) => {
+						fs.unlink(app.getPath('userData').replace(/\\/g, "/") + '/' + name, (err) => {
 							if (err)
 								throw err;
 							
@@ -283,14 +283,14 @@ ipcMain.on('saveWorldPref', (event, worldPrefs) => {
 });
 
 ipcMain.on('generateConfig', (event, config) => {
-	fs.readdir('../', function(err, files) {
+	fs.readdir(app.getPath('userData').replace(/\\/g, "/") + '/', function(err, files) {
 		if (err)
 			throw err;
 		
 		files.forEach(function(fileName) {
 			const versionReg = /(?<=overviewer-)\d+\.\d+\.\d+/;
 			if (versionReg.test(fileName)) {
-				fs.writeFile('../' + fileName + '/config.py', config, function(err2) {
+				fs.writeFile(app.getPath('userData').replace(/\\/g, "/") + '/' + fileName + '/config.py', config, function(err2) {
 					if (err2)
 						throw err2;
 				});
