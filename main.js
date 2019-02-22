@@ -312,7 +312,7 @@ ipcMain.on('saveWorldPref', (event, worldPrefs) => {
 	fs.writeFile(app.getPath('userData').replace(/\\/g, "/") + '/worldPrefs.json', JSON.stringify(worldPrefs, null, 5), (err) => {
 		if (err)
 			throw err;
-		messageLog('Written to ' + app.getPath('userData') + '\\worldPrefs.json');
+		messageLog('Saved settings to ' + app.getPath('userData') + '\\worldPrefs.json');
 	});
 });
 
