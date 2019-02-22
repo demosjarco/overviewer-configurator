@@ -143,6 +143,24 @@ function getVersion(event) {
 
 const AdmZip = require('adm-zip');
 ipcMain.once('updateOverviewer', (event, arg) => {
+	console.log('Checking for old overviewer version');
+	fs.readdir(app.getPath('userData').replace(/\\/g, "/") + '/', function(err, files) {
+		if (err)
+			throw err;
+		
+		files.forEach(function(fileName) {
+			const versionReg = /(?<=overviewer-)\d+\.\d+\.\d+/;
+			if (versionReg.test(fileName)) {
+				console.log('Deleting old overviewer version');
+				fs.unlink(app.getPath('userData').replace(/\\/g, "/") + '/' + fileName, (err) => {
+					if (err)
+						throw err;
+					
+					console.log('Deleted old overviewer version');
+				});
+			}
+		});
+	});
 	console.log('Getting overviewer version');
 	request('https://overviewer.org/downloads', function (error, response, body) {
 		if (error)
