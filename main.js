@@ -148,49 +148,58 @@ ipcMain.once('updateOverviewer', (event, arg) => {
 		if (err)
 			throw err;
 		
+		let exists = false;
 		files.forEach(function(fileName) {
 			const versionReg = /(?<=overviewer-)\d+\.\d+\.\d+/;
 			if (versionReg.test(fileName)) {
+				exists = true;
 				console.log('Deleting old overviewer version');
 				fs.unlink(app.getPath('userData').replace(/\\/g, "/") + '/' + fileName, (err) => {
 					if (err)
 						throw err;
 					
 					console.log('Deleted old overviewer version');
+					beginDownload();
 				});
 			}
 		});
+		if (!exists) {
+			console.log('No old version detected');
+			beginDownload();
+		}
 	});
-	console.log('Getting overviewer version');
-	request('https://overviewer.org/downloads', function (error, response, body) {
-		if (error)
-			throw error;
+	function beginDownload() {
+		console.log('Getting overviewer version');
+		request('https://overviewer.org/downloads', function (error, response, body) {
+			if (error)
+				throw error;
 
-		const $ = cheerio.load(body);
-		$('td').each((i, elem) => {
-			let a = $(elem).find('a');
-			const webVersionReg = /(?<=htt(p:|ps:)\/\/overviewer.org\/builds\/win64\/\d+\/overviewer-)\d+\.\d+\.\d+/;
-			if (webVersionReg.test(a.attr('href'))) {
-				console.log(webVersionReg.exec(a.attr('href')));
-				const fileNameReg = /(?<=htt(p:|ps:)\/\/overviewer.org\/builds\/win64\/\d+\/)overviewer-\d+\.\d+\.\d+\.\w+$/;
-				console.log('Downloading overviewer zip');
-				request(a.attr('href')).pipe(fs.createWriteStream(app.getPath('userData').replace(/\\/g, "/") + '/' + fileNameReg.exec(a.attr('href'))[0])).on('close', function() {
-					console.log('Downloaded overviewer zip');
-					let zip = new AdmZip(app.getPath('userData').replace(/\\/g, "/") + '/' + fileNameReg.exec(a.attr('href'))[0]);
-					zip.extractAllTo(app.getPath('userData').replace(/\\/g, "/") + '/', true);
-					console.log('Extracted overviewer zip');
-					fs.unlink(app.getPath('userData').replace(/\\/g, "/") + '/' + fileNameReg.exec(a.attr('href'))[0], (err) => {
-						if (err)
-							throw err;
-						
-						console.log('Deleted overviewer zip');
+			const $ = cheerio.load(body);
+			$('td').each((i, elem) => {
+				let a = $(elem).find('a');
+				const webVersionReg = /(?<=htt(p:|ps:)\/\/overviewer.org\/builds\/win64\/\d+\/overviewer-)\d+\.\d+\.\d+/;
+				if (webVersionReg.test(a.attr('href'))) {
+					console.log(webVersionReg.exec(a.attr('href')));
+					const fileNameReg = /(?<=htt(p:|ps:)\/\/overviewer.org\/builds\/win64\/\d+\/)overviewer-\d+\.\d+\.\d+\.\w+$/;
+					console.log('Downloading overviewer zip');
+					request(a.attr('href')).pipe(fs.createWriteStream(app.getPath('userData').replace(/\\/g, "/") + '/' + fileNameReg.exec(a.attr('href'))[0])).on('close', function() {
+						console.log('Downloaded overviewer zip');
+						let zip = new AdmZip(app.getPath('userData').replace(/\\/g, "/") + '/' + fileNameReg.exec(a.attr('href'))[0]);
+						zip.extractAllTo(app.getPath('userData').replace(/\\/g, "/") + '/', true);
+						console.log('Extracted overviewer zip');
+						fs.unlink(app.getPath('userData').replace(/\\/g, "/") + '/' + fileNameReg.exec(a.attr('href'))[0], (err) => {
+							if (err)
+								throw err;
+
+							console.log('Deleted overviewer zip');
+						});
+						getVersion(event);
+						// Move over .bat
 					});
-					getVersion(event);
-					// Move over .bat
-				});
-			}
+				}
+			});
 		});
-	});
+	}
 });
 
 ipcMain.on('getOxipng', (event, arg) => {
