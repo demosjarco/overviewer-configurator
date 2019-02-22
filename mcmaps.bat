@@ -1,0 +1,1 @@
+start overviewer.exe --config=config.py --genpoi && start overviewer.exe --config=config.py && exit
