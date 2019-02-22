@@ -1,0 +1,53 @@
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:400,700');
+body {
+  margin: 0;
+  padding: 113px 0px 86.35px 0px;
+  font-family: 'Open Sans', sans-serif;
+  color: white;
+}
+body header {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  background-color: black;
+}
+body header > * {
+  display: inline-block;
+}
+body header div span {
+  font-family: Consolas, "Andale Mono", "Lucida Console", "Lucida Sans Typewriter", Monaco, "Courier New", "monospace";
+}
+body header div span#version,
+body header div span#oxipngInstalled {
+  color: red;
+}
+body header div span#latestVersion {
+  color: green;
+}
+body footer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  height: 86.35px;
+  overflow-y: scroll;
+  background-color: black;
+  font-family: Consolas, "Andale Mono", "Lucida Console", "Lucida Sans Typewriter", Monaco, "Courier New", "monospace";
+}
+body footer ul {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+}
+body footer ul li {
+  border-bottom: 1px solid white;
+}
+body footer ul li:last-child {
+  border-bottom: none;
+}
+body footer ul li span.timeStamp {
+  padding-right: 5px;
+  border-right: 1px solid white;
+}
+body footer ul li span.message {
+  padding-left: 5px;
+}
