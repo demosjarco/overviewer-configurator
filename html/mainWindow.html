@@ -41,9 +41,9 @@ function updateOverviewer() {
 ipcRenderer.send('getOxipng');
 ipcRenderer.on('gotOxipng', function(event, installed) {
 	$('header div span#oxipngInstalled').text(installed ? 'Installed' : 'Missing');
+	$('header div#softwareInfo button#oxipngUpdate').prop("disabled", false);
 	if (installed) {
 		$('header div span#oxipngInstalled').css('color', 'green');
-		$('header div#softwareInfo button#oxipngUpdate').prop("disabled", false);
 	} else {
 		$('header div span#oxipngInstalled').css('color', 'red');
 	}
