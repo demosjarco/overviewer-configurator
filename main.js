@@ -84,7 +84,7 @@ const cheerio = require('cheerio');
 
 function messageLog(message, showOnUi = true) {
 	if (showOnUi)
-		event.sender.send('visualLog', message);
+		mainWindow.webContents.send('visualLog', message);
 	console.log(message);
 }
 
@@ -186,7 +186,6 @@ ipcMain.once('updateOverviewer', (event, arg) => {
 				let a = $(elem).find('a');
 				const webVersionReg = /(?<=htt(p:|ps:)\/\/overviewer.org\/builds\/win64\/\d+\/overviewer-)\d+\.\d+\.\d+/;
 				if (webVersionReg.test(a.attr('href'))) {
-					messageLog(webVersionReg.exec(a.attr('href')));
 					const fileNameReg = /(?<=htt(p:|ps:)\/\/overviewer.org\/builds\/win64\/\d+\/)overviewer-\d+\.\d+\.\d+\.\w+$/;
 					messageLog('Downloading overviewer zip');
 					request(a.attr('href')).pipe(fs.createWriteStream(app.getPath('userData').replace(/\\/g, "/") + '/' + fileNameReg.exec(a.attr('href'))[0])).on('close', function() {
