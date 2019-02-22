@@ -195,6 +195,7 @@ ipcMain.once('updateOverviewer', (event, arg) => {
 							console.log('Deleted overviewer zip');
 						});
 						getVersion(event);
+						event.sender.send('gotOxipng', false);
 						// Move over .bat
 					});
 				}
