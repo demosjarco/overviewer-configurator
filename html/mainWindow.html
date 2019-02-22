@@ -481,11 +481,20 @@ function generateConfig() {
 	ipcRenderer.send('generateConfig', overviewerConfigFile);
 }
 
-for (let i = 0; i < 5; i++) {
+ipcRenderer.on('visualLog', function(event, message) {
+	newVisualLog(message);
+});
+
+const numVisibleMessages = 10;
+function newVisualLog(message) {
 	let tempDate = new Date();
-	$('footer ul').append('<li><span class="timeStamp">' + tempDate.toLocaleTimeString() + '</span><span class="message">Test</span></li>');
+	$('footer ul').append('<li><span class="timeStamp">' + tempDate.toLocaleTimeString() + '</span><span class="message">' + message + '</span></li>');
+	if ($('footer ul li').length > numVisibleMessages) {
+		$('footer ul li').slice(0, $('footer ul li').length - numVisibleMessages).remove();
+	}
 	$("footer").scrollTop($("footer")[0].scrollHeight);
 }
+newVisualLog('Last ' + numVisibleMessages + ' messages will appear here');
 </script>
 </body>
 </html>

@@ -82,6 +82,12 @@ const fs = require('fs');
 const request = require('request');
 const cheerio = require('cheerio');
 
+function messageLog(message, showOnUi = true) {
+	if (showOnUi)
+		event.sender.send('visualLog', message);
+	console.log(message);
+}
+
 ipcMain.on('getVersion', (event, arg) => {
 	getVersion(event);
 });
@@ -144,7 +150,7 @@ function getVersion(event) {
 const AdmZip = require('adm-zip');
 const rimraf = require('rimraf');
 ipcMain.once('updateOverviewer', (event, arg) => {
-	console.log('Checking for old overviewer version');
+	messageLog('Checking for old overviewer version');
 	fs.readdir(app.getPath('userData').replace(/\\/g, "/") + '/', function(err, files) {
 		if (err)
 			throw err;
@@ -154,23 +160,23 @@ ipcMain.once('updateOverviewer', (event, arg) => {
 			const versionReg = /(?<=overviewer-)\d+\.\d+\.\d+/;
 			if (versionReg.test(fileName)) {
 				exists = true;
-				console.log('Deleting old overviewer version');
+				messageLog('Deleting old overviewer version');
 				rimraf(app.getPath('userData').replace(/\\/g, "/") + '/' + fileName + '/', function(err2) {
 					if (err2)
 						throw err2;
 					
-					console.log('Deleted old overviewer version');
+					messageLog('Deleted old overviewer version');
 					beginDownload();
 				});
 			}
 		});
 		if (!exists) {
-			console.log('No old version detected');
+			messageLog('No old version detected');
 			beginDownload();
 		}
 	});
 	function beginDownload() {
-		console.log('Getting overviewer version');
+		messageLog('Getting overviewer version');
 		request('https://overviewer.org/downloads', function (error, response, body) {
 			if (error)
 				throw error;
@@ -180,19 +186,19 @@ ipcMain.once('updateOverviewer', (event, arg) => {
 				let a = $(elem).find('a');
 				const webVersionReg = /(?<=htt(p:|ps:)\/\/overviewer.org\/builds\/win64\/\d+\/overviewer-)\d+\.\d+\.\d+/;
 				if (webVersionReg.test(a.attr('href'))) {
-					console.log(webVersionReg.exec(a.attr('href')));
+					messageLog(webVersionReg.exec(a.attr('href')));
 					const fileNameReg = /(?<=htt(p:|ps:)\/\/overviewer.org\/builds\/win64\/\d+\/)overviewer-\d+\.\d+\.\d+\.\w+$/;
-					console.log('Downloading overviewer zip');
+					messageLog('Downloading overviewer zip');
 					request(a.attr('href')).pipe(fs.createWriteStream(app.getPath('userData').replace(/\\/g, "/") + '/' + fileNameReg.exec(a.attr('href'))[0])).on('close', function() {
-						console.log('Downloaded overviewer zip');
+						messageLog('Downloaded overviewer zip');
 						let zip = new AdmZip(app.getPath('userData').replace(/\\/g, "/") + '/' + fileNameReg.exec(a.attr('href'))[0]);
 						zip.extractAllTo(app.getPath('userData').replace(/\\/g, "/") + '/', true);
-						console.log('Extracted overviewer zip');
+						messageLog('Extracted overviewer zip');
 						fs.unlink(app.getPath('userData').replace(/\\/g, "/") + '/' + fileNameReg.exec(a.attr('href'))[0], (err) => {
 							if (err)
 								throw err;
 
-							console.log('Deleted overviewer zip');
+							messageLog('Deleted overviewer zip');
 						});
 						getVersion(event);
 						event.sender.send('gotOxipng', false);
@@ -242,7 +248,7 @@ function getOxipng(event) {
 }
 
 ipcMain.once('updateOxipng', (event, arg) => {
-	console.log('Getting oxipng version');
+	messageLog('Getting oxipng version');
 	request({
 		url: 'https://api.github.com/repos/shssoichiro/oxipng/releases/latest',
 		headers: {
@@ -261,9 +267,9 @@ ipcMain.once('updateOxipng', (event, arg) => {
 		}
 	});
 	function downloadOxipng(name, url) {
-		console.log('Downloading oxipng zip');
+		messageLog('Downloading oxipng zip');
 		request(url).pipe(fs.createWriteStream(app.getPath('userData').replace(/\\/g, "/") + '/' + name)).on('close', function() {
-			console.log('Downloaded oxipng zip');
+			messageLog('Downloaded oxipng zip');
 			let zip = new AdmZip(app.getPath('userData').replace(/\\/g, "/") + '/' + name);
 			fs.readdir(app.getPath('userData').replace(/\\/g, "/") + '/', function(err, files) {
 				if (err)
@@ -273,12 +279,12 @@ ipcMain.once('updateOxipng', (event, arg) => {
 					const versionReg = /(?<=overviewer-)\d+\.\d+\.\d+/;
 					if (versionReg.test(fileName)) {
 						zip.extractAllTo(app.getPath('userData').replace(/\\/g, "/") + '/' + fileName + '/', true);
-						console.log('Extracted oxipng zip');
+						messageLog('Extracted oxipng zip');
 						fs.unlink(app.getPath('userData').replace(/\\/g, "/") + '/' + name, (err) => {
 							if (err)
 								throw err;
 							
-							console.log('Deleted oxipng zip');
+							messageLog('Deleted oxipng zip');
 						});
 						getOxipng(event);
 					}
@@ -307,7 +313,7 @@ ipcMain.on('saveWorldPref', (event, worldPrefs) => {
 	fs.writeFile(app.getPath('userData').replace(/\\/g, "/") + '/worldPrefs.json', JSON.stringify(worldPrefs, null, 5), (err) => {
 		if (err)
 			throw err;
-		console.log('Written to ' + app.getPath('userData') + '\\worldPrefs.json');
+		messageLog('Written to ' + app.getPath('userData') + '\\worldPrefs.json');
 	});
 });
 
