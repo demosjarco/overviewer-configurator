@@ -142,6 +142,7 @@ function getVersion(event) {
 }
 
 const AdmZip = require('adm-zip');
+const rimraf = require('rimraf');
 ipcMain.once('updateOverviewer', (event, arg) => {
 	console.log('Checking for old overviewer version');
 	fs.readdir(app.getPath('userData').replace(/\\/g, "/") + '/', function(err, files) {
@@ -154,9 +155,9 @@ ipcMain.once('updateOverviewer', (event, arg) => {
 			if (versionReg.test(fileName)) {
 				exists = true;
 				console.log('Deleting old overviewer version');
-				fs.unlink(app.getPath('userData').replace(/\\/g, "/") + '/' + fileName, (err) => {
-					if (err)
-						throw err;
+				rimraf(app.getPath('userData').replace(/\\/g, "/") + '/' + fileName + '/', function(err2) {
+					if (err2)
+						throw err2;
 					
 					console.log('Deleted old overviewer version');
 					beginDownload();
