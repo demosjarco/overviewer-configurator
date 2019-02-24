@@ -75,9 +75,6 @@ var compressInstalled = false;
 var compress = "";
 var caveDepthDraw = 'cave_noDepth = "cave"\n';
 
-//preventSleepId = powerSaveBlocker.start('prevent-app-suspension');
-//powerSaveBlocker.stop(preventSleepId);
-
 const fs = require('fs');
 const request = require('request');
 const cheerio = require('cheerio');
@@ -332,3 +329,8 @@ ipcMain.on('generateConfig', (event, config) => {
 		});
 	});
 });
+
+//preventSleepId = powerSaveBlocker.start('prevent-app-suspension');
+//powerSaveBlocker.stop(preventSleepId);
+//mainWindow.webContents.send('visualLog', message);
+let overviewerProcess;

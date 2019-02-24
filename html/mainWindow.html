@@ -9,7 +9,7 @@
 
 <body>
 <header>
-	<div id="softwareInfo"><span class="nice">v<span id="version">...</span>(Latest: <span id="latestVersion">...</span>)</span> Oxipng:<span id="oxipngInstalled">...</span><button id="oxipngUpdate" onClick="updateOxipng()">Update</button> Log Count: <input onChange="changeLogCount(this.value)" type="number" min="1" step="1" value="10" /><br />Compression level: <input type="number" id="compressLevel" max="6" min="0" step="1" value="0" /><br />Progress: <input id="consoleProgress" type="checkbox" />Console <input id="webProgress" type="checkbox" />Web<br />Cave: <input id="caveDepthShading" type="checkbox" />Depth Shading<br />Render: <input type="checkbox" />Map<input type="checkbox" />POIs<input type="checkbox" />Web Assets<button onClick="generateConfig()">Generate</button><button onClick="">Begin</button></div>
+	<div id="softwareInfo"><span class="nice">v<span id="version">...</span>(Latest: <span id="latestVersion">...</span>)</span> Oxipng:<span id="oxipngInstalled">...</span><button id="oxipngUpdate" onClick="updateOxipng()">Update</button> Log Count: <input onChange="changeLogCount(this.value)" type="number" min="1" step="1" value="10" /><br />Compression level: <input type="number" id="compressLevel" max="6" min="0" step="1" value="0" /><br />Progress: <input id="consoleProgress" type="checkbox" />Console <input id="webProgress" type="checkbox" />Web<br />Cave: <input id="caveDepthShading" type="checkbox" />Depth Shading<br /><button onClick="generateConfig()">Generate</button><button onClick="">Render Map</button><button onClick="">Render POIs</button><button onClick="">Render Web Assets</button></div>
 </header>
 <div id="worldConfig"></div>
 <footer>
