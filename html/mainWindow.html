@@ -138,13 +138,13 @@ function generateConfig() {
 	
 	if ($('header div#softwareInfo input#consoleProgress').prop('checked') && $('header div#softwareInfo input#webProgress').prop('checked')) {
 		overviewerConfigFile += 'from observer import MultiplexingObserver, LoggingObserver, JSObserver\n';
-		overviewerConfigFile += 'observer = MultiplexingObserver(LoggingObserver(), JSObserver(outputdir))\n';
+		overviewerConfigFile += 'observer = MultiplexingObserver(LoggingObserver(), JSObserver(outputdir, 10))\n';
 	} else if ($('header div#softwareInfo input#consoleProgress').prop('checked')) {
 		overviewerConfigFile += 'from observer import LoggingObserver\n';
 		overviewerConfigFile += 'observer = LoggingObserver()\n';
 	} else if ($('header div#softwareInfo input#webProgress').prop('checked')) {
 		overviewerConfigFile += 'from observer import JSObserver\n';
-		overviewerConfigFile += 'observer = JSObserver(outputdir)\n';
+		overviewerConfigFile += 'observer = JSObserver(outputdir, 10)\n';
 	}
 
 	overviewerConfigFile += '\n';
