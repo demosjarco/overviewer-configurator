@@ -323,6 +323,7 @@ ipcMain.on('generateConfig', (event, config) => {
 				fs.writeFile(app.getPath('userData').replace(/\\/g, "/") + '/' + fileName + '/config.py', config, function(err2) {
 					if (err2)
 						throw err2;
+					messageLog('Saved config to ' + app.getPath('userData') + '\\' + fileName + '\\config.py');
 				});
 			}
 		});
