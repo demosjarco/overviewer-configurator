@@ -18,7 +18,8 @@
 	},
 	"homepage": "https://github.com/victhebeast/overviewer-configurator#readme",
 	"devDependencies": {
-		"electromon": "^1.0.10"
+		"electromon": "^1.0.10",
+		"electron-packager": "^13.1.0"
 	},
 	"dependencies": {
 		"adm-zip": "^0.4.13",
