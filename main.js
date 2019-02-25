@@ -398,7 +398,12 @@ ipcMain.on('runOverviewer', (event, runType) => {
 				});
 				overviewerProcess.stdout.setEncoding('utf8');
 				overviewerProcess.stdout.on('data', (data) => {
-					messageLog(data);
+					const progressMessageRegex = /(?<=^\d+-\d+-\d+\s\d+:\d+:\d+\s).+/;
+					if (progressMessageRegex.test(data)) {
+						messageLog(progressMessageRegex.exec(data)[0]);
+					} else {
+						messageLog(data);
+					}
 				});
 
 				overviewerProcess.stderr.on('data', (data) => {
