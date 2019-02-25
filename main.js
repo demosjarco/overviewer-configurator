@@ -338,6 +338,8 @@ ipcMain.on('runOverviewer', (event, runType) => {
 		flags.push('--update-web-assets');
 	} else if (runType == 'poi') {
 		flags.push('--genpoi');
+	} else {
+		flags.push('-p ' + require('os').cpus().length);
 	}
 	fs.readdir(app.getPath('userData').replace(/\\/g, "/") + '/', function (err, files) {
 		if (err)
