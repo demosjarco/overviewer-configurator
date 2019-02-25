@@ -48,6 +48,8 @@ app.on('ready', () => {
 		// when you should delete the corresponding element.
 		mainWindow = null;
 	});
+
+	checkIndividualFiles();
 });
 
 // Quit when all windows are closed.
@@ -82,6 +84,46 @@ function messageLog(message, showOnUi = true) {
 	if (showOnUi)
 		mainWindow.webContents.send('visualLog', message);
 	console.log(message);
+}
+
+function checkIndividualFiles() {
+	messageLog('Checking for web_assets');
+	fs.readdir(app.getPath('userData').replace(/\\/g, "/") + '/', function (err, files) {
+		if (err)
+			throw err;
+
+		let exists = false;
+		files.forEach(function (fileName) {
+			const webAssetsReg = /^web_assets$/;
+			if (webAssetsReg.test(fileName)) {
+				exists = true;
+				messageLog('Copying individual files');
+				fs.copyFile('./web_assets/chest.png', app.getPath('userData').replace(/\\/g, "/") + '/web_assets/chest.png', (err2) => {
+					if (err2)
+						throw err2;
+					messageLog('Copied chest.png');
+				});
+				fs.copyFile('./web_assets/favicon.ico', app.getPath('userData').replace(/\\/g, "/") + '/web_assets/favicon.ico', (err2) => {
+					if (err2)
+						throw err2;
+					messageLog('Copied favicon.ico');
+				});
+				fs.copyFile('./web_assets/index.html', app.getPath('userData').replace(/\\/g, "/") + '/web_assets/index.html', (err2) => {
+					if (err2)
+						throw err2;
+					messageLog('Copied index.html');
+				});
+			}
+		});
+		if (!exists) {
+			messageLog('Creating web_assets');
+			fs.mkdir(app.getPath('userData').replace(/\\/g, "/") + '/web_assets', (err2) => {
+				if (err2)
+					throw err2;
+				checkIndividualFiles();
+			});
+		}
+	});
 }
 
 ipcMain.on('getVersion', (event, arg) => {
