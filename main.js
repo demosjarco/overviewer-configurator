@@ -4,7 +4,6 @@ const { app, BrowserWindow, ipcMain, powerSaveBlocker } = require('electron');
 
 let mainWindow;
 let devMode = process.argv[process.argv.length-1] == '--dev' ? true : false;
-let preventSleepId;
 
 app.on('ready', () => {
 	// Create the browser window.
@@ -330,7 +329,43 @@ ipcMain.on('generateConfig', (event, config) => {
 	});
 });
 
-//preventSleepId = powerSaveBlocker.start('prevent-app-suspension');
-//powerSaveBlocker.stop(preventSleepId);
-//mainWindow.webContents.send('visualLog', message);
+let preventSleepId;
 let overviewerProcess;
+ipcMain.on('runOverviewer', (event, runType) => {
+	let flags = ['--config=config.py'];
+	if (runType == 'web') {
+		flags.push('--update-web-assets');
+	} else if (runType == 'poi') {
+		flags.push('--genpoi');
+	}
+	fs.readdir(app.getPath('userData').replace(/\\/g, "/") + '/', function (err, files) {
+		if (err)
+			throw err;
+
+		files.forEach(function (fileName) {
+			const versionReg = /(?<=overviewer-)\d+\.\d+\.\d+/;
+			if (versionReg.test(fileName)) {
+				messageLog('Prevent sleep ' + preventSleepId);
+				preventSleepId = powerSaveBlocker.start('prevent-app-suspension');
+				messageLog('Running overviewer ' + flags.join(' '));
+				overviewerProcess = require('child_process').spawn('overviewer', flags, {
+					cwd: app.getPath('userData').replace(/\\/g, "/") + '/' + fileName + '/'
+				});
+				overviewerProcess.stdout.setEncoding('utf8');
+				overviewerProcess.stdout.on('data', (data) => {
+					messageLog(data);
+				});
+
+				overviewerProcess.stderr.on('data', (data) => {
+					messageLog(data);
+				});
+
+				overviewerProcess.on('close', (code) => {
+					messageLog('normal sleep ' + preventSleepId);
+					powerSaveBlocker.stop(preventSleepId);
+					messageLog('child process exited with code ' + code);
+				});
+			}
+		});
+	});
+});
