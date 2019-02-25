@@ -346,8 +346,8 @@ ipcMain.on('runOverviewer', (event, runType) => {
 		files.forEach(function (fileName) {
 			const versionReg = /(?<=overviewer-)\d+\.\d+\.\d+/;
 			if (versionReg.test(fileName)) {
-				messageLog('Prevent sleep ' + preventSleepId);
 				preventSleepId = powerSaveBlocker.start('prevent-app-suspension');
+				messageLog('Prevent sleep ' + preventSleepId);
 				messageLog('Running overviewer ' + flags.join(' '));
 				overviewerProcess = require('child_process').spawn('overviewer', flags, {
 					cwd: app.getPath('userData').replace(/\\/g, "/") + '/' + fileName + '/'
@@ -362,9 +362,9 @@ ipcMain.on('runOverviewer', (event, runType) => {
 				});
 
 				overviewerProcess.on('close', (code) => {
-					messageLog('normal sleep ' + preventSleepId);
+					messageLog('Normal sleep ' + preventSleepId);
 					powerSaveBlocker.stop(preventSleepId);
-					messageLog('child process exited with code ' + code);
+					messageLog('Overviewer processes exited' + (code == 0 ? '' : (' with code ' + code)));
 				});
 			}
 		});
