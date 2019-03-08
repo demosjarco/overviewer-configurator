@@ -2,6 +2,7 @@
 
 const {app, BrowserWindow, ipcMain, powerSaveBlocker, Menu} = require('electron');
 const request = require('request');
+const {Worker} = require('worker_threads');
 
 let mainWindow;
 let devMode = process.argv[process.argv.length-1] == '--dev' ? true : false;
