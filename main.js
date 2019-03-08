@@ -1,9 +1,46 @@
 'use strict';
 
-const { app, BrowserWindow, ipcMain, powerSaveBlocker } = require('electron');
+const {app, BrowserWindow, ipcMain, powerSaveBlocker, Menu} = require('electron');
 
 let mainWindow;
 let devMode = process.argv[process.argv.length-1] == '--dev' ? true : false;
+
+let mainMenuTemplate = [
+	{
+		label: 'Global',
+		submenu: [
+			{
+				type: 'separator'
+			},
+			{
+				role: 'quit'
+			}
+		]
+	},
+	{
+		label: 'Overviewer',
+		submenu: [
+			{
+				label: 'Version Installed',
+				sublabel: '0.0.0'
+			},
+			{
+				type: 'separator'
+			},
+			{
+				label: 'Versions',
+				sublabel: 'Loading...'
+			}
+		]
+	},
+	{
+		label: 'Compression',
+		submenu: [
+		
+		]
+	}
+];
+let menu = Menu.buildFromTemplate(mainMenuTemplate);
 
 app.on('ready', () => {
 	// Create the browser window.
@@ -38,7 +75,7 @@ app.on('ready', () => {
 	
 	// and load the index.html of the app.
 	mainWindow.loadFile('./html/mainWindow.html');
-	mainWindow.setMenu(null);
+	Menu.setApplicationMenu(menu);
 	//mainWindow.webContents.openDevTools();
 	
 	// Emitted when the window is closed.
