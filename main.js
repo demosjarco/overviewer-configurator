@@ -42,11 +42,10 @@ let mainMenuTemplate = [
 		]
 	}
 ];
-let menu = Menu.buildFromTemplate(mainMenuTemplate);
 
 app.on('ready', () => {
 	// Create the browser window.
-	let workArea;
+	let workArea = require('electron').screen.getPrimaryDisplay().workArea;
 	if (devMode) {
 		require('electron').screen.getAllDisplays().forEach(function(display) {
 			if (display.size.width < 1920)
@@ -77,7 +76,7 @@ app.on('ready', () => {
 	
 	// and load the index.html of the app.
 	mainWindow.loadFile('./html/mainWindow.html');
-	Menu.setApplicationMenu(menu);
+	Menu.setApplicationMenu(Menu.buildFromTemplate(mainMenuTemplate));
 	//mainWindow.webContents.openDevTools();
 	
 	// Emitted when the window is closed.
@@ -116,5 +115,5 @@ function updateOverviewerVersions() {
 			//console.log(JSON.parse(body));
 		}
 	});
-	console.log(menu.items);
+	console.log(mainMenuTemplate[1]);
 }
