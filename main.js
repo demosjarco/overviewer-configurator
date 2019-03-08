@@ -1,6 +1,7 @@
 'use strict';
 
 const {app, BrowserWindow, ipcMain, powerSaveBlocker, Menu} = require('electron');
+const request = require('request');
 
 let mainWindow;
 let devMode = process.argv[process.argv.length-1] == '--dev' ? true : false;
@@ -85,6 +86,8 @@ app.on('ready', () => {
 		// when you should delete the corresponding element.
 		mainWindow = null;
 	});
+	
+	updateOverviewerVersions();
 });
 
 // Quit when all windows are closed.
@@ -103,3 +106,14 @@ app.on('activate', () => {
 		createWindow();
 	}
 });
+
+function updateOverviewerVersions() {
+	request('https://overviewer.org/build/json/builders/win64/builds/_all', function(error, response, body) {
+		if (error || response.statusCode != 200) {
+			
+		} else {
+			//console.log(JSON.parse(body));
+		}
+	});
+	console.log(menu.items);
+}
