@@ -127,6 +127,7 @@ function updateOverviewerVersions() {
 					}
 				});
 			});
+			mainMenuTemplate[1].submenu[2].submenu.reverse();
 			Menu.setApplicationMenu(Menu.buildFromTemplate(mainMenuTemplate));
 		}
 	});
