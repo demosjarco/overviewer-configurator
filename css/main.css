@@ -40,9 +40,16 @@ body aside ul li {
 body aside ul li img {
   width: 50%;
 }
-body aside ul li span {
+body aside ul li a {
   display: inline-block;
   line-height: normal;
+}
+body aside ul li a:link,
+body aside ul li a:visited,
+body aside ul li a:hover,
+body aside ul li a:active {
+  color: white;
+  text-decoration: none;
 }
 body main {
   right: 0;
