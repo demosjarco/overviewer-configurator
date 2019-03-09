@@ -112,11 +112,31 @@ function updateOverviewerVersions() {
 		if (response.statusCode != 200) {
 			failure();
 		} else {
-			console.log(JSON.parse(body));
+			let json = Object.values(JSON.parse(body));
+			delete mainMenuTemplate[1].submenu[2].sublabel;
+			mainMenuTemplate[1].submenu[2].submenu = [];
+			json.forEach(function(version) {
+				version.properties.forEach(function(property) {
+					if (property[0] == 'version') {
+						version.steps.forEach(function(step) {
+							if (step.name == 'upload') {
+								mainMenuTemplate[1].submenu[2].submenu.push({label: property[1], click() {
+									updateOverviewer(Object.values(step.urls)[0]);
+								}});
+							}
+						});
+					}
+				});
+			});
+			Menu.setApplicationMenu(Menu.buildFromTemplate(mainMenuTemplate));
 		}
 	});
 
 	function failure() {
-
+		
 	}
+}
+
+function updateOverviewer(link) {
+	console.log(link);
 }
