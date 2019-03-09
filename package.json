@@ -6,6 +6,7 @@
 	"scripts": {
 		"start": "electron .",
 		"dev": "electromon . --dev",
+		"less": "less-watch-compiler css css",
 		"package": "electron-packager ."
 	},
 	"repository": {
@@ -21,7 +22,9 @@
 	"devDependencies": {
 		"electromon": "1.x",
 		"electron": "4.x",
-		"electron-packager": "13.x"
+		"electron-packager": "13.x",
+		"less": "3.x",
+		"less-watch-compiler": "1.x"
 	},
 	"dependencies": {
 		"adm-zip": "0.x",
