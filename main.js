@@ -23,7 +23,7 @@ let mainMenuTemplate = [
 		submenu: [
 			{
 				label: 'Version Installed',
-				sublabel: '0.0.0'
+				sublabel: 'Loading...'
 			},
 			{
 				type: 'separator'
