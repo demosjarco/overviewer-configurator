@@ -9,7 +9,7 @@ let devMode = process.argv[process.argv.length-1] == '--dev' ? true : false;
 
 let mainMenuTemplate = [
 	{
-		label: 'Global',
+		label: 'File',
 		submenu: [
 			{
 				type: 'separator'
