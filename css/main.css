@@ -37,8 +37,27 @@ body aside ul li {
   margin: 15px 0px;
   vertical-align: middle;
 }
+body aside ul li.ui-state-default {
+  -webkit-filter: grayscale(100%);
+  filter: grayscale(100%);
+}
+body aside ul li.ui-state-default img,
+body aside ul li.ui-state-default a {
+  opacity: 0.76;
+}
+body aside ul li.ui-state-active {
+  -webkit-filter: grayscale(0%);
+  filter: grayscale(0%);
+}
+body aside ul li.ui-state-active img,
+body aside ul li.ui-state-active a {
+  opacity: 1;
+}
 body aside ul li img {
   width: 50%;
+  display: inline-block;
+  line-height: normal;
+  vertical-align: middle;
 }
 body aside ul li a {
   display: inline-block;
@@ -48,8 +67,14 @@ body aside ul li a:link,
 body aside ul li a:visited,
 body aside ul li a:hover,
 body aside ul li a:active {
-  color: white;
+  color: inherit;
   text-decoration: none;
+  outline: none;
+}
+body aside ul li a.worlds {
+  padding: 18% 12%;
+  border-radius: 12.5%;
+  background-color: #7F5512;
 }
 body main {
   right: 0;
