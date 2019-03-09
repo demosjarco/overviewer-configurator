@@ -15,3 +15,33 @@ body {
   font-family: 'Open Sans', sans-serif;
   color: white;
 }
+body > * {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  box-sizing: border-box;
+  overflow-y: scroll;
+}
+body aside {
+  left: 0;
+  width: 10%;
+  padding: 15px 0px;
+  background-color: #36b030;
+  text-align: center;
+}
+body aside ul {
+  margin: 0;
+  padding: 0;
+}
+body aside ul li {
+  margin: 15px 0px;
+  vertical-align: middle;
+}
+body aside ul li img {
+  width: 50%;
+}
+body main {
+  right: 0;
+  width: 90%;
+  padding: 5px;
+}
