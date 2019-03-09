@@ -89,7 +89,8 @@ app.on('ready', () => {
 		vibrancy: 'dark',
 		webPreferences: {
 			devTools: true,
-			scrollBounce: true
+			scrollBounce: true,
+			//enableBlinkFeatures: 'OverlayScrollbars'
 		}
 	});
 	mainWindow.maximize();
