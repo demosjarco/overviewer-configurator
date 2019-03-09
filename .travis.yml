@@ -1,7 +1,9 @@
 language: node_js
 node_js:
     "node"
-before_deploy: "npm run package"
+before_deploy:
+  - npm run package
+  - zip -r overviewer-configurator-win32-x64.zip overviewer-configurator-win32-x64
 deploy:
   provider: releases
   api_key:
