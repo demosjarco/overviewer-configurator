@@ -2,6 +2,7 @@
 
 const {app, BrowserWindow, ipcMain, powerSaveBlocker, Menu} = require('electron');
 const request = require('request');
+const fs = require('fs');
 
 let mainWindow;
 let devMode = process.argv[process.argv.length-1] == '--dev' ? true : false;
@@ -85,7 +86,7 @@ app.on('ready', () => {
 		// when you should delete the corresponding element.
 		mainWindow = null;
 	});
-	
+
 	updateOverviewerVersions();
 });
 
@@ -105,6 +106,28 @@ app.on('activate', () => {
 		createWindow();
 	}
 });
+
+function updateLocalOverviewerVersion(newVersionCallback) {
+	fs.readdir(app.getPath('userData'), function(err, files) {
+		if (err) throw err;
+
+		let currentVersion = 'Not installed';
+		files.forEach(function (fileName) {
+			const overviewerFolderReg = /(?<=overviewer-)\d+\.\d+\.\d+/;
+			if (overviewerFolderReg.test(fileName))
+				currentVersion = overviewerFolderReg.exec(fileName)[0];
+		});
+		mainMenuTemplate[1].submenu[0].sublabel = currentVersion;
+		Menu.setApplicationMenu(Menu.buildFromTemplate(mainMenuTemplate));
+		if (newVersionCallback) {
+			if (currentVersion != 'Not installed') {
+				newVersionCallback(true);
+			} else {
+				newVersionCallback(false);
+			}
+		}
+	});
+}
 
 function updateOverviewerVersions() {
 	request('https://overviewer.org/build/json/builders/win64/builds/_all', function(error, response, body) {
@@ -129,6 +152,12 @@ function updateOverviewerVersions() {
 			});
 			mainMenuTemplate[1].submenu[2].submenu.reverse();
 			Menu.setApplicationMenu(Menu.buildFromTemplate(mainMenuTemplate));
+			updateLocalOverviewerVersion(function (newVersionAvailable) {
+				if (newVersionAvailable) {
+					mainMenuTemplate[1].submenu[2].sublabel = 'Update available';
+					Menu.setApplicationMenu(Menu.buildFromTemplate(mainMenuTemplate));
+				}
+			});
 		}
 	});
 }
