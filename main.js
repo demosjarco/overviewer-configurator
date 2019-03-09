@@ -2,7 +2,6 @@
 
 const {app, BrowserWindow, ipcMain, powerSaveBlocker, Menu} = require('electron');
 const request = require('request');
-const {Worker} = require('worker_threads');
 
 let mainWindow;
 let devMode = process.argv[process.argv.length-1] == '--dev' ? true : false;
@@ -108,13 +107,13 @@ app.on('activate', () => {
 });
 
 function updateOverviewerVersions() {
-	new Worker('./js/thread_updateOverviewerVersions.js').once('error', (err) => {
-		failure();
-		console.error(err);
-	}).once('exit', (exitCode) => {
-		failure();
-	}).once('message', (value) => {
-		
+	request('https://overviewer.org/build/json/builders/win64/builds/_all', function(error, response, body) {
+		if (error) throw error;
+		if (response.statusCode != 200) {
+			failure();
+		} else {
+			console.log(JSON.parse(body));
+		}
 	});
 
 	function failure() {
