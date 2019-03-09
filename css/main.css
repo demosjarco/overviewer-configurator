@@ -40,6 +40,10 @@ body aside ul li {
 body aside ul li img {
   width: 50%;
 }
+body aside ul li span {
+  display: inline-block;
+  line-height: normal;
+}
 body main {
   right: 0;
   width: 92.5%;
