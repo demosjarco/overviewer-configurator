@@ -4,7 +4,7 @@
 	"description": "",
 	"main": "main.js",
 	"scripts": {
-		"test": 'echo "npm test temporarily disabled"',
+		"test": "echo \"npm test temporarily disabled\"",
 		"start": "electron .",
 		"dev": "electromon . --dev",
 		"less": "less-watch-compiler css css",
