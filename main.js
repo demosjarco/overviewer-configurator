@@ -108,9 +108,8 @@ app.on('activate', () => {
 
 function updateOverviewerVersions() {
 	request('https://overviewer.org/build/json/builders/win64/builds/_all', function(error, response, body) {
-		if (error) throw error;
-		if (response.statusCode != 200) {
-			failure();
+		if (error || response.statusCode != 200) {
+			mainMenuTemplate[1].submenu[2].sublabel = 'Error loading';
 		} else {
 			let json = Object.values(JSON.parse(body));
 			delete mainMenuTemplate[1].submenu[2].sublabel;
@@ -131,10 +130,6 @@ function updateOverviewerVersions() {
 			Menu.setApplicationMenu(Menu.buildFromTemplate(mainMenuTemplate));
 		}
 	});
-
-	function failure() {
-		
-	}
 }
 
 function updateOverviewer(link) {
