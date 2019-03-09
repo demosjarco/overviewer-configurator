@@ -108,12 +108,16 @@ app.on('activate', () => {
 });
 
 function updateOverviewerVersions() {
-	request('https://overviewer.org/build/json/builders/win64/builds/_all', function(error, response, body) {
-		if (error || response.statusCode != 200) {
-			
-		} else {
-			//console.log(JSON.parse(body));
-		}
+	new Worker('./js/thread_updateOverviewerVersions.js').once('error', (err) => {
+		failure();
+		console.error(err);
+	}).once('exit', (exitCode) => {
+		failure();
+	}).once('message', (value) => {
+		
 	});
-	console.log(mainMenuTemplate[1]);
+
+	function failure() {
+
+	}
 }
