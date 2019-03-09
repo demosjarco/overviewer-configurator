@@ -30,13 +30,46 @@ body {
 				margin: 15px 0px;
 				vertical-align: middle;
 
-				img {
-					width: 50%;
+				&.ui-state-default {
+					-webkit-filter: grayscale(100%);
+					filter: grayscale(100%);
+
+					img, a {
+						opacity: 0.76;
+					}
 				}
 
-				span {
+				&.ui-state-active {
+					-webkit-filter: grayscale(0%);
+					filter: grayscale(0%);
+
+					img, a {
+						opacity: 1;
+					}
+				}
+
+				img {
+					width: 50%;
 					display: inline-block;
 					line-height: normal;
+					vertical-align: middle;
+				}
+
+				a {
+					display: inline-block;
+					line-height: normal;
+
+					&:link, &:visited, &:hover, &:active {
+						color: inherit;
+						text-decoration: none;
+						outline: none;
+					}
+
+					&.worlds {
+						padding: 18% 12%;
+						border-radius: 12.5%;
+						background-color: #7F5512;
+					}
 				}
 			}
 		}
