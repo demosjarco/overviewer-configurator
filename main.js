@@ -109,6 +109,7 @@ app.on('ready', () => {
 		mainWindow = null;
 	});
 
+	updateLocalOverviewerVersion();
 	updateOverviewerVersions();
 });
 
@@ -129,7 +130,7 @@ app.on('activate', () => {
 	}
 });
 
-function updateLocalOverviewerVersion(newVersionCallback) {
+function updateLocalOverviewerVersion(currentVersionCallback) {
 	fs.readdir(app.getPath('userData'), function(err, files) {
 		if (err) throw err;
 
@@ -141,13 +142,8 @@ function updateLocalOverviewerVersion(newVersionCallback) {
 		});
 		mainMenuTemplate[1].submenu[0].sublabel = currentVersion;
 		Menu.setApplicationMenu(Menu.buildFromTemplate(mainMenuTemplate));
-		if (newVersionCallback) {
-			if (currentVersion != 'Not installed') {
-				newVersionCallback(true);
-			} else {
-				newVersionCallback(false);
-			}
-		}
+		if (currentVersionCallback)
+			currentVersionCallback(currentVersion);
 	});
 }
 
@@ -174,12 +170,6 @@ function updateOverviewerVersions() {
 			});
 			mainMenuTemplate[1].submenu[2].submenu.reverse();
 			Menu.setApplicationMenu(Menu.buildFromTemplate(mainMenuTemplate));
-			updateLocalOverviewerVersion(function (newVersionAvailable) {
-				if (newVersionAvailable) {
-					mainMenuTemplate[1].submenu[2].sublabel = 'Update available';
-					Menu.setApplicationMenu(Menu.buildFromTemplate(mainMenuTemplate));
-				}
-			});
 		}
 	});
 }
