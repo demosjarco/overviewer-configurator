@@ -40,6 +40,26 @@ let mainMenuTemplate = [
 		submenu: [
 		
 		]
+	},
+	{
+		role: 'help',
+		submenu: [
+			{
+				role: 'toggleDevTools',
+			},
+			{
+				label: 'Issues',
+				click() {
+					require('electron').shell.openExternal('https://github.com/demosjarco/overviewer-configurator/issues')
+				}
+			},
+			{
+				label: 'GitHub',
+				click() {
+					require('electron').shell.openExternal('https://github.com/demosjarco/overviewer-configurator')
+				}
+			}
+		]
 	}
 ];
 
