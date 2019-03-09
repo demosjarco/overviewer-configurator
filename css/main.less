@@ -1,5 +1,7 @@
 @import url('https://fonts.googleapis.com/css?family=Open+Sans:400,700');
 
+@sideBarWidth: 7.5%;
+
 body {
 	margin: 0;
 	font-family: 'Open Sans', sans-serif;
@@ -15,7 +17,7 @@ body {
 
 	aside {
 		left: 0;
-		width: 10%;
+		width: @sideBarWidth;
 		padding: 15px 0px;
 		background-color: #36b030;
 		text-align: center;
@@ -40,7 +42,7 @@ body {
 
 	main {
 		right: 0;
-		width: 90%;
+		width: 100% - @sideBarWidth;
 		padding: 5px;
 	}
 }

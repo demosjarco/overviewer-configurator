@@ -24,7 +24,7 @@ body > * {
 }
 body aside {
   left: 0;
-  width: 10%;
+  width: 7.5%;
   padding: 15px 0px;
   background-color: #36b030;
   text-align: center;
@@ -42,6 +42,6 @@ body aside ul li img {
 }
 body main {
   right: 0;
-  width: 90%;
+  width: 92.5%;
   padding: 5px;
 }
