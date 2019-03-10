@@ -17,7 +17,22 @@
 	</aside>
 	<main>
 		<div id="tabs-1">
-			<h1>Overviewer</h1>
+			<img src="../img/overviewerLogo.png" />
+			<h1>Overviewer</h1><br />
+			<table>
+				<tr>
+					<td>Version:</td>
+					<td id="ovVersion">Loading...</td>
+				</tr>
+				<tr>
+					<td>App Config File:</td>
+					<td id="appConfLocation">Loading...</td>
+				</tr>
+				<tr>
+					<td>OV Config File:</td>
+					<td id="ovConfLocation">Loading...</td>
+				</tr>
+			</table>
 			<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Enim quaerat ullam velit voluptatum nemo, odit tempora laboriosam facilis earum eius assumenda unde, est animi similique quasi placeat vero autem veritatis.</p>
 		</div>
 		<div id="tabs-2">
@@ -39,6 +54,12 @@
 			$('aside ul li').css('line-height', ($(this).width() * 0.05) + 'px');
 		}).resize();
 		$("#tabs").tabs();
+		
+		// Overviewer Tab
+		ipcRenderer.send('getOverviewerVersion');
+		ipcRenderer.on('gotOverviewerVersion', function (event, version) {
+			$('td#ovVersion').text(version);
+		});
 </script>
 </body>
 </html>

@@ -130,6 +130,12 @@ app.on('activate', () => {
 	}
 });
 
+ipcMain.on('getOverviewerVersion', (event, arg) => {
+	updateLocalOverviewerVersion(function(currentVersion) {
+		event.sender.send('gotOverviewerVersion', currentVersion);
+	});
+});
+
 function updateLocalOverviewerVersion(currentVersionCallback) {
 	fs.readdir(app.getPath('userData'), function(err, files) {
 		if (err) throw err;
