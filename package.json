@@ -31,6 +31,7 @@
 		"adm-zip": "0.x",
 		"jquery": "3.x",
 		"request": "2.x",
-		"rimraf": "2.x"
+		"rimraf": "2.x",
+		"systeminformation": "4.x"
 	}
 }
