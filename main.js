@@ -153,7 +153,13 @@ function updateLocalOverviewerVersion(currentVersionCallback) {
 	});
 }
 
-function updateOverviewerVersions() {
+ipcMain.on('getLatestOverviewerVersion', (event, arg) => {
+	updateOverviewerVersions(function (latestVersion) {
+		event.sender.send('gotLatestOverviewerVersion', latestVersion);
+	});
+});
+
+function updateOverviewerVersions(latestVersionCallback) {
 	request('https://overviewer.org/build/json/builders/win64/builds/_all', function(error, response, body) {
 		if (error || response.statusCode != 200) {
 			mainMenuTemplate[1].submenu[2].sublabel = 'Error loading';
@@ -161,6 +167,7 @@ function updateOverviewerVersions() {
 			let json = Object.values(JSON.parse(body));
 			delete mainMenuTemplate[1].submenu[2].sublabel;
 			mainMenuTemplate[1].submenu[2].submenu = [];
+			let latestVersion;
 			json.forEach(function(version) {
 				version.properties.forEach(function(property) {
 					if (property[0] == 'version') {
@@ -168,7 +175,9 @@ function updateOverviewerVersions() {
 							if (step.name == 'upload') {
 								mainMenuTemplate[1].submenu[2].submenu.push({label: property[1], click() {
 									updateOverviewer(Object.values(step.urls)[0]);
-								}});
+								}
+								});
+								latestVersion = property[1];
 							}
 						});
 					}
@@ -176,6 +185,8 @@ function updateOverviewerVersions() {
 			});
 			mainMenuTemplate[1].submenu[2].submenu.reverse();
 			Menu.setApplicationMenu(Menu.buildFromTemplate(mainMenuTemplate));
+			if (latestVersionCallback)
+				latestVersionCallback(latestVersion);
 		}
 	});
 }

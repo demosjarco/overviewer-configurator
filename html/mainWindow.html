@@ -22,7 +22,7 @@
 			<table>
 				<tr>
 					<td>Version:</td>
-					<td id="ovVersion">Loading...</td>
+					<td><span id="ovVersion">Loading...</span> (Latest: <span id="latestOvVersion">Loading...</span>)</td>
 				</tr>
 				<tr>
 					<td>App Config File:</td>
@@ -58,7 +58,15 @@
 		// Overviewer Tab
 		ipcRenderer.send('getOverviewerVersion');
 		ipcRenderer.on('gotOverviewerVersion', function (event, version) {
-			$('td#ovVersion').text(version);
+			$('span#ovVersion').text(version);
+		});
+		ipcRenderer.send('getLatestOverviewerVersion');
+		ipcRenderer.on('gotLatestOverviewerVersion', function (event, version) {
+			$('span#latestOvVersion').text(version);
+			if ($('span#ovVersion').text() != $('span#latestOvVersion').text()) {
+				$('span#ovVersion').css('color', '#ef9a9a');
+				$('span#latestOvVersion').css('color', '#a5d6a7');
+			}
 		});
 </script>
 </body>
