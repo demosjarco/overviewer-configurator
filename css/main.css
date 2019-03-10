@@ -92,3 +92,32 @@ body main div#tabs-1 img {
 body main div#tabs-1 h1 {
   margin-top: 0px;
 }
+body main div#tabs-1 div#cpu span,
+body main div#tabs-1 div#ram span {
+  display: block;
+  text-align: center;
+}
+body main div#tabs-1 div#cpu div#cpuHistory,
+body main div#tabs-1 div#ram div#cpuHistory,
+body main div#tabs-1 div#cpu div#ramHistory,
+body main div#tabs-1 div#ram div#ramHistory {
+  display: inline-flex;
+}
+body main div#tabs-1 div#cpu div#cpuHistory div.progressBar,
+body main div#tabs-1 div#ram div#cpuHistory div.progressBar,
+body main div#tabs-1 div#cpu div#ramHistory div.progressBar,
+body main div#tabs-1 div#ram div#ramHistory div.progressBar {
+  position: relative;
+  width: 10px;
+  height: 100px;
+  background-color: black;
+}
+body main div#tabs-1 div#cpu div#cpuHistory div.progressBar div.progressBarInside,
+body main div#tabs-1 div#ram div#cpuHistory div.progressBar div.progressBarInside,
+body main div#tabs-1 div#cpu div#ramHistory div.progressBar div.progressBarInside,
+body main div#tabs-1 div#ram div#ramHistory div.progressBar div.progressBarInside {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  background-color: green;
+}

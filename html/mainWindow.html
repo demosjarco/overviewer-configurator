@@ -33,6 +33,46 @@
 					<td id="ovConfLocation">Loading...</td>
 				</tr>
 			</table>
+			<div id="cpu">
+				<span>CPU</span>
+				<div id="cpuHistory">
+					<div id="cpu1" class="progressBar">
+						<div class="progressBarInside"></div>
+					</div>
+					<div id="cpu2" class="progressBar">
+						<div class="progressBarInside"></div>
+					</div>
+					<div id="cpu3" class="progressBar">
+						<div class="progressBarInside"></div>
+					</div>
+					<div id="cpu4" class="progressBar">
+						<div class="progressBarInside"></div>
+					</div>
+					<div id="cpu5" class="progressBar">
+						<div class="progressBarInside"></div>
+					</div>
+				</div>
+			</div>
+			<div id="ram">
+				<span>RAM</span>
+				<div id="ramHistory">
+					<div id="ram1" class="progressBar">
+						<div class="progressBarInside"></div>
+					</div>
+					<div id="ram2" class="progressBar">
+						<div class="progressBarInside"></div>
+					</div>
+					<div id="ram3" class="progressBar">
+						<div class="progressBarInside"></div>
+					</div>
+					<div id="ram4" class="progressBar">
+						<div class="progressBarInside"></div>
+					</div>
+					<div id="ram5" class="progressBar">
+						<div class="progressBarInside"></div>
+					</div>
+				</div>
+			</div>
 			<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Enim quaerat ullam velit voluptatum nemo, odit tempora laboriosam facilis earum eius assumenda unde, est animi similique quasi placeat vero autem veritatis.</p>
 		</div>
 		<div id="tabs-2">
@@ -68,6 +108,25 @@
 				$('span#latestOvVersion').css('color', '#a5d6a7');
 			}
 		});
+
+		const si = require('systeminformation');
+		setInterval(function () {
+			si.cpuCurrentspeed().then(data => {
+				$('div#cpuHistory div#cpu5 div.progressBarInside').css('height', $('div#cpuHistory div#cpu4 div.progressBarInside').css('height'));
+				$('div#cpuHistory div#cpu4 div.progressBarInside').css('height', $('div#cpuHistory div#cpu3 div.progressBarInside').css('height'));
+				$('div#cpuHistory div#cpu3 div.progressBarInside').css('height', $('div#cpuHistory div#cpu2 div.progressBarInside').css('height'));
+				$('div#cpuHistory div#cpu2 div.progressBarInside').css('height', $('div#cpuHistory div#cpu1 div.progressBarInside').css('height'));
+				$('div#cpuHistory div#cpu1 div.progressBarInside').css('height', data.avg + '%');
+			});
+
+			si.mem().then(data => {
+				$('div#ramHistory div#ram5 div.progressBarInside').css('height', $('div#ramHistory div#ram4 div.progressBarInside').css('height'));
+				$('div#ramHistory div#ram4 div.progressBarInside').css('height', $('div#ramHistory div#ram3 div.progressBarInside').css('height'));
+				$('div#ramHistory div#ram3 div.progressBarInside').css('height', $('div#ramHistory div#ram2 div.progressBarInside').css('height'));
+				$('div#ramHistory div#ram2 div.progressBarInside').css('height', $('div#ramHistory div#ram1 div.progressBarInside').css('height'));
+				$('div#ramHistory div#ram1 div.progressBarInside').css('height', (data.active / data.total)*100 + '%');
+			});
+		}, 1000);
 </script>
 </body>
 </html>

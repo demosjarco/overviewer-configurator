@@ -94,6 +94,31 @@ body {
 			h1 {
 				margin-top: 0px;
 			}
+
+			div#cpu, div#ram {
+				span {
+					display: block;
+					text-align: center;
+				}
+
+				div#cpuHistory, div#ramHistory {
+					display: inline-flex;
+
+					div.progressBar {
+						position: relative;
+						width: 10px;
+						height: 100px;
+						background-color: black;
+
+						div.progressBarInside {
+							position: absolute;
+							bottom: 0;
+							width: 100%;
+							background-color: green;
+						}
+					}
+				}
+			}
 		}
 	}
 }
