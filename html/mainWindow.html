@@ -78,7 +78,7 @@
 			<div id="tabs1-content">
 				<ul id="tabs1">
 					<li><a href="#tabs1-1">Global Config</a></li>
-					<li><a href="#tabs1-2">Test</a></li>
+					<li><a href="#tabs1-2">Logs</a></li>
 				</ul>
 				<div id="tabs1-1">
 					<h3>Render Progress</h3>
@@ -97,7 +97,7 @@
 					<input type="checkbox" /><span>Enabled</span>
 				</div>
 				<div id="tabs1-2">
-					<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cupiditate voluptatum ut quas error vero, doloribus vitae reprehenderit beatae deserunt quasi, nihil, sunt suscipit dolorum nostrum voluptatibus quis quam nemo illum.</p>
+					<ul></ul>
 				</div>
 			</div>
 		</div>
@@ -154,6 +154,16 @@
 				$('div#ramHistory div#ram1 div.progressBarInside').css('height', (data.active / data.total)*100 + '%');
 			});
 		}, 1000);
+
+		let numVisibleMessages = 5;
+		function newVisualLog(message) {
+			let tempDate = new Date();
+			$('#tabs1-2 ul').prepend('<li><span class="timeStamp">' + tempDate.toLocaleTimeString() + '</span><span class="message">' + message + '</span></li>');
+			if ($('#tabs1-2 ul li').length > numVisibleMessages) {
+				$('#tabs1-2 ul li').slice(numVisibleMessages-1).remove();
+			}
+		}
+		newVisualLog('Last ' + numVisibleMessages + ' messages will appear here');
 </script>
 </body>
 </html>
