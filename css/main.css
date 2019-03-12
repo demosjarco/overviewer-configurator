@@ -150,3 +150,7 @@ body main div#tabs-1 div#tabs1-content ul li a:active {
   text-decoration: none;
   outline: none;
 }
+body main div#tabs-1 div#tabs1-content div#tabs1-1 hr {
+  border-top: 1px solid white;
+  opacity: 0.33333333;
+}
