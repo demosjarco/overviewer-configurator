@@ -1,3 +1,5 @@
+const { ipcRenderer } = require('electron');
+
 $("#tabs1-content").tabs();
 ipcRenderer.send('getOverviewerVersion');
 ipcRenderer.on('gotOverviewerVersion', function (event, version) {
