@@ -122,6 +122,9 @@ body main div#tabs-1 div#ram div#ramHistory div.progressBar div.progressBarInsid
   width: 100%;
   background-color: green;
 }
+body main div#tabs-1 div#tabs1-content {
+  width: 100%;
+}
 body main div#tabs-1 div#tabs1-content ul {
   list-style-type: none;
   margin: 0;
