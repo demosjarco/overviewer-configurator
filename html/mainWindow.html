@@ -73,7 +73,19 @@
 					</div>
 				</div>
 			</div>
-			<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Enim quaerat ullam velit voluptatum nemo, odit tempora laboriosam facilis earum eius assumenda unde, est animi similique quasi placeat vero autem veritatis.</p>
+			<br />
+			<div id="tabs1-content">
+				<ul id="tabs1">
+					<li><a href="#tabs1-1">Global Config</a></li>
+					<li><a href="#tabs1-2">Test</a></li>
+				</ul>
+				<div id="tabs1-1">
+					<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Odio quidem, libero beatae dolorum possimus officia numquam repellat, sint, quam similique ipsa molestias perspiciatis vitae. Dolores eius sequi ex minus voluptates!</p>
+				</div>
+				<div id="tabs1-2">
+					<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cupiditate voluptatum ut quas error vero, doloribus vitae reprehenderit beatae deserunt quasi, nihil, sunt suscipit dolorum nostrum voluptatibus quis quam nemo illum.</p>
+				</div>
+			</div>
 		</div>
 		<div id="tabs-2">
 			<p>Nesciunt cumque maiores hic suscipit, ex nostrum ratione corporis perspiciatis neque inventore unde, possimus quas! Assumenda aliquam distinctio magni necessitatibus corrupti. Illo nobis ut voluptatum totam possimus dicta reiciendis consequuntur?</p>
@@ -94,6 +106,7 @@
 			$('aside ul li').css('line-height', ($(this).width() * 0.05) + 'px');
 		}).resize();
 		$("#tabs").tabs();
+		$("#tabs1-content").tabs();
 		
 		// Overviewer Tab
 		ipcRenderer.send('getOverviewerVersion');
