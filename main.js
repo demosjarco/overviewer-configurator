@@ -130,6 +130,12 @@ app.on('activate', () => {
 	}
 });
 
+function messageLog(message, showOnUi = true) {
+	if (showOnUi)
+		mainWindow.webContents.send('visualLog', message);
+	console.log(message);
+}
+
 ipcMain.on('getOverviewerVersion', (event, arg) => {
 	updateLocalOverviewerVersion(function(currentVersion) {
 		event.sender.send('gotOverviewerVersion', currentVersion);
