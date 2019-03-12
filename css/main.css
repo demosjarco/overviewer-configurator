@@ -30,6 +30,7 @@ body aside {
   text-align: center;
 }
 body aside ul {
+  list-style-type: none;
   margin: 0;
   padding: 0;
 }
@@ -120,4 +121,29 @@ body main div#tabs-1 div#ram div#ramHistory div.progressBar div.progressBarInsid
   bottom: 0;
   width: 100%;
   background-color: green;
+}
+body main div#tabs-1 div#tabs1-content ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+body main div#tabs-1 div#tabs1-content ul li {
+  display: inline-block;
+  padding: 0px 7.6px 7.6px 7.6px;
+}
+body main div#tabs-1 div#tabs1-content ul li.ui-state-default {
+  color: rgba(255, 255, 255, 0.66666667);
+  border-bottom: none;
+}
+body main div#tabs-1 div#tabs1-content ul li.ui-state-active {
+  color: #ffffff;
+  border-bottom: 2px solid #36b030;
+}
+body main div#tabs-1 div#tabs1-content ul li a:link,
+body main div#tabs-1 div#tabs1-content ul li a:visited,
+body main div#tabs-1 div#tabs1-content ul li a:hover,
+body main div#tabs-1 div#tabs1-content ul li a:active {
+  color: inherit;
+  text-decoration: none;
+  outline: none;
 }
