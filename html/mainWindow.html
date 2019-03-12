@@ -97,7 +97,7 @@
 					<input type="checkbox" /><span>Enabled</span>
 				</div>
 				<div id="tabs1-2">
-					<p>See the last <input type="number" min="1" step="1" value="25" /> logs here</p>
+					<p>See the last <input onChange="changeLogCount(this.value)" type="number" min="1" step="1" value="25" /> logs here</p>
 					<ul></ul>
 				</div>
 			</div>
@@ -157,12 +157,18 @@
 		}, 1000);
 
 		let numVisibleMessages = 25;
+
+		function changeLogCount(newNumVisMessages) {
+			numVisibleMessages = newNumVisMessages;
+			if ($('#tabs1-2 ul li').length > numVisibleMessages)
+				$('#tabs1-2 ul li').slice(numVisibleMessages - 1).remove();
+		}
+
 		function newVisualLog(message) {
 			let tempDate = new Date();
 			$('#tabs1-2 ul').prepend('<li><span class="timeStamp">' + tempDate.toLocaleTimeString() + '</span><span class="message">' + message + '</span></li>');
-			if ($('#tabs1-2 ul li').length > numVisibleMessages) {
-				$('#tabs1-2 ul li').slice(numVisibleMessages-1).remove();
-			}
+			if ($('#tabs1-2 ul li').length > numVisibleMessages)
+				$('#tabs1-2 ul li').slice(numVisibleMessages - 1).remove();
 		}
 		newVisualLog('Last ' + numVisibleMessages + ' messages will appear here');
 </script>
