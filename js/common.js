@@ -1,3 +1,5 @@
+window.$ = window.jQuery = require('jquery');
+
 $('aside ul li').height($(window).width() * 0.05);
 $('aside ul li').css('line-height', ($(window).width() * 0.05) + 'px');
 $(window).on('resize', function () {
