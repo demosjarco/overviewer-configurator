@@ -112,17 +112,7 @@
 	</main>
 	<script>window.$ = window.jQuery = require('jquery');</script>
 	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous"></script>
-	<script>
-		const { ipcRenderer } = require('electron');
-		
-		$('aside ul li').height($(window).width() * 0.05);
-		$('aside ul li').css('line-height', ($(window).width() * 0.05) + 'px');
-		$(window).on('resize', function () {
-			$('aside ul li').height($(this).width() * 0.05);
-			$('aside ul li').css('line-height', ($(this).width() * 0.05) + 'px');
-		}).resize();
-		$("#tabs").tabs();
-</script>
+	<script src="../js/common.js"></script>
 <script src="../js/overviewerTab.js"></script>
 <script src="../js/configSaving.js"></script>
 </body>
