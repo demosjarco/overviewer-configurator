@@ -254,3 +254,5 @@ function updateOverviewer(link) {
 		}).pipe(fs.createWriteStream(app.getPath('userData').replace(/\\/g, "/") + '/' + fileNameReg.exec(link)[0]));
 	}
 }
+
+const config = require('./nodejs/configFile.js');
