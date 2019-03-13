@@ -110,7 +110,6 @@ function readSetting(settingCallback, settingType, optionKey1, optionKey2, optio
 
 const electron = require('./electronSetup.js');
 module.exports.readOldSettings = function () {
-	electron.mainWindow.webContents.send('readSetting_settingsLocation', app.getPath('userData').replace(/\\/g, "/") + '/settings.json');
 	readSetting(function (value) {
 		electron.mainWindow.webContents.send('readSetting_global_renderProgress_local', value);
 	}, 'global', 'renderProgress', 'local');

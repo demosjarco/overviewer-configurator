@@ -1,7 +1,4 @@
 ﻿ipcRenderer.send('readOldSettings');
-ipcRenderer.on('readSetting_settingsLocation', function (event, value) {
-	$('#appConfLocation').text(value);
-});
 ipcRenderer.on('readSetting_global_renderProgress_local', function (event, value) {
 	$('.setting.global.renderProgress.local').prop('checked', value);
 });
