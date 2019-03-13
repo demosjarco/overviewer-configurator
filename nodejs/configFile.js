@@ -3,9 +3,21 @@ const fs = require('fs');
 
 function getSavedJSON(jsonCallback) {
 	fs.readFile(app.getPath('userData').replace(/\\/g, "/") + '/settings.json', (err, data) => {
-		if (err || true) {
-			let newSettings = {
-				global: {
+		if (err) {
+			updatePreferencesFileIfNeeded(function (json) {
+				if (jsonCallback)
+					jsonCallback(json);
+			});
+		} else {
+			updatePreferencesFileIfNeeded(function (json) {
+				if (jsonCallback)
+					jsonCallback(json);
+			}, JSON.parse(data));
+		}
+		function updatePreferencesFileIfNeeded(finishedCallback, json = {}) {
+			let tempJson = json;
+			if (!('global' in json)) {
+				tempJson.global = {
 					caveDepthShading: true,
 					compressLevel: 2,
 					renderProgress: {
@@ -13,17 +25,41 @@ function getSavedJSON(jsonCallback) {
 						web: false
 					},
 					worldsLocation: null
-				},
-				worlds: []
-			};
-			fs.writeFile(app.getPath('userData').replace(/\\/g, "/") + '/settings.json', JSON.stringify(newSettings, null, 4), (err) => {
+				};
+			} else {
+				if (!('caveDepthShading' in json.global)) {
+					json.global.caveDepthShading = true;
+				}
+				if (!('compressLevel' in json.global)) {
+					json.global.compressLevel = 2;
+				}
+				if (!('renderProgress' in json.global)) {
+					json.global.renderProgress = {
+						local: true,
+						web: false
+					};
+				} else {
+					if (!('local' in json.global.renderProgress)) {
+						json.global.renderProgress.local = true;
+					}
+					if (!('web' in json.global.renderProgress)) {
+						json.global.renderProgress.web = true;
+					}
+				}
+				if (!('worldsLocation' in json.global)) {
+					json.global.worldsLocation = null;
+				}
+			}
+
+			if (!('worlds' in json)) {
+				tempJson.worlds = [];
+			}
+
+			fs.writeFile(app.getPath('userData').replace(/\\/g, "/") + '/settings.json', JSON.stringify(tempJson, null, 4), (err) => {
 				if (err) throw err;
 			});
-			if (jsonCallback)
-				jsonCallback(newSettings);
-		} else {
-			if (jsonCallback)
-				jsonCallback(JSON.parse(data));
+			if (finishedCallback)
+				finishedCallback(tempJson);
 		}
 	});
 }
