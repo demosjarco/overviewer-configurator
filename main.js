@@ -22,3 +22,5 @@ ipcMain.on('readOldSettings', (event, arg) => {
 ipcMain.on('changedSetting', (event, optionValue, settingType, optionKey1, optionKey2, optionKey3) => {
 	config.changedSetting(optionValue, settingType, optionKey1, optionKey2, optionKey3);
 });
+
+const worldManagement = require('./nodejs/worldManagement.js');
