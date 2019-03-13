@@ -11,7 +11,8 @@ function getSavedJSON(jsonCallback) {
 					renderProgress: {
 						local: true,
 						web: false
-					}
+					},
+					worldsLocation: null
 				},
 				worlds: []
 			};
