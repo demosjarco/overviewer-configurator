@@ -33,13 +33,15 @@ function saveJSON(updatedJSON) {
 	});
 }
 
-module.exports.changedGlobalConfigOption = function (optionValue, optionKey1, optionKey2) {
+module.exports.changedSetting = function (settingType, optionValue, optionKey1, optionKey2, optionKey3) {
 	getSavedJSON(function (json) {
 		let tempJSON = json;
-		if (optionKey1 && optionKey2) {
-			tempJSON.global[optionKey1][optionKey2] = optionValue;
+		if (optionKey1 && optionKey2 && optionKey3) {
+			tempJSON[settingType][optionKey1][optionKey2][optionKey3] = optionValue;
+		} else if (optionKey1 && optionKey2) {
+			tempJSON[settingType][optionKey1][optionKey2] = optionValue;
 		} else if (optionKey1) {
-			tempJSON.global[optionKey1] = optionValue;
+			tempJSON[settingType][optionKey1] = optionValue;
 		}
 		saveJSON(tempJSON);
 	});

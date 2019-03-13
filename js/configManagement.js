@@ -1,6 +1,10 @@
-﻿function localRenderProgressChanged(checked) {
-	ipcRenderer.send('changedGlobalConfigOption', checked, 'renderProgress', 'local');
+﻿function readSavedSetting() {
+
+}
+
+function localRenderProgressChanged(checked) {
+	ipcRenderer.send('changedSetting', 'global', checked, 'renderProgress', 'local');
 }
 function webRenderProgressChanged(checked) {
-	ipcRenderer.send('changedGlobalConfigOption', checked, 'renderProgress', 'web');
+	ipcRenderer.send('changedSetting', 'global', checked, 'renderProgress', 'web');
 }
