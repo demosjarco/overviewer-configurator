@@ -16,7 +16,9 @@ function getSavedJSON(jsonCallback) {
 		}
 		function updatePreferencesFileIfNeeded(finishedCallback, json = {}) {
 			let tempJson = json;
+			let changed = false;
 			if (!('global' in json)) {
+				changed = true;
 				tempJson.global = {
 					caveDepthShading: true,
 					compressLevel: 2,
@@ -28,36 +30,44 @@ function getSavedJSON(jsonCallback) {
 				};
 			} else {
 				if (!('caveDepthShading' in json.global)) {
+					changed = true;
 					json.global.caveDepthShading = true;
 				}
 				if (!('compressLevel' in json.global)) {
+					changed = true;
 					json.global.compressLevel = 2;
 				}
 				if (!('renderProgress' in json.global)) {
+					changed = true;
 					json.global.renderProgress = {
 						local: true,
 						web: false
 					};
 				} else {
 					if (!('local' in json.global.renderProgress)) {
+						changed = true;
 						json.global.renderProgress.local = true;
 					}
 					if (!('web' in json.global.renderProgress)) {
+						changed = true;
 						json.global.renderProgress.web = true;
 					}
 				}
 				if (!('worldsLocation' in json.global)) {
+					changed = true;
 					json.global.worldsLocation = null;
 				}
 			}
 
 			if (!('worlds' in json)) {
+				changed = true;
 				tempJson.worlds = [];
 			}
 
-			fs.writeFile(app.getPath('userData').replace(/\\/g, "/") + '/settings.json', JSON.stringify(tempJson, null, 4), (err) => {
-				if (err) throw err;
-			});
+			if (changed)
+				fs.writeFile(app.getPath('userData').replace(/\\/g, "/") + '/settings.json', JSON.stringify(tempJson, null, 4), (err) => {
+					if (err) throw err;
+				});
 			if (finishedCallback)
 				finishedCallback(tempJson);
 		}
