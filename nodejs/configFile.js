@@ -46,3 +46,15 @@ module.exports.changedSetting = function (optionValue, settingType, optionKey1, 
 		saveJSON(tempJSON);
 	});
 }
+
+function readSetting(settingCallback, settingType, optionKey1, optionKey2, optionKey3) {
+	getSavedJSON(function (json) {
+		if (optionKey1 && optionKey2 && optionKey3) {
+			settingCallback(json[settingType][optionKey1][optionKey2][optionKey3]);
+		} else if (optionKey1 && optionKey2) {
+			settingCallback(json[settingType][optionKey1][optionKey2]);
+		} else if (optionKey1) {
+			settingCallback(json[settingType][optionKey1]);
+		}
+	});
+}
