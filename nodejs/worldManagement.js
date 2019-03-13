@@ -2,7 +2,7 @@ const { dialog } = require('electron');
 const config = require('./configFile.js');
 const electron = require('./electronSetup.js');
 
-module.exports.newFolderSelection = function () {
+module.exports.worldsFolderSelection = function () {
 	dialog.showOpenDialog({
 		title: 'test',
 		message: 'test2',

@@ -15,8 +15,8 @@ ipcRenderer.on('readSetting_global_caveDepthShading', function (event, value) {
 	$('.setting.global.caveDepthShading').prop('checked', value);
 });
 
-function newFolderSelection() {
-	ipcRenderer.send('newFolderSelection');
+function worldsFolderSelection() {
+	ipcRenderer.send('worldsFolderSelection');
 }
 function localRenderProgressChanged(checked) {
 	ipcRenderer.send('changedSetting', checked, 'global', 'renderProgress', 'local');
