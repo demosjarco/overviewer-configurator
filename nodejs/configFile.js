@@ -3,9 +3,10 @@ const fs = require('fs');
 
 function getSavedJSON(jsonCallback) {
 	fs.readFile(app.getPath('userData').replace(/\\/g, "/") + '/settings.json', (err, data) => {
-		if (err) {
+		if (err || true) {
 			let newSettings = {
 				global: {
+					compressLevel: 2,
 					renderProgress: {
 						local: true,
 						web: false
@@ -67,4 +68,7 @@ module.exports.readOldSettings = function () {
 	readSetting(function (value) {
 		electron.mainWindow.webContents.send('readSetting_global_renderProgress_web', value);
 	}, 'global', 'renderProgress', 'web');
+	readSetting(function (value) {
+		electron.mainWindow.webContents.send('readSetting_global_compressLevel', value);
+	}, 'global', 'compressLevel');
 }

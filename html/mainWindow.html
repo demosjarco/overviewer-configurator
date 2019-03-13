@@ -91,7 +91,7 @@
 					<h3>Compression</h3>
 					<hr />
 					<p>Choose the level of compression oxipng should use. The default (2) should be satisfactory for everyone, higher levels than the default see almost no benefit.</p>
-					<input type="number" max="6" min="0" step="1" value="2" /><span>Compression Level</span>
+					<input class="setting global compressLevel" onchange="compressLevelChanged(this.value)" type="number" max="6" min="0" step="1" value="2" /><span>Compression Level</span>
 					<h3>Cave Shading</h3>
 					<hr />
 					<p>Blocks are tinted with a color dependent on their depth, so it’s easier to tell overlapping caves apart (Only affects cave renders).</p>
