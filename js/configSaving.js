@@ -1,6 +1,4 @@
-﻿const { ipcRenderer } = require('electron');
-
-function localRenderProgressChanged(checked) {
+﻿function localRenderProgressChanged(checked) {
 	ipcRenderer.send('changedGlobalConfigOption', checked, 'renderProgress', 'local');
 }
 function webRenderProgressChanged(checked) {
