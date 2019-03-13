@@ -13,12 +13,11 @@ function getSavedJSON(jsonCallback) {
 				},
 				worlds: []
 			};
-			let temp = JSON.stringify(newSettings, null, 4);
-			fs.writeFile(app.getPath('userData').replace(/\\/g, "/") + '/settings.json', temp, (err) => {
+			fs.writeFile(app.getPath('userData').replace(/\\/g, "/") + '/settings.json', JSON.stringify(newSettings, null, 4), (err) => {
 				if (err) throw err;
 			});
 			if (jsonCallback)
-				jsonCallback(JSON.parse(temp));
+				jsonCallback(newSettings);
 		} else {
 			if (jsonCallback)
 				jsonCallback(JSON.parse(data));
