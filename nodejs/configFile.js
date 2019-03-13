@@ -32,3 +32,15 @@ function saveJSON(updatedJSON) {
 		if (err) throw err;
 	});
 }
+
+module.exports.changedGlobalConfigOption = function (optionValue, optionKey1, optionKey2) {
+	getSavedJSON(function (json) {
+		let tempJSON = json;
+		if (optionKey1 && optionKey2) {
+			tempJSON.global[optionKey1][optionKey2] = optionValue;
+		} else if (optionKey1) {
+			tempJSON.global[optionKey1] = optionValue;
+		}
+		saveJSON(tempJSON);
+	});
+}
