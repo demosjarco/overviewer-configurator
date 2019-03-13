@@ -3,7 +3,7 @@ const fs = require('fs');
 
 function getSavedJSON(jsonCallback) {
 	fs.readFile(app.getPath('userData').replace(/\\/g, "/") + '/settings.json', (err, data) => {
-		if (err || true) {
+		if (err) {
 			let newSettings = {
 				global: {
 					renderProgress: {
@@ -33,7 +33,7 @@ function saveJSON(updatedJSON) {
 	});
 }
 
-module.exports.changedSetting = function (settingType, optionValue, optionKey1, optionKey2, optionKey3) {
+module.exports.changedSetting = function (optionValue, settingType, optionKey1, optionKey2, optionKey3) {
 	getSavedJSON(function (json) {
 		let tempJSON = json;
 		if (optionKey1 && optionKey2 && optionKey3) {

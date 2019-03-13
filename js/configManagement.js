@@ -3,8 +3,8 @@
 }
 
 function localRenderProgressChanged(checked) {
-	ipcRenderer.send('changedSetting', 'global', checked, 'renderProgress', 'local');
+	ipcRenderer.send('changedSetting', checked, 'global', 'renderProgress', 'local');
 }
 function webRenderProgressChanged(checked) {
-	ipcRenderer.send('changedSetting', 'global', checked, 'renderProgress', 'web');
+	ipcRenderer.send('changedSetting', checked, 'global', 'renderProgress', 'web');
 }

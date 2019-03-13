@@ -16,6 +16,6 @@ ipcMain.on('getLatestOverviewerVersion', (event, arg) => {
 });
 
 const config = require('./nodejs/configFile.js');
-ipcMain.on('changedSetting', (event, settingType, optionValue, optionKey1, optionKey2, optionKey3) => {
-	config.changedSetting(settingType, optionValue, optionKey1, optionKey2, optionKey3);
+ipcMain.on('changedSetting', (event, optionValue, settingType, optionKey1, optionKey2, optionKey3) => {
+	config.changedSetting(optionValue, settingType, optionKey1, optionKey2, optionKey3);
 });
