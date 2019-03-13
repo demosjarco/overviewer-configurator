@@ -95,7 +95,7 @@
 					<h3>Cave Shading</h3>
 					<hr />
 					<p>Blocks are tinted with a color dependent on their depth, so it’s easier to tell overlapping caves apart (Only affects cave renders).</p>
-					<input type="checkbox" /><span>Enabled</span>
+					<input class="setting global caveDepthShading" onchange="caveDepthShadingChanged(this.checked)" type="checkbox" /><span>Enabled</span>
 				</div>
 				<div id="tabs1-2">
 					<p>See the last <input onChange="changeLogCount(this.value)" type="number" min="1" step="1" value="25" /> logs here</p>

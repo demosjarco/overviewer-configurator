@@ -8,6 +8,9 @@ ipcRenderer.on('readSetting_global_renderProgress_web', function (event, value) 
 ipcRenderer.on('readSetting_global_compressLevel', function (event, value) {
 	$('.setting.global.compressLevel').val(value);
 });
+ipcRenderer.on('readSetting_global_caveDepthShading', function (event, value) {
+	$('.setting.global.caveDepthShading').prop('checked', value);
+});
 
 function localRenderProgressChanged(checked) {
 	ipcRenderer.send('changedSetting', checked, 'global', 'renderProgress', 'local');
@@ -17,4 +20,7 @@ function webRenderProgressChanged(checked) {
 }
 function compressLevelChanged(level) {
 	ipcRenderer.send('changedSetting', parseInt(level), 'global', 'compressLevel');
+}
+function caveDepthShadingChanged(checked) {
+	ipcRenderer.send('changedSetting', checked, 'global', 'caveDepthShading');
 }

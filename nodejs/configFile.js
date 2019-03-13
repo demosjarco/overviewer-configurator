@@ -6,6 +6,7 @@ function getSavedJSON(jsonCallback) {
 		if (err || true) {
 			let newSettings = {
 				global: {
+					caveDepthShading: true,
 					compressLevel: 2,
 					renderProgress: {
 						local: true,
@@ -71,4 +72,7 @@ module.exports.readOldSettings = function () {
 	readSetting(function (value) {
 		electron.mainWindow.webContents.send('readSetting_global_compressLevel', value);
 	}, 'global', 'compressLevel');
+	readSetting(function (value) {
+		electron.mainWindow.webContents.send('readSetting_global_caveDepthShading', value);
+	}, 'global', 'caveDepthShading');
 }
