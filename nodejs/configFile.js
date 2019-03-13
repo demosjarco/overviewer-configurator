@@ -58,3 +58,13 @@ function readSetting(settingCallback, settingType, optionKey1, optionKey2, optio
 		}
 	});
 }
+
+const electron = require('./electronSetup.js');
+module.exports.readOldSettings = function () {
+	readSetting(function (value) {
+		electron.mainWindow.webContents.send('readSetting_global_renderProgress_local', value);
+	}, 'global', 'renderProgress', 'local');
+	readSetting(function (value) {
+		electron.mainWindow.webContents.send('readSetting_global_renderProgress_web', value);
+	}, 'global', 'renderProgress', 'web');
+}
