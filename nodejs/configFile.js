@@ -31,31 +31,31 @@ function getSavedJSON(jsonCallback) {
 			} else {
 				if (!('caveDepthShading' in json.global)) {
 					changed = true;
-					json.global.caveDepthShading = true;
+					tempJson.global.caveDepthShading = true;
 				}
 				if (!('compressLevel' in json.global)) {
 					changed = true;
-					json.global.compressLevel = 2;
+					tempJson.global.compressLevel = 2;
 				}
 				if (!('renderProgress' in json.global)) {
 					changed = true;
-					json.global.renderProgress = {
+					tempJson.global.renderProgress = {
 						local: true,
 						web: false
 					};
 				} else {
 					if (!('local' in json.global.renderProgress)) {
 						changed = true;
-						json.global.renderProgress.local = true;
+						tempJson.global.renderProgress.local = true;
 					}
 					if (!('web' in json.global.renderProgress)) {
 						changed = true;
-						json.global.renderProgress.web = true;
+						tempJson.global.renderProgress.web = true;
 					}
 				}
 				if (!('worldsLocation' in json.global)) {
 					changed = true;
-					json.global.worldsLocation = null;
+					tempJson.global.worldsLocation = null;
 				}
 			}
 
