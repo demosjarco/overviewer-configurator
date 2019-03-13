@@ -24,3 +24,6 @@ ipcMain.on('changedSetting', (event, optionValue, settingType, optionKey1, optio
 });
 
 const worldManagement = require('./nodejs/worldManagement.js');
+ipcMain.on('newFolderSelection', (event, arg) => {
+	worldManagement.newFolderSelection();
+});
