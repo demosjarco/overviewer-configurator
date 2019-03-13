@@ -85,9 +85,9 @@
 					<h3>Render Progress</h3>
 					<hr />
 					<p>Choose to see overviewer render progress here in this program and/or in the output website.</p>
-					<input type="checkbox" checked /><span>Local</span>
+					<input onchange="localRenderProgressChanged(this.checked)" type="checkbox" checked /><span>Local</span>
 					<br />
-					<input type="checkbox" /><span>Web</span>
+					<input onchange="webRenderProgressChanged(this.checked)" type="checkbox" /><span>Web</span>
 					<h3>Compression</h3>
 					<hr />
 					<p>Choose the level of compression oxipng should use. The default (2) should be satisfactory for everyone, higher levels than the default see almost no benefit.</p>

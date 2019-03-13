@@ -16,3 +16,6 @@ ipcMain.on('getLatestOverviewerVersion', (event, arg) => {
 });
 
 const config = require('./nodejs/configFile.js');
+ipcMain.on('changedGlobalConfigOption', (event, optionValue, optionKey1, optionKey2) => {
+	config.changedGlobalConfigOption(optionValue, optionKey1, optionKey2);
+});
