@@ -22,6 +22,7 @@ function getSavedJSON(jsonCallback) {
 				tempJson.global = {
 					caveDepthShading: true,
 					compressLevel: 2,
+					outputLocation: null,
 					renderProgress: {
 						local: true,
 						web: false
@@ -36,6 +37,10 @@ function getSavedJSON(jsonCallback) {
 				if (!('compressLevel' in json.global)) {
 					changed = true;
 					tempJson.global.compressLevel = 2;
+				}
+				if (!('outputLocation' in json.global)) {
+					changed = true;
+					tempJson.global.outputLocation = null;
 				}
 				if (!('renderProgress' in json.global)) {
 					changed = true;
