@@ -7,6 +7,13 @@ $(document).ready(function () {
 	ipcRenderer.send('getOverviewerVersion');
 	ipcRenderer.send('getLatestOverviewerVersion');
 
+	si.cpu(cpuInfo => {
+		newVisualLog('cpu cores ' + cpuInfo.cores);
+		for (let i = 0; i < cpuInfo.cores; i++) {
+			$('div#cpu').append('<div id="cpuCore' + i + '"><div id="cpuCore' + i + '-t1" class="progressBar"><div class="progressBarInside"></div></div ><div id="cpuCore' + i + '-t2" class="progressBar"><div class="progressBarInside"></div></div><div id="cpuCore' + i + '-t3" class="progressBar"><div class="progressBarInside"></div></div><div id="cpuCore' + i + '-t4" class="progressBar"><div class="progressBarInside"></div></div><div id="cpuCore' + i + '-t5" class="progressBar"><div class="progressBarInside"></div></div></div >');
+		}
+	});
+
 	setInterval(function () {
 		si.cpuCurrentspeed().then(data => {
 			$('div#cpuHistory div#cpu5 div.progressBarInside').css('height', $('div#cpuHistory div#cpu4 div.progressBarInside').css('height'));
