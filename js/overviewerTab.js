@@ -15,11 +15,13 @@ $(document).ready(function () {
 
 	setInterval(function () {
 		si.cpuCurrentspeed().then(data => {
-			$('div#cpuHistory div#cpu5 div.progressBarInside').css('height', $('div#cpuHistory div#cpu4 div.progressBarInside').css('height'));
-			$('div#cpuHistory div#cpu4 div.progressBarInside').css('height', $('div#cpuHistory div#cpu3 div.progressBarInside').css('height'));
-			$('div#cpuHistory div#cpu3 div.progressBarInside').css('height', $('div#cpuHistory div#cpu2 div.progressBarInside').css('height'));
-			$('div#cpuHistory div#cpu2 div.progressBarInside').css('height', $('div#cpuHistory div#cpu1 div.progressBarInside').css('height'));
-			$('div#cpuHistory div#cpu1 div.progressBarInside').css('height', data.avg + '%');
+			data.cores.forEach(function (coreSpeed, coreIndex) {
+				$('div#cpuCore' + coreIndex + ' div#cpuCore' + coreIndex + '-t5 div.progressBarInside').css('height', $('div#cpuCore' + coreIndex + ' div#cpuCore' + coreIndex + '-t4 div.progressBarInside').css('height'));
+				$('div#cpuCore' + coreIndex + ' div#cpuCore' + coreIndex + '-t4 div.progressBarInside').css('height', $('div#cpuCore' + coreIndex + ' div#cpuCore' + coreIndex + '-t3 div.progressBarInside').css('height'));
+				$('div#cpuCore' + coreIndex + ' div#cpuCore' + coreIndex + '-t3 div.progressBarInside').css('height', $('div#cpuCore' + coreIndex + ' div#cpuCore' + coreIndex + '-t2 div.progressBarInside').css('height'));
+				$('div#cpuCore' + coreIndex + ' div#cpuCore' + coreIndex + '-t2 div.progressBarInside').css('height', $('div#cpuCore' + coreIndex + ' div#cpuCore' + coreIndex + '-t1 div.progressBarInside').css('height'));
+				$('div#cpuCore' + coreIndex + ' div#cpuCore' + coreIndex + '-t1 div.progressBarInside').css('height', coreSpeed + '%');
+			});
 		});
 
 		si.mem().then(data => {
