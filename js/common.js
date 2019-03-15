@@ -4,4 +4,6 @@ $(window).on('resize', function () {
 	$('aside ul li').height($(this).width() * 0.05);
 	$('aside ul li').css('line-height', ($(this).width() * 0.05) + 'px');
 }).resize();
-$("#tabs").tabs();
+$(document).ready(function () {
+	$("#tabs").tabs();
+});
