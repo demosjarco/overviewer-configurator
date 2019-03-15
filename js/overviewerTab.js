@@ -8,7 +8,6 @@ $(document).ready(function () {
 	ipcRenderer.send('getLatestOverviewerVersion');
 
 	si.cpu(cpuInfo => {
-		newVisualLog('cpu cores ' + cpuInfo.cores);
 		for (let i = 0; i < cpuInfo.cores; i++) {
 			$('div#cpu').append('<div id="cpuCore' + i + '"><div id="cpuCore' + i + '-t1" class="progressBar"><div class="progressBarInside"></div></div ><div id="cpuCore' + i + '-t2" class="progressBar"><div class="progressBarInside"></div></div><div id="cpuCore' + i + '-t3" class="progressBar"><div class="progressBarInside"></div></div><div id="cpuCore' + i + '-t4" class="progressBar"><div class="progressBarInside"></div></div><div id="cpuCore' + i + '-t5" class="progressBar"><div class="progressBarInside"></div></div></div >');
 		}
