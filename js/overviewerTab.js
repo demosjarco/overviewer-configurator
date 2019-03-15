@@ -1,4 +1,3 @@
-const { ipcRenderer } = require('electron');
 const si = require('systeminformation');
 
 $(document).ready(function () {
