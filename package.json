@@ -22,7 +22,7 @@
 	"homepage": "https://github.com/victhebeast/overviewer-configurator#readme",
 	"devDependencies": {
 		"electromon": "^1.0.10",
-		"electron": "^4.0.8",
+		"electron": "^4.1.0",
 		"electron-packager": "^13.1.1",
 		"less": "^3.9.0",
 		"less-watch-compiler": "^1.13.0"
@@ -32,6 +32,6 @@
 		"jquery": "^3.3.1",
 		"request": "^2.88.0",
 		"rimraf": "^2.6.3",
-		"systeminformation": "^4.0.16"
+		"systeminformation": "^4.1.1"
 	}
 }
