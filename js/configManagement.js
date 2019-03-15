@@ -1,5 +1,4 @@
-﻿const { ipcRenderer } = require('electron');
-$(document).ready(function () {
+﻿$(document).ready(function () {
 	ipcRenderer.send('readOldSettings');
 });
 ipcRenderer.on('readSetting_global_worldsLocation', function (event, value) {
