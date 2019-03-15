@@ -102,25 +102,24 @@ body main div#tabs-1 div#ram span {
   display: block;
   text-align: center;
 }
-body main div#tabs-1 div#cpu div#cpuHistory,
-body main div#tabs-1 div#ram div#cpuHistory,
-body main div#tabs-1 div#cpu div#ramHistory,
-body main div#tabs-1 div#ram div#ramHistory {
+body main div#tabs-1 div#cpu > div,
+body main div#tabs-1 div#ram > div {
   display: inline-flex;
+  border-right: 1px solid white;
 }
-body main div#tabs-1 div#cpu div#cpuHistory div.progressBar,
-body main div#tabs-1 div#ram div#cpuHistory div.progressBar,
-body main div#tabs-1 div#cpu div#ramHistory div.progressBar,
-body main div#tabs-1 div#ram div#ramHistory div.progressBar {
+body main div#tabs-1 div#cpu > div:last-child,
+body main div#tabs-1 div#ram > div:last-child {
+  border-right: none;
+}
+body main div#tabs-1 div#cpu > div div.progressBar,
+body main div#tabs-1 div#ram > div div.progressBar {
   position: relative;
   width: 10px;
   height: 100px;
   background-color: black;
 }
-body main div#tabs-1 div#cpu div#cpuHistory div.progressBar div.progressBarInside,
-body main div#tabs-1 div#ram div#cpuHistory div.progressBar div.progressBarInside,
-body main div#tabs-1 div#cpu div#ramHistory div.progressBar div.progressBarInside,
-body main div#tabs-1 div#ram div#ramHistory div.progressBar div.progressBarInside {
+body main div#tabs-1 div#cpu > div div.progressBar div.progressBarInside,
+body main div#tabs-1 div#ram > div div.progressBar div.progressBarInside {
   position: absolute;
   bottom: 0;
   width: 100%;

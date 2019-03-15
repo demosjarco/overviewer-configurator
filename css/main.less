@@ -107,8 +107,13 @@ body {
 					text-align: center;
 				}
 
-				div#cpuHistory, div#ramHistory {
+				> div {
 					display: inline-flex;
+					border-right: 1px solid white;
+
+					&:last-child {
+						border-right: none;
+					}
 
 					div.progressBar {
 						position: relative;
