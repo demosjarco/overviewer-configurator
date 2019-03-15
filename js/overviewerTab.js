@@ -1,4 +1,5 @@
 const si = require('systeminformation');
+let numVisibleMessages = 25;
 
 $(document).ready(function () {
 	$("#tabs1-content").tabs();
@@ -39,8 +40,6 @@ ipcRenderer.on('gotLatestOverviewerVersion', function (event, version) {
 		$('span#ovVersion').css('color', '#ef9a9a');
 	}
 });
-
-let numVisibleMessages = 25;
 
 function changeLogCount(newNumVisMessages) {
 	numVisibleMessages = newNumVisMessages;
