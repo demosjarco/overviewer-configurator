@@ -94,6 +94,9 @@ body main div#tabs-1 img {
 body main div#tabs-1 h1 {
   margin-top: 0px;
 }
+body main div#tabs-1 table {
+  vertical-align: top;
+}
 body main div#tabs-1 div#cpu span,
 body main div#tabs-1 div#ram span {
   display: block;
