@@ -73,11 +73,6 @@ body aside ul li a:active {
   text-decoration: none;
   outline: none;
 }
-body aside ul li a.worlds {
-  padding: 18% 12%;
-  border-radius: 12.5%;
-  background-color: #7F5512;
-}
 body main {
   right: 0;
   width: 92.5%;
