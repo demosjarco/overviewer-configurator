@@ -22,6 +22,9 @@ ipcMain.on('readOldSettings', (event, arg) => {
 ipcMain.on('changedSetting', (event, optionValue, settingType, optionKey1, optionKey2, optionKey3) => {
 	config.changedSetting(optionValue, settingType, optionKey1, optionKey2, optionKey3);
 });
+ipcMain.on('outputFolderSelection', (event, arg) => {
+	config.outputFolderSelection();
+});
 
 const worldManagement = require('./nodejs/worldManagement.js');
 ipcMain.on('worldsFolderSelection', (event, arg) => {

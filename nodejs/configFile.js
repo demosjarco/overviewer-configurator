@@ -1,4 +1,4 @@
-const { app } = require('electron');
+const { app, dialog } = require('electron');
 const fs = require('fs');
 
 function getSavedJSON(jsonCallback) {
@@ -119,6 +119,9 @@ module.exports.readOldSettings = function () {
 		electron.mainWindow.webContents.send('readSetting_global_worldsLocation', value);
 	}, 'global', 'worldsLocation');
 	readSetting(function (value) {
+		electron.mainWindow.webContents.send('readSetting_global_outputLocation', value);
+	}, 'global', 'outputLocation');
+	readSetting(function (value) {
 		electron.mainWindow.webContents.send('readSetting_global_renderProgress_local', value);
 	}, 'global', 'renderProgress', 'local');
 	readSetting(function (value) {
@@ -130,4 +133,16 @@ module.exports.readOldSettings = function () {
 	readSetting(function (value) {
 		electron.mainWindow.webContents.send('readSetting_global_caveDepthShading', value);
 	}, 'global', 'caveDepthShading');
+}
+
+module.exports.outputFolderSelection = function () {
+	dialog.showOpenDialog({
+		title: 'test',
+		message: 'test2',
+		properties: ['openDirectory']
+	}, function (filePaths, bookmarks) {
+		let path = filePaths[0].replace(/\\/g, "/");
+		module.exports.changedSetting(path, 'global', 'outputLocation');
+		electron.mainWindow.webContents.send('readSetting_global_outputLocation', path);
+	});
 }

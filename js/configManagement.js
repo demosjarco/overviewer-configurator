@@ -4,6 +4,9 @@
 ipcRenderer.on('readSetting_global_worldsLocation', function (event, value) {
 	$('.setting.global.worldsLocation').text(value);
 });
+ipcRenderer.on('readSetting_global_outputLocation', function (event, value) {
+	$('.setting.global.outputLocation').text(value);
+});
 ipcRenderer.on('readSetting_global_renderProgress_local', function (event, value) {
 	$('.setting.global.renderProgress.local').prop('checked', value);
 });
@@ -19,6 +22,9 @@ ipcRenderer.on('readSetting_global_caveDepthShading', function (event, value) {
 
 function worldsFolderSelection() {
 	ipcRenderer.send('worldsFolderSelection');
+}
+function outputFolderSelection() {
+	ipcRenderer.send('outputFolderSelection');
 }
 function localRenderProgressChanged(checked) {
 	ipcRenderer.send('changedSetting', checked, 'global', 'renderProgress', 'local');
