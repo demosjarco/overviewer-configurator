@@ -61,6 +61,7 @@ ipcMain.on('readWorlds', (event, arg) => {
 														let worldName = (worldsPath + '/' + file1.name).split('/').pop();
 														event.sender.send('gotWorld', worldNickName(worldName), worldName, worldsPath + '/' + file1.name + '/' + file2.name);
 													}
+
 													nextLevel3();
 
 													function nextLevel3() {
