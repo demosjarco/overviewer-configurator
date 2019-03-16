@@ -34,6 +34,7 @@ body aside ul {
   list-style-type: none;
   margin: 0;
   padding: 0;
+  text-align: center;
 }
 body aside ul li {
   margin: 15px 0px;
@@ -63,7 +64,6 @@ body aside ul li img {
 }
 body aside ul li.worldItem {
   width: 50%;
-  text-align: center;
   border-radius: 12.5%;
   background-color: #7F5512;
 }
