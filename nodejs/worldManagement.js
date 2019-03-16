@@ -53,6 +53,32 @@ ipcMain.on('readWorlds', (event, arg) => {
 									nextLevel2();
 								} else if (file2.isDirectory()) {
 									// Go level 3
+									fs.readdir(worldsPath + '/' + file1.name + '/' + file2.name, { withFileTypes: true }, (err3, files3) => {
+										if (err3) throw err3;
+										if (files3.length > 0) {
+											let file3counter = 0;
+											function file3loop(file3) {
+												console.log(file3);
+												if (file3.isFile() && file3.name == 'level.dat') {
+													let worldName = (worldsPath + '/' + file1.name).split('/').pop();
+													event.sender.send('gotWorld', worldNickName(worldName), worldName, worldsPath + '/' + file1.name + '/' + file2.name + '/' + file3.name);
+												}
+												nextLevel3();
+
+												function nextLevel3() {
+													file3counter++;
+													if (file3counter < files3.length) {
+														file3loop(files3[file3counter]);
+													} else {
+														nextLevel2();
+													}
+												}
+											}
+											file3loop(files3[file3counter]);
+										} else {
+											nextLevel2();
+										}
+									});
 								} else {
 									nextLevel2();
 								}
