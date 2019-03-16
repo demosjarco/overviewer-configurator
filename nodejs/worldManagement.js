@@ -25,42 +25,62 @@ function worldNickName(worldName) {
 }
 
 const fs = require('fs');
-
-function getDirectoriesFromDir(path, error, folders) {
-	let folderList = [];
-	fs.readdir(path, { withFileTypes: true }, (err, files) => {
-		if (err && error)
-			error(err);
-		if (files) {
-			files.forEach(function (item) {
-				if (item.isDirectory())
-					folderList.push(item.name);
-			});
-			folders(folderList);
-		}
-	});
-}
-
 ipcMain.on('readWorlds', (event, arg) => {
 	config.getWorldLocationPath(function (worldsPath) {
 		if (worldsPath != null) {
 			event.sender.send('clearWorlds');
-			level1(worldsPath);
-			function level1(path) {
-				fs.readdir(path, (err, files) => {
-					let levelDatExists = false;
-					files.forEach(function (file) {
-						if (file == 'level.dat')
-							levelDatExists = true;
-					});
-					if (levelDatExists) {
-						let worldName = path.split('/').pop();
-						event.sender.send('gotWorld', worldNickName(worldName), worldName, path);
-					} else {
+			fs.readdir(worldsPath, { withFileTypes: true }, (err1, files1) => {
+				if (err1) throw err1;
+				let file1counter = 0;
+				function file1loop(file1) {
+					console.log(file1);
+					if (file1.isFile() && file1.name == 'level.dat') {
+						let worldName = worldsPath.split('/').pop();
+						event.sender.send('gotWorld', worldNickName(worldName), worldName, worldsPath);
 
+						nextLevel1();
+					} else if (file1.isDirectory()) {
+						// Level 2
+						fs.readdir(worldsPath + '/' + file1.name, { withFileTypes: true }, (err2, files2) => {
+							if (err2) throw err2;
+							let file2counter = 0;
+							function file2loop(file2) {
+								console.log(file2);
+								if (file2.isFile() && file2.name == 'level.dat') {
+									let worldName = worldsPath.split('/').pop();
+									event.sender.send('gotWorld', worldNickName(worldName), worldName, worldsPath + '/' + file1.name);
+
+									nextLevel2();
+								} else if (file2.isDirectory()) {
+									// Go level 3
+								} else {
+									nextLevel2();
+								}
+
+								function nextLevel2() {
+									file2counter++;
+									if (file2counter < files2.length) {
+										file2loop(files2[file2counter]);
+									} else {
+										nextLevel1();
+									}
+								}
+							}
+							file2loop(files2[file2counter]);
+						});
+					} else {
+						nextLevel1();
 					}
-				});
-			}
+
+					function nextLevel1() {
+						file1counter++;
+						if (file1counter < files1.length) {
+							file1loop(files1[file1counter]);
+						}
+					}
+				}
+				file1loop(files1[file1counter]);
+			});
 		}
 	});
 });
