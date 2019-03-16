@@ -43,7 +43,22 @@ ipcMain.on('readWorlds', (event, arg) => {
 	config.getWorldLocationPath(function (worldsPath) {
 		if (worldsPath != null) {
 			event.sender.send('clearWorlds');
+			level1(worldsPath);
+			function level1(path) {
+				fs.readdir(path, (err, files) => {
+					let levelDatExists = false;
+					files.forEach(function (file) {
+						if (file == 'level.dat')
+							levelDatExists = true;
+					});
+					if (levelDatExists) {
+						let worldName = path.split('/').pop();
+						event.sender.send('gotWorld', worldNickName(worldName));
+					} else {
 
+					}
+				});
+			}
 		}
 	});
 });
