@@ -1,7 +1,6 @@
 const { ipcMain, dialog } = require('electron');
 const config = require('./configFile.js');
 const electron = require('./electronSetup.js');
-const fs = require('fs');
 
 module.exports.worldsFolderSelection = function () {
 	dialog.showOpenDialog({
@@ -14,6 +13,8 @@ module.exports.worldsFolderSelection = function () {
 		electron.mainWindow.webContents.send('readSetting_global_worldsLocation', path);
 	});
 }
+
+const fs = require('fs');
 
 ipcMain.on('readWorlds', (event, arg) => {
 	
