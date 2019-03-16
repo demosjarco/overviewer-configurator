@@ -43,56 +43,60 @@ ipcMain.on('readWorlds', (event, arg) => {
 						// Level 2
 						fs.readdir(worldsPath + '/' + file1.name, { withFileTypes: true }, (err2, files2) => {
 							if (err2) throw err2;
-							let file2counter = 0;
-							function file2loop(file2) {
-								console.log(file2);
-								if (file2.isFile() && file2.name == 'level.dat') {
-									let worldName = worldsPath.split('/').pop();
-									event.sender.send('gotWorld', worldNickName(worldName), worldName, worldsPath + '/' + file1.name);
+							if (files2.length > 0) {
+								let file2counter = 0;
+								function file2loop(file2) {
+									console.log(file2);
+									if (file2.isFile() && file2.name == 'level.dat') {
+										let worldName = worldsPath.split('/').pop();
+										event.sender.send('gotWorld', worldNickName(worldName), worldName, worldsPath + '/' + file1.name);
 
-									nextLevel2();
-								} else if (file2.isDirectory()) {
-									// Go level 3
-									fs.readdir(worldsPath + '/' + file1.name + '/' + file2.name, { withFileTypes: true }, (err3, files3) => {
-										if (err3) throw err3;
-										if (files3.length > 0) {
-											let file3counter = 0;
-											function file3loop(file3) {
-												console.log(file3);
-												if (file3.isFile() && file3.name == 'level.dat') {
-													let worldName = (worldsPath + '/' + file1.name).split('/').pop();
-													event.sender.send('gotWorld', worldNickName(worldName), worldName, worldsPath + '/' + file1.name + '/' + file2.name + '/' + file3.name);
-												}
-												nextLevel3();
+										nextLevel2();
+									} else if (file2.isDirectory()) {
+										// Go level 3
+										fs.readdir(worldsPath + '/' + file1.name + '/' + file2.name, { withFileTypes: true }, (err3, files3) => {
+											if (err3) throw err3;
+											if (files3.length > 0) {
+												let file3counter = 0;
+												function file3loop(file3) {
+													console.log(file3);
+													if (file3.isFile() && file3.name == 'level.dat') {
+														let worldName = (worldsPath + '/' + file1.name).split('/').pop();
+														event.sender.send('gotWorld', worldNickName(worldName), worldName, worldsPath + '/' + file1.name + '/' + file2.name + '/' + file3.name);
+													}
+													nextLevel3();
 
-												function nextLevel3() {
-													file3counter++;
-													if (file3counter < files3.length) {
-														file3loop(files3[file3counter]);
-													} else {
-														nextLevel2();
+													function nextLevel3() {
+														file3counter++;
+														if (file3counter < files3.length) {
+															file3loop(files3[file3counter]);
+														} else {
+															nextLevel2();
+														}
 													}
 												}
+												file3loop(files3[file3counter]);
+											} else {
+												nextLevel2();
 											}
-											file3loop(files3[file3counter]);
-										} else {
-											nextLevel2();
-										}
-									});
-								} else {
-									nextLevel2();
-								}
-
-								function nextLevel2() {
-									file2counter++;
-									if (file2counter < files2.length) {
-										file2loop(files2[file2counter]);
+										});
 									} else {
-										nextLevel1();
+										nextLevel2();
+									}
+
+									function nextLevel2() {
+										file2counter++;
+										if (file2counter < files2.length) {
+											file2loop(files2[file2counter]);
+										} else {
+											nextLevel1();
+										}
 									}
 								}
+								file2loop(files2[file2counter]);
+							} else {
+								nextLevel1();
 							}
-							file2loop(files2[file2counter]);
 						});
 					} else {
 						nextLevel1();
