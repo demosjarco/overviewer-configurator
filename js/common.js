@@ -8,4 +8,5 @@ $(window).on('resize', function () {
 }).resize();
 $(document).ready(function () {
 	$("#tabs").tabs();
+	ipcRenderer.send('readWorlds');
 });
