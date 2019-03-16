@@ -53,7 +53,7 @@ ipcMain.on('readWorlds', (event, arg) => {
 					});
 					if (levelDatExists) {
 						let worldName = path.split('/').pop();
-						event.sender.send('gotWorld', worldNickName(worldName));
+						event.sender.send('gotWorld', worldNickName(worldName), worldName);
 					} else {
 
 					}
