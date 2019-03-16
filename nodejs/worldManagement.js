@@ -14,6 +14,14 @@ module.exports.worldsFolderSelection = function () {
 	});
 }
 
+function worldNickName(worldName) {
+	var nickname = "";
+	worldName.split(" ").forEach(function (namePart) {
+		nickname += namePart.charAt(namePart.search(/[0-9a-z]/i)).toLowerCase();
+	});
+	return nickname;
+}
+
 const fs = require('fs');
 ipcMain.on('readWorlds', (event, arg) => {
 	config.getWorldLocationPath(function (worldsPath) {
