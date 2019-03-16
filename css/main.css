@@ -61,6 +61,12 @@ body aside ul li img {
   line-height: normal;
   vertical-align: middle;
 }
+body aside ul li.worldItem {
+  width: 50%;
+  text-align: center;
+  border-radius: 12.5%;
+  background-color: #7F5512;
+}
 body aside ul li a {
   display: inline-block;
   line-height: normal;
