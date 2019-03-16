@@ -29,7 +29,7 @@ const fs = require('fs');
 function getDirectoriesFromDir(path, error, folders) {
 	let folderList = [];
 	fs.readdir(path, { withFileTypes: true }, (err, files) => {
-		if (err)
+		if (err && error)
 			error(err);
 		if (files) {
 			files.forEach(function (item) {
