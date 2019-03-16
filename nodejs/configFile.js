@@ -113,11 +113,17 @@ function readSetting(settingCallback, settingType, optionKey1, optionKey2, optio
 	});
 }
 
+function getWorldLocationPath(callback) {
+	readSetting(function (value) {
+		callback(value);
+	}, 'global', 'worldsLocation');
+}
+
 const electron = require('./electronSetup.js');
 module.exports.readOldSettings = function () {
-	readSetting(function (value) {
+	getWorldLocationPath(function (value) {
 		electron.mainWindow.webContents.send('readSetting_global_worldsLocation', value);
-	}, 'global', 'worldsLocation');
+	});
 	readSetting(function (value) {
 		electron.mainWindow.webContents.send('readSetting_global_outputLocation', value);
 	}, 'global', 'outputLocation');
