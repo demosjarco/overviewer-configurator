@@ -7,12 +7,14 @@ function redoTabs() {
 
 ipcRenderer.on('clearWorlds', function (event, arg) {
 	$('aside ul li.worldItem').remove();
+	$('main div.worldItem').remove();
 	redoTabs();
 	tabCounter = 2;
 });
 
 ipcRenderer.on('gotWorld', function (event, worldNickName) {
 	$('aside ul').append('<li class="worldItem"><a class="worlds" href="#tabs-' + tabCounter + '">[' + worldNickName + ']</a></li>');
+	$('main').append('<div class="worldItem" id="tabs-' + tabCounter + '"><p>Nesciunt cumque maiores hic suscipit, ex nostrum ratione corporis perspiciatis neque inventore unde, possimus quas! Assumenda aliquam distinctio magni necessitatibus corrupti. Illo nobis ut voluptatum totam possimus dicta reiciendis consequuntur?</p></div>');
 	tabCounter++;
 	redoTabs();
 });
