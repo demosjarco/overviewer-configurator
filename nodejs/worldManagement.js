@@ -25,6 +25,8 @@ function worldNickName(worldName) {
 const fs = require('fs');
 ipcMain.on('readWorlds', (event, arg) => {
 	config.getWorldLocationPath(function (worldsPath) {
+		if (worldsPath != null) {
 
+		}
 	});
 });
