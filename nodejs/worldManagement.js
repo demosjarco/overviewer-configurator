@@ -42,6 +42,7 @@ function getDirectoriesFromDir(path, error, folders) {
 ipcMain.on('readWorlds', (event, arg) => {
 	config.getWorldLocationPath(function (worldsPath) {
 		if (worldsPath != null) {
+			event.sender.send('clearWorlds');
 
 		}
 	});
