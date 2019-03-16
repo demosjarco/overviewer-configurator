@@ -62,7 +62,7 @@ ipcMain.on('readWorlds', (event, arg) => {
 													console.log(file3);
 													if (file3.isFile() && file3.name == 'level.dat') {
 														let worldName = (worldsPath + '/' + file1.name).split('/').pop();
-														event.sender.send('gotWorld', worldNickName(worldName), worldName, worldsPath + '/' + file1.name + '/' + file2.name + '/' + file3.name);
+														event.sender.send('gotWorld', worldNickName(worldName), worldName, worldsPath + '/' + file1.name + '/' + file2.name);
 													}
 													nextLevel3();
 
