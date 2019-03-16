@@ -14,7 +14,7 @@ ipcRenderer.on('clearWorlds', function (event, arg) {
 
 ipcRenderer.on('gotWorld', function (event, worldNickName, worldName, worldPath) {
 	$('aside ul').append('<li class="worldItem"><a class="worlds" href="#tabs-' + tabCounter + '">[' + worldNickName + ']</a></li>');
-	$('main').append('<div class="worldItem" id="tabs-' + tabCounter + '"><h3>[' + worldNickName + '] ' + worldName + '</h3></div>');
+	$('main').append('<div class="worldItem" id="tabs-' + tabCounter + '"><h3>[' + worldNickName + '] ' + worldName + '</h3><table><tr><td>Path:</td><td><pre>' + worldPath + '</pre></td></tr></table></div>');
 	tabCounter++;
 	redoTabs();
 });
