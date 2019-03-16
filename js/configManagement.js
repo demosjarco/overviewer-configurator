@@ -3,6 +3,7 @@
 });
 ipcRenderer.on('readSetting_global_worldsLocation', function (event, value) {
 	$('.setting.global.worldsLocation').text(value);
+	ipcRenderer.send('readWorlds');
 });
 ipcRenderer.on('readSetting_global_outputLocation', function (event, value) {
 	$('.setting.global.outputLocation').text(value);
