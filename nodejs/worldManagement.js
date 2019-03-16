@@ -33,7 +33,6 @@ ipcMain.on('readWorlds', (event, arg) => {
 				if (err1) throw err1;
 				let file1counter = 0;
 				function file1loop(file1) {
-					console.log(file1);
 					if (file1.isFile() && file1.name == 'level.dat') {
 						let worldName = worldsPath.split('/').pop();
 						event.sender.send('gotWorld', worldNickName(worldName), worldName, worldsPath);
@@ -46,7 +45,6 @@ ipcMain.on('readWorlds', (event, arg) => {
 							if (files2.length > 0) {
 								let file2counter = 0;
 								function file2loop(file2) {
-									console.log(file2);
 									if (file2.isFile() && file2.name == 'level.dat') {
 										let worldName = worldsPath.split('/').pop();
 										event.sender.send('gotWorld', worldNickName(worldName), worldName, worldsPath + '/' + file1.name);
@@ -59,7 +57,6 @@ ipcMain.on('readWorlds', (event, arg) => {
 											if (files3.length > 0) {
 												let file3counter = 0;
 												function file3loop(file3) {
-													console.log(file3);
 													if (file3.isFile() && file3.name == 'level.dat') {
 														let worldName = (worldsPath + '/' + file1.name).split('/').pop();
 														event.sender.send('gotWorld', worldNickName(worldName), worldName, worldsPath + '/' + file1.name + '/' + file2.name);
