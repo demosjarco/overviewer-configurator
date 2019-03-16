@@ -23,6 +23,22 @@ function worldNickName(worldName) {
 }
 
 const fs = require('fs');
+
+function getDirectoriesFromDir(path, error, folders) {
+	let folderList = [];
+	fs.readdir(path, { withFileTypes: true }, (err, files) => {
+		if (err)
+			error(err);
+		if (files) {
+			files.forEach(function (item) {
+				if (item.isDirectory())
+					folderList.push(item.name);
+			});
+			folders(folderList);
+		}
+	});
+}
+
 ipcMain.on('readWorlds', (event, arg) => {
 	config.getWorldLocationPath(function (worldsPath) {
 		if (worldsPath != null) {
