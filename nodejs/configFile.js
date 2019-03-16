@@ -113,7 +113,7 @@ function readSetting(settingCallback, settingType, optionKey1, optionKey2, optio
 	});
 }
 
-function getWorldLocationPath(callback) {
+module.exports.getWorldLocationPath = function (callback) {
 	readSetting(function (value) {
 		callback(value);
 	}, 'global', 'worldsLocation');
@@ -121,7 +121,7 @@ function getWorldLocationPath(callback) {
 
 const electron = require('./electronSetup.js');
 module.exports.readOldSettings = function () {
-	getWorldLocationPath(function (value) {
+	module.exports.getWorldLocationPath(function (value) {
 		electron.mainWindow.webContents.send('readSetting_global_worldsLocation', value);
 	});
 	readSetting(function (value) {
