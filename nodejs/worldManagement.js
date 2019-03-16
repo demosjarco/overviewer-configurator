@@ -15,7 +15,8 @@ module.exports.worldsFolderSelection = function () {
 }
 
 const fs = require('fs');
-
 ipcMain.on('readWorlds', (event, arg) => {
-	
+	config.getWorldLocationPath(function (worldsPath) {
+
+	});
 });
