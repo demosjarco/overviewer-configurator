@@ -147,8 +147,10 @@ module.exports.outputFolderSelection = function () {
 		message: 'test2',
 		properties: ['openDirectory']
 	}, function (filePaths, bookmarks) {
-		let path = filePaths[0].replace(/\\/g, "/");
-		module.exports.changedSetting(path, 'global', 'outputLocation');
-		electron.mainWindow.webContents.send('readSetting_global_outputLocation', path);
+		if (filePaths.length > 0) {
+			let path = filePaths[0].replace(/\\/g, "/");
+			module.exports.changedSetting(path, 'global', 'outputLocation');
+			electron.mainWindow.webContents.send('readSetting_global_outputLocation', path);
+		}
 	});
 }
