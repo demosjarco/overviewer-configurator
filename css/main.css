@@ -37,7 +37,7 @@ body aside ul {
   text-align: center;
 }
 body aside ul li {
-  margin: 15px 0px;
+  margin: 15px auto;
   vertical-align: middle;
 }
 body aside ul li.ui-state-default {
