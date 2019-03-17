@@ -183,3 +183,10 @@ body main div#tabs-1 div#tabs1-content div#tabs1-2 ul li span.timeStamp {
 body main div#tabs-1 div#tabs1-content div#tabs1-2 ul li span.message {
   padding-left: 5px;
 }
+body main div.worldItem hr {
+  border-top: 1px solid white;
+  opacity: 0.33333333;
+}
+body main div.worldItem button + span {
+  padding-left: 5px;
+}
