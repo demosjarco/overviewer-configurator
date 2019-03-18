@@ -60,48 +60,52 @@ let mainMenuTemplate = [
 	}
 ];
 
+const configFile = require('./configFile.js');
 const overviewerVersions = require('./overviewerVersions.js');
 
 app.on('ready', () => {
 	// Create the browser window.
+	configFile.getLastState(function (lastState) {
+		let lastDisplay = require('electron').screen.getAllDisplays()[lastState.monitor];
+		mainWindow = new BrowserWindow({
+			width: lastState.size.width,
+			height: lastState.size.height,
+			x: lastDisplay.workArea.x,
+			y: lastDisplay.workArea.y,
+			minWidth: 800,
+			minHeight: 600,
+			title: 'Overviewer Config',
+			frame: true,
+			backgroundColor: '#212121',
+			darkTheme: true,
+			vibrancy: 'dark',
+			webPreferences: {
+				devTools: true,
+				scrollBounce: true,
+				//enableBlinkFeatures: 'OverlayScrollbars'
+			}
+		});
+		mainWindow.center();
+		if (lastState.maximized)
+			mainWindow.maximize();
+
+		// and load the index.html of the app.
+		mainWindow.loadFile('./html/mainWindow.html');
+		Menu.setApplicationMenu(Menu.buildFromTemplate(mainMenuTemplate));
+		//mainWindow.webContents.openDevTools();
+
+		// Emitted when the window is closed.
+		mainWindow.on('closed', () => {
+			// Dereference the window object, usually you would store windows
+			// in an array if your app supports multi windows, this is the time
+			// when you should delete the corresponding element.
+			mainWindow = null;
 		});
 
-	mainWindow = new BrowserWindow({
-		width: workArea.width,
-		height: workArea.height,
-		x: workArea.x,
-		y: workArea.y,
-		minWidth: 800,
-		minHeight: 600,
-		title: 'Overviewer Config',
-		frame: true,
-		backgroundColor: '#212121',
-		darkTheme: true,
-		vibrancy: 'dark',
-		webPreferences: {
-			devTools: true,
-			scrollBounce: true,
-			//enableBlinkFeatures: 'OverlayScrollbars'
-		}
+		module.exports.mainWindow = mainWindow;
+		overviewerVersions.updateLocalOverviewerVersion();
+		overviewerVersions.updateOverviewerVersions();
 	});
-	mainWindow.maximize();
-
-	// and load the index.html of the app.
-	mainWindow.loadFile('./html/mainWindow.html');
-	Menu.setApplicationMenu(Menu.buildFromTemplate(mainMenuTemplate));
-	//mainWindow.webContents.openDevTools();
-
-	// Emitted when the window is closed.
-	mainWindow.on('closed', () => {
-		// Dereference the window object, usually you would store windows
-		// in an array if your app supports multi windows, this is the time
-		// when you should delete the corresponding element.
-		mainWindow = null;
-	});
-
-	module.exports.mainWindow = mainWindow;
-	overviewerVersions.updateLocalOverviewerVersion();
-	overviewerVersions.updateOverviewerVersions();
 });
 
 // Quit when all windows are closed.
