@@ -112,6 +112,12 @@ app.on('will-resize', (event, newBounds) => {
 	configFile.changedSetting(newBounds.width, 'global', 'lastState', 'size', 'width');
 	configFile.changedSetting(newBounds.height, 'global', 'lastState', 'size', 'height');
 });
+app.on('maximize', () => {
+	configFile.changedSetting(true, 'global', 'lastState', 'maximize');
+});
+app.on('unmaximize', () => {
+	configFile.changedSetting(false, 'global', 'lastState', 'maximize');
+});
 
 // Quit when all windows are closed.
 app.on('window-all-closed', () => {
