@@ -131,10 +131,12 @@ function saveJSON(updatedJSON) {
 	});
 }
 
-module.exports.changedSetting = function (optionValue, settingType, optionKey1, optionKey2, optionKey3) {
+module.exports.changedSetting = function (optionValue, settingType, optionKey1, optionKey2, optionKey3, optionKey4) {
 	getSavedJSON(function (json) {
 		let tempJSON = json;
-		if (optionKey1 && optionKey2 && optionKey3) {
+		if (optionKey1 && optionKey2 && optionKey3 && optionKey4) {
+			tempJSON[settingType][optionKey1][optionKey2][optionKey3][optionKey4] = optionValue;
+		} else if (optionKey1 && optionKey2 && optionKey3) {
 			tempJSON[settingType][optionKey1][optionKey2][optionKey3] = optionValue;
 		} else if (optionKey1 && optionKey2) {
 			tempJSON[settingType][optionKey1][optionKey2] = optionValue;
@@ -145,9 +147,11 @@ module.exports.changedSetting = function (optionValue, settingType, optionKey1, 
 	});
 }
 
-function readSetting(settingCallback, settingType, optionKey1, optionKey2, optionKey3) {
+function readSetting(settingCallback, settingType, optionKey1, optionKey2, optionKey3, optionKey4) {
 	getSavedJSON(function (json) {
-		if (optionKey1 && optionKey2 && optionKey3) {
+		if (optionKey1 && optionKey2 && optionKey3 && optionKey4) {
+			settingCallback(json[settingType][optionKey1][optionKey2][optionKey3][optionKey4]);
+		} else if (optionKey1 && optionKey2 && optionKey3) {
 			settingCallback(json[settingType][optionKey1][optionKey2][optionKey3]);
 		} else if (optionKey1 && optionKey2) {
 			settingCallback(json[settingType][optionKey1][optionKey2]);
