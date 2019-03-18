@@ -2,7 +2,6 @@ const { app, BrowserWindow, Menu } = require('electron');
 
 let mainWindow;
 module.exports.mainWindow = mainWindow;
-let devMode = process.argv[process.argv.length - 1] == '--dev' ? true : false;
 
 let mainMenuTemplate = [
 	{
@@ -65,15 +64,7 @@ const overviewerVersions = require('./overviewerVersions.js');
 
 app.on('ready', () => {
 	// Create the browser window.
-	let workArea = require('electron').screen.getPrimaryDisplay().workArea;
-	if (devMode) {
-		require('electron').screen.getAllDisplays().forEach(function (display) {
-			if (display.size.width < 1920)
-				workArea = display.workArea;
 		});
-	} else {
-		workArea = require('electron').screen.getPrimaryDisplay().workArea;
-	}
 
 	mainWindow = new BrowserWindow({
 		width: workArea.width,
