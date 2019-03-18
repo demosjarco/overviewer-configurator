@@ -108,6 +108,11 @@ app.on('ready', () => {
 	});
 });
 
+app.on('will-resize', (event, newBounds) => {
+	configFile.changedSetting(newBounds.width, 'global', 'lastState', 'size', 'width');
+	configFile.changedSetting(newBounds.height, 'global', 'lastState', 'size', 'height');
+});
+
 // Quit when all windows are closed.
 app.on('window-all-closed', () => {
 	// On macOS it is common for applications and their menu bar
