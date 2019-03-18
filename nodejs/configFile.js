@@ -22,6 +22,14 @@ function getSavedJSON(jsonCallback) {
 				tempJson.global = {
 					caveDepthShading: true,
 					compressLevel: 2,
+					lastState: {
+						monitor: 0,
+						size: {
+							width: 800,
+							height: 600
+						},
+						maximized: false
+					},
 					outputLocation: null,
 					renderProgress: {
 						local: true,
@@ -37,6 +45,42 @@ function getSavedJSON(jsonCallback) {
 				if (!('compressLevel' in json.global)) {
 					changed = true;
 					tempJson.global.compressLevel = 2;
+				}
+				if (!('lastState' in json.global)) {
+					changed = true;
+					tempJson.global.lastState = {
+						monitor: 0,
+						size: {
+							width: 800,
+							height: 600
+						},
+						maximized: false
+					};
+				} else {
+					if (!('monitor' in json.global.lastState)) {
+						changed = true;
+						tempJson.global.lastState.monitor = 0;
+					}
+					if (!('size' in json.global.lastState)) {
+						changed = true;
+						tempJson.global.lastState.size = {
+							width: 800,
+							height: 600
+						};
+					} else {
+						if (!('width' in json.global.lastState.size)) {
+							changed = true;
+							tempJson.global.lastState.size.width = 800;
+						}
+						if (!('height' in json.global.lastState.size)) {
+							changed = true;
+							tempJson.global.lastState.size.height = 600;
+						}
+					}
+					if (!('maximized' in json.global.lastState)) {
+						changed = true;
+						tempJson.global.lastState.maximized = false;
+					}
 				}
 				if (!('outputLocation' in json.global)) {
 					changed = true;
@@ -87,10 +131,12 @@ function saveJSON(updatedJSON) {
 	});
 }
 
-module.exports.changedSetting = function (optionValue, settingType, optionKey1, optionKey2, optionKey3) {
+module.exports.changedSetting = function (optionValue, settingType, optionKey1, optionKey2, optionKey3, optionKey4) {
 	getSavedJSON(function (json) {
 		let tempJSON = json;
-		if (optionKey1 && optionKey2 && optionKey3) {
+		if (optionKey1 && optionKey2 && optionKey3 && optionKey4) {
+			tempJSON[settingType][optionKey1][optionKey2][optionKey3][optionKey4] = optionValue;
+		} else if (optionKey1 && optionKey2 && optionKey3) {
 			tempJSON[settingType][optionKey1][optionKey2][optionKey3] = optionValue;
 		} else if (optionKey1 && optionKey2) {
 			tempJSON[settingType][optionKey1][optionKey2] = optionValue;
@@ -101,9 +147,11 @@ module.exports.changedSetting = function (optionValue, settingType, optionKey1, 
 	});
 }
 
-function readSetting(settingCallback, settingType, optionKey1, optionKey2, optionKey3) {
+function readSetting(settingCallback, settingType, optionKey1, optionKey2, optionKey3, optionKey4) {
 	getSavedJSON(function (json) {
-		if (optionKey1 && optionKey2 && optionKey3) {
+		if (optionKey1 && optionKey2 && optionKey3 && optionKey4) {
+			settingCallback(json[settingType][optionKey1][optionKey2][optionKey3][optionKey4]);
+		} else if (optionKey1 && optionKey2 && optionKey3) {
 			settingCallback(json[settingType][optionKey1][optionKey2][optionKey3]);
 		} else if (optionKey1 && optionKey2) {
 			settingCallback(json[settingType][optionKey1][optionKey2]);
@@ -111,6 +159,12 @@ function readSetting(settingCallback, settingType, optionKey1, optionKey2, optio
 			settingCallback(json[settingType][optionKey1]);
 		}
 	});
+}
+
+module.exports.getLastState = function (callback) {
+	readSetting(function (value) {
+		callback(value);
+	}, 'global', 'lastState');
 }
 
 module.exports.getWorldLocationPath = function (callback) {

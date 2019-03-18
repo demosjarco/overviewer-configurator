@@ -2,7 +2,6 @@ const { app, BrowserWindow, Menu } = require('electron');
 
 let mainWindow;
 module.exports.mainWindow = mainWindow;
-let devMode = process.argv[process.argv.length - 1] == '--dev' ? true : false;
 
 let mainMenuTemplate = [
 	{
@@ -61,56 +60,63 @@ let mainMenuTemplate = [
 	}
 ];
 
+const configFile = require('./configFile.js');
 const overviewerVersions = require('./overviewerVersions.js');
 
 app.on('ready', () => {
 	// Create the browser window.
-	let workArea = require('electron').screen.getPrimaryDisplay().workArea;
-	if (devMode) {
-		require('electron').screen.getAllDisplays().forEach(function (display) {
-			if (display.size.width < 1920)
-				workArea = display.workArea;
+	configFile.getLastState(function (lastState) {
+		let lastDisplay = require('electron').screen.getAllDisplays()[lastState.monitor];
+		mainWindow = new BrowserWindow({
+			width: lastState.size.width,
+			height: lastState.size.height,
+			x: lastDisplay.workArea.x,
+			y: lastDisplay.workArea.y,
+			minWidth: 800,
+			minHeight: 600,
+			title: 'Overviewer Config',
+			frame: true,
+			backgroundColor: '#212121',
+			darkTheme: true,
+			vibrancy: 'dark',
+			webPreferences: {
+				devTools: true,
+				scrollBounce: true,
+				//enableBlinkFeatures: 'OverlayScrollbars'
+			}
 		});
-	} else {
-		workArea = require('electron').screen.getPrimaryDisplay().workArea;
-	}
+		mainWindow.center();
+		if (lastState.maximized)
+			mainWindow.maximize();
 
-	mainWindow = new BrowserWindow({
-		width: workArea.width,
-		height: workArea.height,
-		x: workArea.x,
-		y: workArea.y,
-		minWidth: 800,
-		minHeight: 600,
-		title: 'Overviewer Config',
-		frame: true,
-		backgroundColor: '#212121',
-		darkTheme: true,
-		vibrancy: 'dark',
-		webPreferences: {
-			devTools: true,
-			scrollBounce: true,
-			//enableBlinkFeatures: 'OverlayScrollbars'
-		}
+		// and load the index.html of the app.
+		mainWindow.loadFile('./html/mainWindow.html');
+		Menu.setApplicationMenu(Menu.buildFromTemplate(mainMenuTemplate));
+		//mainWindow.webContents.openDevTools();
+
+		mainWindow.on('will-resize', (event, newBounds) => {
+			configFile.changedSetting(newBounds.width, 'global', 'lastState', 'size', 'width');
+			configFile.changedSetting(newBounds.height, 'global', 'lastState', 'size', 'height');
+		});
+		mainWindow.on('maximize', () => {
+			configFile.changedSetting(true, 'global', 'lastState', 'maximized');
+		});
+		mainWindow.on('unmaximize', () => {
+			configFile.changedSetting(false, 'global', 'lastState', 'maximized');
+		});
+
+		// Emitted when the window is closed.
+		mainWindow.on('closed', () => {
+			// Dereference the window object, usually you would store windows
+			// in an array if your app supports multi windows, this is the time
+			// when you should delete the corresponding element.
+			mainWindow = null;
+		});
+
+		module.exports.mainWindow = mainWindow;
+		overviewerVersions.updateLocalOverviewerVersion();
+		overviewerVersions.updateOverviewerVersions();
 	});
-	mainWindow.maximize();
-
-	// and load the index.html of the app.
-	mainWindow.loadFile('./html/mainWindow.html');
-	Menu.setApplicationMenu(Menu.buildFromTemplate(mainMenuTemplate));
-	//mainWindow.webContents.openDevTools();
-
-	// Emitted when the window is closed.
-	mainWindow.on('closed', () => {
-		// Dereference the window object, usually you would store windows
-		// in an array if your app supports multi windows, this is the time
-		// when you should delete the corresponding element.
-		mainWindow = null;
-	});
-
-	module.exports.mainWindow = mainWindow;
-	overviewerVersions.updateLocalOverviewerVersion();
-	overviewerVersions.updateOverviewerVersions();
 });
 
 // Quit when all windows are closed.
