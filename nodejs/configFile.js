@@ -4,7 +4,6 @@ const fs = require('fs');
 let jsonSaveQueue = [];
 let permJson = {};
 function processJsonQueue() {
-	console.log(jsonSaveQueue.length);
 	let json = jsonSaveQueue.shift();
 	fs.writeFile(app.getPath('userData').replace(/\\/g, "/") + '/settings.json', JSON.stringify(json, null, 4), (err) => {
 		if (err) throw err;
