@@ -93,7 +93,15 @@ app.on('ready', () => {
 		mainWindow.loadFile('./html/mainWindow.html');
 		Menu.setApplicationMenu(Menu.buildFromTemplate(mainMenuTemplate));
 		//mainWindow.webContents.openDevTools();
-
+		
+		let displays = require('electron').screen.getAllDisplays();
+		mainWindow.on('move', () => {
+			displays.forEach(function (display, index) {
+				if (mainWindow.getBounds().x > display.workArea.x && mainWindow.getBounds().x < display.workArea.x + display.workArea.width) {
+					configFile.changedSetting(index, 'global', 'lastState', 'monitor');
+				}
+			});
+		});
 		mainWindow.on('will-resize', (event, newBounds) => {
 			configFile.changedSetting(newBounds.width, 'global', 'lastState', 'size', 'width');
 			configFile.changedSetting(newBounds.height, 'global', 'lastState', 'size', 'height');
