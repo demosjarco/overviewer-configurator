@@ -161,6 +161,12 @@ function readSetting(settingCallback, settingType, optionKey1, optionKey2, optio
 	});
 }
 
+module.exports.getLastState = function (callback) {
+	readSetting(function (value) {
+		callback(value);
+	}, 'global', 'lastState');
+}
+
 module.exports.getWorldLocationPath = function (callback) {
 	readSetting(function (value) {
 		callback(value);
