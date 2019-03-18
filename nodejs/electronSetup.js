@@ -94,6 +94,17 @@ app.on('ready', () => {
 		Menu.setApplicationMenu(Menu.buildFromTemplate(mainMenuTemplate));
 		//mainWindow.webContents.openDevTools();
 
+		mainWindow.on('will-resize', (event, newBounds) => {
+			configFile.changedSetting(newBounds.width, 'global', 'lastState', 'size', 'width');
+			configFile.changedSetting(newBounds.height, 'global', 'lastState', 'size', 'height');
+		});
+		mainWindow.on('maximize', () => {
+			configFile.changedSetting(true, 'global', 'lastState', 'maximized');
+		});
+		mainWindow.on('unmaximize', () => {
+			configFile.changedSetting(false, 'global', 'lastState', 'maximized');
+		});
+
 		// Emitted when the window is closed.
 		mainWindow.on('closed', () => {
 			// Dereference the window object, usually you would store windows
@@ -106,17 +117,6 @@ app.on('ready', () => {
 		overviewerVersions.updateLocalOverviewerVersion();
 		overviewerVersions.updateOverviewerVersions();
 	});
-});
-
-app.on('will-resize', (event, newBounds) => {
-	configFile.changedSetting(newBounds.width, 'global', 'lastState', 'size', 'width');
-	configFile.changedSetting(newBounds.height, 'global', 'lastState', 'size', 'height');
-});
-app.on('maximize', () => {
-	configFile.changedSetting(true, 'global', 'lastState', 'maximize');
-});
-app.on('unmaximize', () => {
-	configFile.changedSetting(false, 'global', 'lastState', 'maximize');
 });
 
 // Quit when all windows are closed.
