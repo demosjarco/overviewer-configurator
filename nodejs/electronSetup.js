@@ -95,9 +95,14 @@ app.on('ready', () => {
 		//mainWindow.webContents.openDevTools();
 		
 		let displays = require('electron').screen.getAllDisplays();
+		let weirdOffset = 0;
+		let weirdOffsetPlatform = /win\d+/;
+		if (weirdOffsetPlatform.test(process.platform)) {
+			weirdOffset = 8;
+		}
 		mainWindow.on('move', () => {
 			displays.forEach(function (display, index) {
-				if (mainWindow.getBounds().x > display.workArea.x && mainWindow.getBounds().x < display.workArea.x + display.workArea.width) {
+				if (mainWindow.getBounds().x >= display.workArea.x - weirdOffset && mainWindow.getBounds().x < display.workArea.x + display.workArea.width - weirdOffset) {
 					configFile.changedSetting(index, 'global', 'lastState', 'monitor');
 				}
 			});
