@@ -22,6 +22,14 @@ function getSavedJSON(jsonCallback) {
 				tempJson.global = {
 					caveDepthShading: true,
 					compressLevel: 2,
+					lastState: {
+						monitor: 0,
+						size: {
+							width: 800,
+							height: 600
+						},
+						maximized: false
+					},
 					outputLocation: null,
 					renderProgress: {
 						local: true,
@@ -37,6 +45,42 @@ function getSavedJSON(jsonCallback) {
 				if (!('compressLevel' in json.global)) {
 					changed = true;
 					tempJson.global.compressLevel = 2;
+				}
+				if (!('lastState' in json.global)) {
+					changed = true;
+					tempJson.global.lastState = {
+						monitor: 0,
+						size: {
+							width: 800,
+							height: 600
+						},
+						maximized: false
+					};
+				} else {
+					if (!('monitor' in json.global.lastState)) {
+						changed = true;
+						tempJson.global.lastState.monitor = 0;
+					}
+					if (!('size' in json.global.lastState)) {
+						changed = true;
+						tempJson.global.lastState.size = {
+							width: 800,
+							height: 600
+						};
+					} else {
+						if (!('width' in json.global.lastState.size)) {
+							changed = true;
+							tempJson.global.lastState.size.width = 800;
+						}
+						if (!('height' in json.global.lastState.size)) {
+							changed = true;
+							tempJson.global.lastState.size.height = 600;
+						}
+					}
+					if (!('maximized' in json.global.lastState)) {
+						changed = true;
+						tempJson.global.lastState.maximized = false;
+					}
 				}
 				if (!('outputLocation' in json.global)) {
 					changed = true;
