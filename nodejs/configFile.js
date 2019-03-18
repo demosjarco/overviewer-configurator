@@ -1,134 +1,155 @@
 const { app, dialog } = require('electron');
 const fs = require('fs');
 
+let jsonSaveQueue = [];
+let permJson = {};
+function processJsonQueue() {
+	console.log(jsonSaveQueue.length);
+	let json = jsonSaveQueue.shift();
+	fs.writeFile(app.getPath('userData').replace(/\\/g, "/") + '/settings.json', JSON.stringify(json, null, 4), (err) => {
+		if (err) throw err;
+
+		if (jsonSaveQueue.length > 0)
+			processJsonQueue();
+	});
+}
+
 function getSavedJSON(jsonCallback) {
-	fs.readFile(app.getPath('userData').replace(/\\/g, "/") + '/settings.json', (err, data) => {
-		if (err) {
-			updatePreferencesFileIfNeeded(function (json) {
-				if (jsonCallback)
-					jsonCallback(json);
-			});
+	if (Object.keys(permJson).length > 0) {
+		updatePreferencesFileIfNeeded(function (json2) {
+			if (jsonCallback)
+				jsonCallback(json2);
+		}, permJson);
+	} else {
+		fs.readFile(app.getPath('userData').replace(/\\/g, "/") + '/settings.json', (err, data) => {
+			if (err) {
+				updatePreferencesFileIfNeeded(function (json) {
+					if (jsonCallback)
+						jsonCallback(json);
+				});
+			} else {
+				permJson = JSON.parse(data);
+				updatePreferencesFileIfNeeded(function (json) {
+					if (jsonCallback)
+						jsonCallback(json);
+				}, permJson);
+			}
+		});
+	}
+
+	function updatePreferencesFileIfNeeded(finishedCallback, json = {}) {
+		let tempJson = json;
+		let changed = false;
+		if (!('global' in json)) {
+			changed = true;
+			tempJson.global = {
+				caveDepthShading: true,
+				compressLevel: 2,
+				lastState: {
+					monitor: 0,
+					size: {
+						width: 800,
+						height: 600
+					},
+					maximized: false
+				},
+				outputLocation: null,
+				renderProgress: {
+					local: true,
+					web: false
+				},
+				worldsLocation: null
+			};
 		} else {
-			updatePreferencesFileIfNeeded(function (json) {
-				if (jsonCallback)
-					jsonCallback(json);
-			}, JSON.parse(data));
-		}
-		function updatePreferencesFileIfNeeded(finishedCallback, json = {}) {
-			let tempJson = json;
-			let changed = false;
-			if (!('global' in json)) {
+			if (!('caveDepthShading' in json.global)) {
 				changed = true;
-				tempJson.global = {
-					caveDepthShading: true,
-					compressLevel: 2,
-					lastState: {
-						monitor: 0,
-						size: {
-							width: 800,
-							height: 600
-						},
-						maximized: false
+				tempJson.global.caveDepthShading = true;
+			}
+			if (!('compressLevel' in json.global)) {
+				changed = true;
+				tempJson.global.compressLevel = 2;
+			}
+			if (!('lastState' in json.global)) {
+				changed = true;
+				tempJson.global.lastState = {
+					monitor: 0,
+					size: {
+						width: 800,
+						height: 600
 					},
-					outputLocation: null,
-					renderProgress: {
-						local: true,
-						web: false
-					},
-					worldsLocation: null
+					maximized: false
 				};
 			} else {
-				if (!('caveDepthShading' in json.global)) {
+				if (!('monitor' in json.global.lastState)) {
 					changed = true;
-					tempJson.global.caveDepthShading = true;
+					tempJson.global.lastState.monitor = 0;
 				}
-				if (!('compressLevel' in json.global)) {
+				if (!('size' in json.global.lastState)) {
 					changed = true;
-					tempJson.global.compressLevel = 2;
-				}
-				if (!('lastState' in json.global)) {
-					changed = true;
-					tempJson.global.lastState = {
-						monitor: 0,
-						size: {
-							width: 800,
-							height: 600
-						},
-						maximized: false
+					tempJson.global.lastState.size = {
+						width: 800,
+						height: 600
 					};
 				} else {
-					if (!('monitor' in json.global.lastState)) {
+					if (!('width' in json.global.lastState.size)) {
 						changed = true;
-						tempJson.global.lastState.monitor = 0;
+						tempJson.global.lastState.size.width = 800;
 					}
-					if (!('size' in json.global.lastState)) {
+					if (!('height' in json.global.lastState.size)) {
 						changed = true;
-						tempJson.global.lastState.size = {
-							width: 800,
-							height: 600
-						};
-					} else {
-						if (!('width' in json.global.lastState.size)) {
-							changed = true;
-							tempJson.global.lastState.size.width = 800;
-						}
-						if (!('height' in json.global.lastState.size)) {
-							changed = true;
-							tempJson.global.lastState.size.height = 600;
-						}
-					}
-					if (!('maximized' in json.global.lastState)) {
-						changed = true;
-						tempJson.global.lastState.maximized = false;
+						tempJson.global.lastState.size.height = 600;
 					}
 				}
-				if (!('outputLocation' in json.global)) {
+				if (!('maximized' in json.global.lastState)) {
 					changed = true;
-					tempJson.global.outputLocation = null;
-				}
-				if (!('renderProgress' in json.global)) {
-					changed = true;
-					tempJson.global.renderProgress = {
-						local: true,
-						web: false
-					};
-				} else {
-					if (!('local' in json.global.renderProgress)) {
-						changed = true;
-						tempJson.global.renderProgress.local = true;
-					}
-					if (!('web' in json.global.renderProgress)) {
-						changed = true;
-						tempJson.global.renderProgress.web = true;
-					}
-				}
-				if (!('worldsLocation' in json.global)) {
-					changed = true;
-					tempJson.global.worldsLocation = null;
+					tempJson.global.lastState.maximized = false;
 				}
 			}
-
-			if (!('worlds' in json)) {
+			if (!('outputLocation' in json.global)) {
 				changed = true;
-				tempJson.worlds = [];
+				tempJson.global.outputLocation = null;
 			}
-
-			if (changed)
-				fs.writeFile(app.getPath('userData').replace(/\\/g, "/") + '/settings.json', JSON.stringify(tempJson, null, 4), (err) => {
-					if (err) throw err;
-				});
-			if (finishedCallback)
-				finishedCallback(tempJson);
+			if (!('renderProgress' in json.global)) {
+				changed = true;
+				tempJson.global.renderProgress = {
+					local: true,
+					web: false
+				};
+			} else {
+				if (!('local' in json.global.renderProgress)) {
+					changed = true;
+					tempJson.global.renderProgress.local = true;
+				}
+				if (!('web' in json.global.renderProgress)) {
+					changed = true;
+					tempJson.global.renderProgress.web = true;
+				}
+			}
+			if (!('worldsLocation' in json.global)) {
+				changed = true;
+				tempJson.global.worldsLocation = null;
+			}
 		}
-	});
+
+		if (!('worlds' in json)) {
+			changed = true;
+			tempJson.worlds = [];
+		}
+
+		if (changed)
+			saveJSON(tempJson);
+		if (finishedCallback)
+			finishedCallback(tempJson);
+	}
 }
 // First time setup
 getSavedJSON();
 
 function saveJSON(updatedJSON) {
-	fs.writeFile(app.getPath('userData').replace(/\\/g, "/") + '/settings.json', JSON.stringify(updatedJSON, null, 4), (err) => {
-		if (err) throw err;
-	});
+	permJson = updatedJSON;
+	jsonSaveQueue.push(updatedJSON);
+	if (jsonSaveQueue.length == 1)
+		processJsonQueue();
 }
 
 module.exports.changedSetting = function (optionValue, settingType, optionKey1, optionKey2, optionKey3, optionKey4) {
