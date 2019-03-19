@@ -38,11 +38,19 @@ function updateOverviewerVersions(latestVersionCallback) {
 					if (property[0] == 'version') {
 						version.steps.forEach(function (step) {
 							if (step.name == 'upload') {
-								electron.addNewVersionMenu({
-									label: property[1], click() {
-										updateOverviewer(Object.values(step.urls)[0]);
-									}
-								});
+								if (Object.values(step.urls)[0]) {
+									electron.addNewVersionMenu({
+										label: property[1],
+										click() {
+											updateOverviewer(Object.values(step.urls)[0]);
+										}
+									});
+								} else {
+									electron.addNewVersionMenu({
+										label: property[1],
+										enabled: false
+									});
+								}
 								latestVersion = property[1];
 							}
 						});
