@@ -201,7 +201,7 @@ body main div.worldItem div.directions div.direction {
   background-size: 100% 100%;
   -webkit-filter: grayscale(100%);
   filter: grayscale(100%);
-  opacity: 0.76;
+  opacity: 0.5;
 }
 body main div.worldItem div.directions div.direction.selected {
   -webkit-filter: grayscale(0%);
