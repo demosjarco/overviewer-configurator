@@ -214,6 +214,43 @@ body {
 			button + span {
 				padding-left: 5px;
 			}
+
+			div.directions {
+				display: inline-flex;
+				float: right;
+
+				div.direction {
+					border: none;
+					width: 83px;
+					height: 43px;
+					background-size: 100% 100%;
+					-webkit-filter: grayscale(100%);
+					filter: grayscale(100%);
+					opacity: 0.76;
+
+					&.selected {
+						-webkit-filter: grayscale(0%);
+						filter: grayscale(0%);
+						opacity: 1;
+					}
+
+					&.ul {
+						background-image: url("../img/compass_upper-left.png");
+					}
+
+					&.ur {
+						background-image: url("../img/compass_upper-right.png");
+					}
+
+					&.ll {
+						background-image: url("../img/compass_lower-left.png");
+					}
+
+					&.lr {
+						background-image: url("../img/compass_lower-right.png");
+					}
+				}
+			}
 		}
 	}
 }

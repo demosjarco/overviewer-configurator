@@ -190,3 +190,33 @@ body main div.worldItem hr {
 body main div.worldItem button + span {
   padding-left: 5px;
 }
+body main div.worldItem div.directions {
+  display: inline-flex;
+  float: right;
+}
+body main div.worldItem div.directions div.direction {
+  border: none;
+  width: 83px;
+  height: 43px;
+  background-size: 100% 100%;
+  -webkit-filter: grayscale(100%);
+  filter: grayscale(100%);
+  opacity: 0.76;
+}
+body main div.worldItem div.directions div.direction.selected {
+  -webkit-filter: grayscale(0%);
+  filter: grayscale(0%);
+  opacity: 1;
+}
+body main div.worldItem div.directions div.direction.ul {
+  background-image: url("../img/compass_upper-left.png");
+}
+body main div.worldItem div.directions div.direction.ur {
+  background-image: url("../img/compass_upper-right.png");
+}
+body main div.worldItem div.directions div.direction.ll {
+  background-image: url("../img/compass_lower-left.png");
+}
+body main div.worldItem div.directions div.direction.lr {
+  background-image: url("../img/compass_lower-right.png");
+}
