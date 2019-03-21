@@ -1,4 +1,4 @@
-function selectedRenderDirection(direction) {
+function selectedRenderDirection(worldNickName, direction) {
 	console.log(direction);
 	if ($('main div.worldItem div.directions div.direction.' + direction).hasClass('selected')) {
 		console.log('was selected');
