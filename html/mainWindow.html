@@ -96,10 +96,12 @@
 					<td><pre>Loading...</pre></td>
 				</tr>
 			</table>
-			<h3>Render Directions</h3>
-			<hr />
-			<p></p>
-			<span>Upper Left</span><span>Upper Right</span><span>Lower Left</span><span>Lower Right</span>
+			<div class="directions">
+				<div onclick="selectedRenderDirection('ul')" class="direction ul selected"></div>
+				<div onclick="selectedRenderDirection('ur')" class="direction ur"></div>
+				<div onclick="selectedRenderDirection('ll')" class="direction ll"></div>
+				<div onclick="selectedRenderDirection('lr')" class="direction lr"></div>
+			</div>
 			<h3>Render Types</h3>
 			<hr />
 			<p></p>
