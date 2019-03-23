@@ -22,13 +22,11 @@ $(document).ready(function () {
 			});
 		});
 
-		si.mem().then(data => {
-			$('div#ramHistory div#ram5 div.progressBarInside').css('height', $('div#ramHistory div#ram4 div.progressBarInside').css('height'));
-			$('div#ramHistory div#ram4 div.progressBarInside').css('height', $('div#ramHistory div#ram3 div.progressBarInside').css('height'));
-			$('div#ramHistory div#ram3 div.progressBarInside').css('height', $('div#ramHistory div#ram2 div.progressBarInside').css('height'));
-			$('div#ramHistory div#ram2 div.progressBarInside').css('height', $('div#ramHistory div#ram1 div.progressBarInside').css('height'));
-			$('div#ramHistory div#ram1 div.progressBarInside').css('height', (data.active / data.total) * 100 + '%');
-		});
+		$('div#ramHistory div#ram5 div.progressBarInside').css('height', $('div#ramHistory div#ram4 div.progressBarInside').css('height'));
+		$('div#ramHistory div#ram4 div.progressBarInside').css('height', $('div#ramHistory div#ram3 div.progressBarInside').css('height'));
+		$('div#ramHistory div#ram3 div.progressBarInside').css('height', $('div#ramHistory div#ram2 div.progressBarInside').css('height'));
+		$('div#ramHistory div#ram2 div.progressBarInside').css('height', $('div#ramHistory div#ram1 div.progressBarInside').css('height'));
+		$('div#ramHistory div#ram1 div.progressBarInside').css('height', ((os.totalmem() - os.freemem()) / os.totalmem()) * 100 + '%');
 	}, 1000);
 
 	newVisualLog('Last ' + numVisibleMessages + ' messages will appear here');
