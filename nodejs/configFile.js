@@ -228,3 +228,120 @@ module.exports.outputFolderSelection = function () {
 		}
 	});
 }
+
+module.exports.updateWorldConfig = function (worldKey, worldName, worldPath, worldEnabled) {
+	getSavedJSON(function (json) {
+		let tempJSON = json;
+		if (!(worldKey in json.worlds)) {
+			json.worlds[worldKey] = {
+				directions: {
+					ul: true,
+					ur: false,
+					ll: false,
+					lr: false
+				},
+				enabled: true,
+				name: worldName,
+				path: worldPath,
+				renderTypes: {
+					day: true,
+					caves: true,
+					night: true,
+					minerals: true,
+					spawn: true,
+					nether: true,
+					end: true
+				},
+				updateMode: {
+					day: 0,
+					caves: 0,
+					night: 0,
+					minerals: 0,
+					spawn: 0,
+					nether: 0,
+					end: 0
+				}
+			}
+		} else {
+			if (!('directions' in json.worlds[worldKey])) {
+				json.worlds[worldKey].directions = {
+					ul: true,
+					ur: false,
+					ll: false,
+					lr: false
+				};
+			} else {
+				if (!('ul' in json.worlds[worldKey].directions))
+					json.worlds[worldKey].directions.ul = true;
+				if (!('ur' in json.worlds[worldKey].directions))
+					json.worlds[worldKey].directions.ur = false;
+				if (!('ll' in json.worlds[worldKey].directions))
+					json.worlds[worldKey].directions.ll = false;
+				if (!('lr' in json.worlds[worldKey].directions))
+					json.worlds[worldKey].directions.lr = false;
+			}
+			if (!('enabled' in json.worlds[worldKey]))
+				json.worlds[worldKey].enabled = true;
+			if (!('name' in json.worlds[worldKey]))
+				json.worlds[worldKey].name = worldName;
+			if (!('path' in json.worlds[worldKey]))
+				json.worlds[worldKey].path = worldPath;
+			if (!('renderTypes' in json.worlds[worldKey])) {
+				json.worlds[worldKey].renderTypes = {
+					day: true,
+					caves: true,
+					night: true,
+					minerals: true,
+					spawn: true,
+					nether: true,
+					end: true
+				};
+			} else {
+				if (!('day' in json.worlds[worldKey].renderTypes))
+					json.worlds[worldKey].renderTypes.day = true;
+				if (!('caves' in json.worlds[worldKey].renderTypes))
+					json.worlds[worldKey].renderTypes.caves = true;
+				if (!('night' in json.worlds[worldKey].renderTypes))
+					json.worlds[worldKey].renderTypes.night = true;
+				if (!('minerals' in json.worlds[worldKey].renderTypes))
+					json.worlds[worldKey].renderTypes.minerals = true;
+				if (!('spawn' in json.worlds[worldKey].renderTypes))
+					json.worlds[worldKey].renderTypes.spawn = true;
+				if (!('nether' in json.worlds[worldKey].renderTypes))
+					json.worlds[worldKey].renderTypes.nether = true;
+				if (!('end' in json.worlds[worldKey].renderTypes))
+					json.worlds[worldKey].renderTypes.end = true;
+			}
+			if (!('updateMode' in json.worlds[worldKey])) {
+				json.worlds[worldKey].updateMode = {
+					day: 0,
+					caves: 0,
+					night: 0,
+					minerals: 0,
+					spawn: 0,
+					nether: 0,
+					end: 0
+				};
+			} else {
+				if (!('day' in json.worlds[worldKey].updateMode))
+					json.worlds[worldKey].updateMode.day = 0;
+				if (!('caves' in json.worlds[worldKey].updateMode))
+					json.worlds[worldKey].updateMode.caves = 0;
+				if (!('night' in json.worlds[worldKey].updateMode))
+					json.worlds[worldKey].updateMode.night = 0;
+				if (!('minerals' in json.worlds[worldKey].updateMode))
+					json.worlds[worldKey].updateMode.minerals = 0;
+				if (!('spawn' in json.worlds[worldKey].updateMode))
+					json.worlds[worldKey].updateMode.spawn = 0;
+				if (!('nether' in json.worlds[worldKey].updateMode))
+					json.worlds[worldKey].updateMode.nether = 0;
+				if (!('end' in json.worlds[worldKey].updateMode))
+					json.worlds[worldKey].updateMode.end = 0;
+			}
+
+			if (worldEnabled)
+				json.worlds[worldKey].enabled = worldEnabled;
+		}
+		saveJSON(tempJSON);
+	});
+}
