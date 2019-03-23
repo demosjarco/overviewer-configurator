@@ -27,7 +27,8 @@ body aside {
   left: 0;
   width: 7.5%;
   padding: 15px 0px;
-  background-color: #36b030;
+  /*background-color: #36b030;*/
+  background-color: #2d6923;
   text-align: center;
 }
 body aside ul {
@@ -77,7 +78,8 @@ body aside ul li a:active {
 body aside ul li.worldItem a {
   width: 50%;
   border-radius: 12.5%;
-  background-color: #7F5512;
+  /*background-color: #7F5512;*/
+  background-color: #644533;
 }
 body main {
   right: 0;
