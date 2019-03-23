@@ -339,9 +339,6 @@ module.exports.updateWorldConfig = function (worldKey, worldName, worldPath, wor
 					json.worlds[worldKey].updateMode.end = 0;
 			}
 
-			if (worldEnabled)
-				json.worlds[worldKey].enabled = worldEnabled;
-
 			if (worldDirections) {
 				if (worldDirections.ul)
 					json.worlds[worldKey].directions.ul = worldDirections.ul;
@@ -352,6 +349,9 @@ module.exports.updateWorldConfig = function (worldKey, worldName, worldPath, wor
 				if (worldDirections.lr)
 					json.worlds[worldKey].directions.lr = worldDirections.lr;
 			}
+
+			if (worldEnabled)
+				json.worlds[worldKey].enabled = worldEnabled;
 		}
 		saveJSON(tempJSON);
 	});
