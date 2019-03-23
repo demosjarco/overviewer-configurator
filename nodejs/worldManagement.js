@@ -113,6 +113,6 @@ ipcMain.on('readWorlds', (event, arg) => {
 	});
 });
 
-ipcMain.on('updateWorldInfo', (event, worldDirections, worldEnabled) => {
+ipcMain.on('updateWorldInfo', (event, worldKey, worldDirections, worldEnabled) => {
 	config.updateWorldConfig(worldKey, null, null, worldDirections, worldEnabled);
 });
