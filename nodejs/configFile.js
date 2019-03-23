@@ -132,7 +132,7 @@ function getSavedJSON(jsonCallback) {
 
 		if (!('worlds' in json)) {
 			changed = true;
-			tempJson.worlds = [];
+			tempJson.worlds = {};
 		}
 
 		if (changed)
