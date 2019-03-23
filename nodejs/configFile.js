@@ -237,8 +237,8 @@ module.exports.updateWorldConfig = function (worldKey, worldName, worldPath, wor
 				directions: {
 					ul: true,
 					ur: false,
-					ll: false,
-					lr: false
+					lr: false,
+					ll: false
 				},
 				enabled: true,
 				name: worldName,
@@ -267,8 +267,8 @@ module.exports.updateWorldConfig = function (worldKey, worldName, worldPath, wor
 				json.worlds[worldKey].directions = {
 					ul: true,
 					ur: false,
-					ll: false,
-					lr: false
+					lr: false,
+					ll: false
 				};
 			} else {
 				if (!('ul' in json.worlds[worldKey].directions))
@@ -340,14 +340,14 @@ module.exports.updateWorldConfig = function (worldKey, worldName, worldPath, wor
 			}
 
 			if (worldDirections) {
-				if (worldDirections.ul)
+				if (('ul' in worldDirections))
 					json.worlds[worldKey].directions.ul = worldDirections.ul;
-				if (worldDirections.ur)
+				if (('ur' in worldDirections))
 					json.worlds[worldKey].directions.ur = worldDirections.ur;
-				if (worldDirections.ll)
-					json.worlds[worldKey].directions.ll = worldDirections.ll;
-				if (worldDirections.lr)
+				if (('lr' in worldDirections))
 					json.worlds[worldKey].directions.lr = worldDirections.lr;
+				if (('ll' in worldDirections))
+					json.worlds[worldKey].directions.ll = worldDirections.ll;
 			}
 
 			if (worldEnabled)
