@@ -109,6 +109,10 @@ ipcMain.on('readWorlds', (event, arg) => {
 				}
 				file1loop(files1[file1counter]);
 			});
+
+			function foundWorld(worldName, worldPath) {
+
+			}
 		}
 	});
 });
