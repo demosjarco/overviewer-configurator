@@ -106,6 +106,7 @@ ipcMain.on('readWorlds', (event, arg) => {
 					return nickname;
 				}
 
+				config.updateWorldConfig(worldNickName(worldName), worldName, worldPath);
 				event.sender.send('gotWorld', worldNickName(worldName), worldName, worldPath);
 			}
 		}
