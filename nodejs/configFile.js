@@ -229,7 +229,7 @@ module.exports.outputFolderSelection = function () {
 	});
 }
 
-module.exports.updateWorldConfig = function (worldKey, worldName, worldPath, worldEnabled) {
+module.exports.updateWorldConfig = function (worldKey, worldName, worldPath, worldDirections, worldEnabled) {
 	getSavedJSON(function (json) {
 		let tempJSON = json;
 		if (!(worldKey in json.worlds)) {
@@ -341,6 +341,17 @@ module.exports.updateWorldConfig = function (worldKey, worldName, worldPath, wor
 
 			if (worldEnabled)
 				json.worlds[worldKey].enabled = worldEnabled;
+
+			if (worldDirections) {
+				if (worldDirections.ul)
+					json.worlds[worldKey].directions.ul = worldDirections.ul;
+				if (worldDirections.ur)
+					json.worlds[worldKey].directions.ur = worldDirections.ur;
+				if (worldDirections.ll)
+					json.worlds[worldKey].directions.ll = worldDirections.ll;
+				if (worldDirections.lr)
+					json.worlds[worldKey].directions.lr = worldDirections.lr;
+			}
 		}
 		saveJSON(tempJSON);
 	});
