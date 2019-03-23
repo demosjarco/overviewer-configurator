@@ -26,9 +26,7 @@ ipcMain.on('readWorlds', (event, arg) => {
 				let file1counter = 0;
 				function file1loop(file1) {
 					if (file1.isFile() && file1.name == 'level.dat') {
-						let worldName = worldsPath.split('/').pop();
-						event.sender.send('gotWorld', worldNickName(worldName), worldName, worldsPath);
-
+						foundWorld(worldsPath.split('/').pop(), worldsPath);
 						nextLevel1();
 					} else if (file1.isDirectory()) {
 						// Level 2
@@ -38,9 +36,7 @@ ipcMain.on('readWorlds', (event, arg) => {
 								let file2counter = 0;
 								function file2loop(file2) {
 									if (file2.isFile() && file2.name == 'level.dat') {
-										let worldName = worldsPath.split('/').pop();
-										event.sender.send('gotWorld', worldNickName(worldName), worldName, worldsPath + '/' + file1.name);
-
+										foundWorld(worldsPath.split('/').pop(), worldsPath + '/' + file1.name);
 										nextLevel2();
 									} else if (file2.isDirectory()) {
 										// Go level 3
@@ -50,8 +46,7 @@ ipcMain.on('readWorlds', (event, arg) => {
 												let file3counter = 0;
 												function file3loop(file3) {
 													if (file3.isFile() && file3.name == 'level.dat') {
-														let worldName = (worldsPath + '/' + file1.name).split('/').pop();
-														event.sender.send('gotWorld', worldNickName(worldName), worldName, worldsPath + '/' + file1.name + '/' + file2.name);
+														foundWorld((worldsPath + '/' + file1.name).split('/').pop(), worldsPath + '/' + file1.name + '/' + file2.name)
 													}
 
 													nextLevel3();
@@ -111,6 +106,7 @@ ipcMain.on('readWorlds', (event, arg) => {
 					return nickname;
 				}
 
+				event.sender.send('gotWorld', worldNickName(worldName), worldName, worldPath);
 			}
 		}
 	});
