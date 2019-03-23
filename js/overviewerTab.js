@@ -12,14 +12,19 @@ $(document).ready(function () {
 	}
 
 	setInterval(function () {
-		si.cpuCurrentspeed().then(data => {
-			data.cores.forEach(function (coreSpeed, coreIndex) {
-				$('div#cpuCore' + coreIndex + ' div#cpuCore' + coreIndex + '-t5 div.progressBarInside').css('height', $('div#cpuCore' + coreIndex + ' div#cpuCore' + coreIndex + '-t4 div.progressBarInside').css('height'));
-				$('div#cpuCore' + coreIndex + ' div#cpuCore' + coreIndex + '-t4 div.progressBarInside').css('height', $('div#cpuCore' + coreIndex + ' div#cpuCore' + coreIndex + '-t3 div.progressBarInside').css('height'));
-				$('div#cpuCore' + coreIndex + ' div#cpuCore' + coreIndex + '-t3 div.progressBarInside').css('height', $('div#cpuCore' + coreIndex + ' div#cpuCore' + coreIndex + '-t2 div.progressBarInside').css('height'));
-				$('div#cpuCore' + coreIndex + ' div#cpuCore' + coreIndex + '-t2 div.progressBarInside').css('height', $('div#cpuCore' + coreIndex + ' div#cpuCore' + coreIndex + '-t1 div.progressBarInside').css('height'));
-				$('div#cpuCore' + coreIndex + ' div#cpuCore' + coreIndex + '-t1 div.progressBarInside').css('height', coreSpeed + '%');
+		os.cpus().forEach(function (coreInfo, coreIndex) {
+			let total = 0;
+			let used = 0;
+			Object.keys(coreInfo.times).forEach(function (type) {
+				total += coreInfo.times[type];
+				if (type != 'idle')
+					used += coreInfo.times[type];
 			});
+			$('div#cpuCore' + coreIndex + ' div#cpuCore' + coreIndex + '-t5 div.progressBarInside').css('height', $('div#cpuCore' + coreIndex + ' div#cpuCore' + coreIndex + '-t4 div.progressBarInside').css('height'));
+			$('div#cpuCore' + coreIndex + ' div#cpuCore' + coreIndex + '-t4 div.progressBarInside').css('height', $('div#cpuCore' + coreIndex + ' div#cpuCore' + coreIndex + '-t3 div.progressBarInside').css('height'));
+			$('div#cpuCore' + coreIndex + ' div#cpuCore' + coreIndex + '-t3 div.progressBarInside').css('height', $('div#cpuCore' + coreIndex + ' div#cpuCore' + coreIndex + '-t2 div.progressBarInside').css('height'));
+			$('div#cpuCore' + coreIndex + ' div#cpuCore' + coreIndex + '-t2 div.progressBarInside').css('height', $('div#cpuCore' + coreIndex + ' div#cpuCore' + coreIndex + '-t1 div.progressBarInside').css('height'));
+			$('div#cpuCore' + coreIndex + ' div#cpuCore' + coreIndex + '-t1 div.progressBarInside').css('height', (used / total) * 100 + '%');
 		});
 
 		$('div#ramHistory div#ram5 div.progressBarInside').css('height', $('div#ramHistory div#ram4 div.progressBarInside').css('height'));
