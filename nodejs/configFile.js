@@ -229,7 +229,7 @@ module.exports.outputFolderSelection = function () {
 	});
 }
 
-module.exports.updateWorldConfig = function (worldKey, worldName, worldPath, worldDirections, worldEnabled) {
+module.exports.updateWorldConfig = function (worldKey, worldName, worldPath, worldDirections, worldEnabled, renderTypes, updateMode) {
 	getSavedJSON(function (json) {
 		let tempJSON = json;
 		if (!(worldKey in json.worlds)) {
