@@ -14,3 +14,7 @@ function selectedRenderDirection(worldNickName, direction) {
 		ipcRenderer.send('updateWorldInfo', worldNickName, temp);
 	}
 }
+
+function selectedRenderType(worldNickName, renderType, enabled, renderMode) {
+
+}

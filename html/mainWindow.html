@@ -104,11 +104,11 @@
 			</div>
 			<h3>Render Types</h3>
 			<hr />
-			<input type="checkbox" id="">
+			<input type="checkbox" onchange="selectedRenderType('w', 'day', this.checked)" />
 			<details>
 				<summary>Day</summary>
 				<p>A normal render with smooth lighting, which looks similar to Minecraft with smooth lighting turned on.</p>
-				<select onchange="">
+				<select onchange="selectedRenderType('w', 'day', null, this.value)">
 					<option value="0">Normal</option>
 					<option value="1">Check Tiles</option>
 					<option value="2">Force Render</option>
@@ -116,11 +116,11 @@
 				</select>
 			</details>
 			<br>
-			<input type="checkbox" id="">
+			<input type="checkbox" onchange="selectedRenderType('w', 'caves', this.checked)" />
 			<details>
 				<summary>Caves</summary>
 				<p>A cave render with or without depth tinting (check overviewer tab for setting)</p>
-				<select onchange="">
+				<select onchange="selectedRenderType('w', 'caves', null, this.value)">
 					<option value="0">Normal</option>
 					<option value="1">Check Tiles</option>
 					<option value="2">Force Render</option>
@@ -128,11 +128,11 @@
 				</select>
 			</details>
 			<br>
-			<input type="checkbox" id="">
+			<input type="checkbox" onchange="selectedRenderType('w', 'night', this.checked)" />
 			<details>
 				<summary>Night</summary>
 				<p>A "nighttime" render with smooth lighting</p>
-				<select onchange="">
+				<select onchange="selectedRenderType('w', 'night', null, this.value)">
 					<option value="0">Normal</option>
 					<option value="1">Check Tiles</option>
 					<option value="2">Force Render</option>
@@ -140,11 +140,11 @@
 				</select>
 			</details>
 			<br>
-			<input type="checkbox" id="">
+			<input type="checkbox" onchange="selectedRenderType('w', 'minerals', this.checked)" />
 			<details>
 				<summary>Minerals</summary>
 				<p>Overlay that colors the map according to what minerals can be found underneath</p>
-				<select onchange="">
+				<select onchange="selectedRenderType('w', 'minerals', null, this.value)">
 					<option value="0">Normal</option>
 					<option value="1">Check Tiles</option>
 					<option value="2">Force Render</option>
@@ -152,11 +152,11 @@
 				</select>
 			</details>
 			<br>
-			<input type="checkbox" id="">
+			<input type="checkbox" onchange="selectedRenderType('w', 'spawn', this.checked)" />
 			<details>
 				<summary>Spawn</summary>
 				<p>Overlay that colors the map red in areas where monsters can spawn</p>
-				<select onchange="">
+				<select onchange="selectedRenderType('w', 'spawn', null, this.value)">
 					<option value="0">Normal</option>
 					<option value="1">Check Tiles</option>
 					<option value="2">Force Render</option>
@@ -164,11 +164,11 @@
 				</select>
 			</details>
 			<br>
-			<input type="checkbox" id="">
+			<input type="checkbox" onchange="selectedRenderType('w', 'nether', this.checked)" />
 			<details>
 				<summary>Nether</summary>
 				<p>A smooth lighting render of the nether</p>
-				<select onchange="">
+				<select onchange="selectedRenderType('w', 'nether', null, this.value)">
 					<option value="0">Normal</option>
 					<option value="1">Check Tiles</option>
 					<option value="2">Force Render</option>
@@ -176,11 +176,11 @@
 				</select>
 			</details>
 			<br>
-			<input type="checkbox" id="">
+			<input type="checkbox" onchange="selectedRenderType('w', 'end', this.checked)" />
 			<details>
 				<summary>End</summary>
 				<p>A smooth lighting render of the end</p>
-				<select onchange="">
+				<select onchange="selectedRenderType('w', 'end', null, this.value)">
 					<option value="0">Normal</option>
 					<option value="1">Check Tiles</option>
 					<option value="2">Force Render</option>
