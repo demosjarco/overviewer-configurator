@@ -352,6 +352,40 @@ module.exports.updateWorldConfig = function (worldKey, worldName, worldPath, wor
 
 			if (worldEnabled)
 				json.worlds[worldKey].enabled = worldEnabled;
+
+			if (renderTypes) {
+				if (('day' in renderTypes))
+					json.worlds[worldKey].renderTypes.day = renderTypes.day;
+				if (('caves' in renderTypes))
+					json.worlds[worldKey].renderTypes.caves = renderTypes.caves;
+				if (('night' in renderTypes))
+					json.worlds[worldKey].renderTypes.night = renderTypes.night;
+				if (('minerals' in renderTypes))
+					json.worlds[worldKey].renderTypes.minerals = renderTypes.minerals;
+				if (('spawn' in renderTypes))
+					json.worlds[worldKey].renderTypes.spawn = renderTypes.spawn;
+				if (('nether' in renderTypes))
+					json.worlds[worldKey].renderTypes.nether = renderTypes.nether;
+				if (('end' in renderTypes))
+					json.worlds[worldKey].renderTypes.end = renderTypes.end;
+			}
+
+			if (updateMode) {
+				if (('day' in updateMode))
+					json.worlds[worldKey].updateMode.day = updateMode.day;
+				if (('caves' in updateMode))
+					json.worlds[worldKey].updateMode.caves = updateMode.caves;
+				if (('night' in updateMode))
+					json.worlds[worldKey].updateMode.night = updateMode.night;
+				if (('minerals' in updateMode))
+					json.worlds[worldKey].updateMode.minerals = updateMode.minerals;
+				if (('spawn' in updateMode))
+					json.worlds[worldKey].updateMode.spawn = updateMode.spawn;
+				if (('nether' in updateMode))
+					json.worlds[worldKey].updateMode.nether = updateMode.nether;
+				if (('end' in updateMode))
+					json.worlds[worldKey].updateMode.end = updateMode.end;
+			}
 		}
 		saveJSON(tempJSON);
 	});
