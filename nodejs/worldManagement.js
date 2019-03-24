@@ -99,7 +99,7 @@ ipcMain.on('readWorlds', (event, arg) => {
 
 			function foundWorld(worldName, worldPath) {
 				function worldNickName(worldName) {
-					var nickname = "";
+					let nickname = "";
 					worldName.split(" ").forEach(function (namePart) {
 						nickname += namePart.charAt(namePart.search(/[0-9a-z]/i)).toLowerCase();
 					});
