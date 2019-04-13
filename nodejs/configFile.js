@@ -151,10 +151,12 @@ function saveJSON(updatedJSON) {
 		processJsonQueue();
 }
 
-module.exports.changedSetting = function (optionValue, settingType, optionKey1, optionKey2, optionKey3, optionKey4) {
+module.exports.changedSetting = function (optionValue, settingType, optionKey1, optionKey2, optionKey3, optionKey4, optionKey5) {
 	getSavedJSON(function (json) {
 		let tempJSON = json;
-		if (optionKey1 && optionKey2 && optionKey3 && optionKey4) {
+		if (optionKey1 && optionKey2 && optionKey3 && optionKey4 && optionKey5) {
+			tempJSON[settingType][optionKey1][optionKey2][optionKey3][optionKey4][optionKey5] = optionValue;
+		} else if (optionKey1 && optionKey2 && optionKey3 && optionKey4) {
 			tempJSON[settingType][optionKey1][optionKey2][optionKey3][optionKey4] = optionValue;
 		} else if (optionKey1 && optionKey2 && optionKey3) {
 			tempJSON[settingType][optionKey1][optionKey2][optionKey3] = optionValue;
