@@ -248,6 +248,7 @@ module.exports.updateWorldConfig = function (worldKey, worldName, worldPath, wor
 				renderTypes: {
 					day: {
 						enabled: true,
+						smoothLighting: true,
 						updateMode: 0
 					},
 					caves: {
@@ -256,6 +257,7 @@ module.exports.updateWorldConfig = function (worldKey, worldName, worldPath, wor
 					},
 					night: {
 						enabled: true,
+						smoothLighting: true,
 						updateMode: 0
 					},
 					minerals: {
@@ -268,10 +270,12 @@ module.exports.updateWorldConfig = function (worldKey, worldName, worldPath, wor
 					},
 					nether: {
 						enabled: true,
+						smoothLighting: true,
 						updateMode: 0
 					},
 					end: {
 						enabled: true,
+						smoothLighting: true,
 						updateMode: 0
 					}
 				}
@@ -304,6 +308,7 @@ module.exports.updateWorldConfig = function (worldKey, worldName, worldPath, wor
 				json.worlds[worldKey].renderTypes = {
 					day: {
 						enabled: true,
+						smoothLighting: true,
 						updateMode: 0
 					},
 					caves: {
@@ -312,6 +317,7 @@ module.exports.updateWorldConfig = function (worldKey, worldName, worldPath, wor
 					},
 					night: {
 						enabled: true,
+						smoothLighting: true,
 						updateMode: 0
 					},
 					minerals: {
@@ -324,10 +330,12 @@ module.exports.updateWorldConfig = function (worldKey, worldName, worldPath, wor
 					},
 					nether: {
 						enabled: true,
+						smoothLighting: true,
 						updateMode: 0
 					},
 					end: {
 						enabled: true,
+						smoothLighting: true,
 						updateMode: 0
 					}
 				};
@@ -335,11 +343,15 @@ module.exports.updateWorldConfig = function (worldKey, worldName, worldPath, wor
 				if (!('day' in json.worlds[worldKey].renderTypes)) {
 					json.worlds[worldKey].renderTypes.day = {
 						enabled: true,
+						smoothLighting: true,
 						updateMode: 0
 					};
 				} else {
 					if (!('enabled' in json.worlds[worldKey].renderTypes.day))
 						json.worlds[worldKey].renderTypes.day.enabled = true;
+
+					if (!('smoothLighting' in json.worlds[worldKey].renderTypes.day))
+						json.worlds[worldKey].renderTypes.day.smoothLighting = true;
 
 					if (!('updateMode' in json.worlds[worldKey].renderTypes.day))
 						json.worlds[worldKey].renderTypes.day.updateMode = 0;
@@ -359,11 +371,15 @@ module.exports.updateWorldConfig = function (worldKey, worldName, worldPath, wor
 				if (!('night' in json.worlds[worldKey].renderTypes)) {
 					json.worlds[worldKey].renderTypes.night = {
 						enabled: true,
+						smoothLighting: true,
 						updateMode: 0
 					};
 				} else {
 					if (!('enabled' in json.worlds[worldKey].renderTypes.night))
 						json.worlds[worldKey].renderTypes.night.enabled = true;
+
+					if (!('smoothLighting' in json.worlds[worldKey].renderTypes.night))
+						json.worlds[worldKey].renderTypes.night.smoothLighting = true;
 
 					if (!('updateMode' in json.worlds[worldKey].renderTypes.night))
 						json.worlds[worldKey].renderTypes.night.updateMode = 0;
@@ -395,11 +411,15 @@ module.exports.updateWorldConfig = function (worldKey, worldName, worldPath, wor
 				if (!('nether' in json.worlds[worldKey].renderTypes)) {
 					json.worlds[worldKey].renderTypes.nether = {
 						enabled: true,
+						smoothLighting: true,
 						updateMode: 0
 					};
 				} else {
 					if (!('enabled' in json.worlds[worldKey].renderTypes.nether))
 						json.worlds[worldKey].renderTypes.nether.enabled = true;
+
+					if (!('smoothLighting' in json.worlds[worldKey].renderTypes.nether))
+						json.worlds[worldKey].renderTypes.nether.smoothLighting = true;
 
 					if (!('updateMode' in json.worlds[worldKey].renderTypes.nether))
 						json.worlds[worldKey].renderTypes.nether.updateMode = 0;
@@ -407,11 +427,15 @@ module.exports.updateWorldConfig = function (worldKey, worldName, worldPath, wor
 				if (!('end' in json.worlds[worldKey].renderTypes)) {
 					json.worlds[worldKey].renderTypes.end = {
 						enabled: true,
+						smoothLighting: true,
 						updateMode: 0
 					};
 				} else {
 					if (!('enabled' in json.worlds[worldKey].renderTypes.end))
 						json.worlds[worldKey].renderTypes.end.enabled = true;
+
+					if (!('smoothLighting' in json.worlds[worldKey].renderTypes.end))
+						json.worlds[worldKey].renderTypes.end.smoothLighting = true;
 
 					if (!('updateMode' in json.worlds[worldKey].renderTypes.end))
 						json.worlds[worldKey].renderTypes.end.updateMode = 0;
