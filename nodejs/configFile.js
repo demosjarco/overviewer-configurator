@@ -679,7 +679,7 @@ function createPyConfigFile(json, timestamp) {
 					} else {
 						overviewerConfigFile += '\t"rendermode": "lighting",\n';
 					}
-					overviewerConfigFile += '\t"markers": regularMarkers\n';
+					overviewerConfigFile += '\t"markers": regularMarkers,\n';
 					overviewerConfigFile += '\t"renderchecks": ' + worldInfo.renderTypes.day.updateMode + ',\n';
 					overviewerConfigFile += '}\n';
 				}
@@ -719,7 +719,7 @@ function createPyConfigFile(json, timestamp) {
 					overviewerConfigFile += '\t"world": "' + worldInfo.name + '",\n';
 					overviewerConfigFile += '\t"title": "Caves",\n';
 					overviewerConfigFile += '\t"rendermode": "cave_custom",\n';
-					overviewerConfigFile += '\t"markers": caveMarkers\n';
+					overviewerConfigFile += '\t"markers": caveMarkers,\n';
 					overviewerConfigFile += '\t"renderchecks": ' + worldInfo.renderTypes.caves.updateMode + ',\n';
 					overviewerConfigFile += '}\n';
 				}
@@ -763,7 +763,7 @@ function createPyConfigFile(json, timestamp) {
 					} else {
 						overviewerConfigFile += '\t"rendermode": "night",\n';
 					}
-					overviewerConfigFile += '\t"markers": regularMarkers\n';
+					overviewerConfigFile += '\t"markers": regularMarkers,\n';
 					overviewerConfigFile += '\t"renderchecks": ' + worldInfo.renderTypes.night.updateMode + ',\n';
 					overviewerConfigFile += '}\n';
 				}
@@ -898,7 +898,7 @@ function createPyConfigFile(json, timestamp) {
 					} else {
 						overviewerConfigFile += '\t"rendermode": "lighter_nether_lighting",\n';
 					}
-					overviewerConfigFile += '\t"markers": netherMarkers\n';
+					overviewerConfigFile += '\t"markers": netherMarkers,\n';
 					overviewerConfigFile += '\t"renderchecks": ' + worldInfo.renderTypes.nether.updateMode + ',\n';
 					overviewerConfigFile += '}\n';
 				}
@@ -943,7 +943,7 @@ function createPyConfigFile(json, timestamp) {
 					} else {
 						overviewerConfigFile += '\t"rendermode": "end_lighting",\n';
 					}
-					overviewerConfigFile += '\t"markers": endMarkers\n';
+					overviewerConfigFile += '\t"markers": endMarkers,\n';
 					overviewerConfigFile += '\t"renderchecks": ' + worldInfo.renderTypes.end.updateMode + ',\n';
 					overviewerConfigFile += '}\n';
 				}
