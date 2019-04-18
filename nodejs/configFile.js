@@ -718,7 +718,7 @@ function createPyConfigFile(json, timestamp) {
 					}
 					overviewerConfigFile += '\t"world": "' + worldInfo.name + '",\n';
 					overviewerConfigFile += '\t"title": "Caves",\n';
-					overviewerConfigFile += '\t"rendermode": "cave_custom",\n';
+					overviewerConfigFile += '\t"rendermode": cave_custom,\n';
 					overviewerConfigFile += '\t"markers": caveMarkers,\n';
 					overviewerConfigFile += '\t"renderchecks": ' + worldInfo.renderTypes.caves.updateMode + ',\n';
 					overviewerConfigFile += '}\n';
@@ -894,9 +894,9 @@ function createPyConfigFile(json, timestamp) {
 					overviewerConfigFile += '\t"title": "Nether",\n';
 					overviewerConfigFile += '\t"dimension": "nether",\n';
 					if (worldInfo.renderTypes.nether.smoothLighting) {
-						overviewerConfigFile += '\t"rendermode": "lighter_nether_smooth_lighting",\n';
+						overviewerConfigFile += '\t"rendermode": lighter_nether_smooth_lighting,\n';
 					} else {
-						overviewerConfigFile += '\t"rendermode": "lighter_nether_lighting",\n';
+						overviewerConfigFile += '\t"rendermode": lighter_nether_lighting,\n';
 					}
 					overviewerConfigFile += '\t"markers": netherMarkers,\n';
 					overviewerConfigFile += '\t"renderchecks": ' + worldInfo.renderTypes.nether.updateMode + ',\n';
@@ -939,9 +939,9 @@ function createPyConfigFile(json, timestamp) {
 					overviewerConfigFile += '\t"title": "End",\n';
 					overviewerConfigFile += '\t"dimension": "end",\n';
 					if (worldInfo.renderTypes.end.smoothLighting) {
-						overviewerConfigFile += '\t"rendermode": "end_smooth_lighting",\n';
+						overviewerConfigFile += '\t"rendermode": end_smooth_lighting,\n';
 					} else {
-						overviewerConfigFile += '\t"rendermode": "end_lighting",\n';
+						overviewerConfigFile += '\t"rendermode": end_lighting,\n';
 					}
 					overviewerConfigFile += '\t"markers": endMarkers,\n';
 					overviewerConfigFile += '\t"renderchecks": ' + worldInfo.renderTypes.end.updateMode + ',\n';
