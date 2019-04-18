@@ -1,6 +1,6 @@
 const { ipcRenderer } = require('electron');
 
-$(document).ready(function () {
+$(function () {
 	$("#tabs").tabs();
 	$('aside ul li a').height($(window).width() * 0.0375);
 	$('aside ul li a').css('line-height', ($(window).width() * 0.0375) + 'px');
