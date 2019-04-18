@@ -507,13 +507,447 @@ module.exports.updateWorldConfig = function (worldKey, worldName, worldPath, wor
 
 let pyConfigFileQueue = [];
 function processPyConfigFileQueue() {
-	let timestamp = jsonSaveQueue.shift();
+	let timestamp = pyConfigFileQueue.shift();
 
+	fs.writeFile(app.getPath('userData').replace(/\\/g, "/") + '/config.py', createPyConfigFile(permJson, timestamp), (err) => {
+		if (err) throw err;
+
+		if (pyConfigFileQueue.length > 0)
+			processPyConfigFileQueue();
+	});
+}
+function savePyConfigFile() {
+	pyConfigFileQueue.push(new Date());
 	if (pyConfigFileQueue.length > 0)
 		processPyConfigFileQueue();
 }
-function savePyConfigFile(timestamp = new Date()) {
-	pyConfigFileQueue.push(timestamp);
-	if (pyConfigFileQueue.length > 0)
-		processPyConfigFileQueue();
+
+function createPyConfigFile(json, timestamp) {
+	let overviewerConfigFile = '# Created on ' + timestamp.toLocaleDateString() + ' ' + timestamp.toLocaleTimeString() + ' with Overviewer Config v' + require('../package.json').version + '\n';
+
+	// Create worlds disctionary
+	Object.values(json.worlds).forEach(function (worldInfo) {
+		if (worldInfo.enabled)
+			overviewerConfigFile += 'worlds["' + worldInfo.name + '"] = "' + worldInfo.path + '"\n';
+	});
+
+	overviewerConfigFile += '\n';
+
+	// General Config
+	overviewerConfigFile += 'outputdir = "' + json.global.outputLocation + '"\n';
+	//overviewerConfigFile += 'customwebassets = "../web_assets"\n';
+	overviewerConfigFile += 'bgcolor = "#000000"\n';
+	overviewerConfigFile += 'end_lighting = [Base(), EdgeLines(), Lighting(strength=0.5)]\n';
+	overviewerConfigFile += 'end_smooth_lighting = [Base(), EdgeLines(), SmoothLighting(strength=0.5)]\n';
+	overviewerConfigFile += 'lighter_nether_lighting = [Base(), EdgeLines(), Nether(), Lighting(strength=0.5)]\n';
+	overviewerConfigFile += 'lighter_nether_smooth_lighting = [Base(), EdgeLines(), Nether(), SmoothLighting(strength=0.5)]\n';
+
+	if (json.global.caveDepthShading) {
+		overviewerConfigFile += 'cave_custom = "cave"\n';
+	} else {
+		overviewerConfigFile += 'cave_custom = [Base(), EdgeLines(), Cave()]\n';
+	}
+
+	overviewerConfigFile += '\n';
+
+	// Progress
+	if (json.global.renderProgress.local && json.global.renderProgress.web) {
+		overviewerConfigFile += 'from observer import MultiplexingObserver, LoggingObserver, JSObserver\n';
+		overviewerConfigFile += 'observer = MultiplexingObserver(LoggingObserver(), JSObserver(outputdir, 10))\n';
+		overviewerConfigFile += '\n';
+	} else if (json.global.renderProgress.web) {
+		overviewerConfigFile += 'from observer import JSObserver\n';
+		overviewerConfigFile += 'observer = JSObserver(outputdir, 10)\n';
+		overviewerConfigFile += '\n';
+	} else if (json.global.renderProgress.local) {
+		overviewerConfigFile += 'from observer import LoggingObserver\n';
+		overviewerConfigFile += 'observer = LoggingObserver()\n';
+		overviewerConfigFile += '\n';
+	}
+
+	if (json.global.compressLevel > 0) {
+		overviewerConfigFile += 'from optimizeimages import oxipng\n';
+		overviewerConfigFile += 'optimizeimg = [oxipng(olevel=' + json.global.compressLevel + ')]\n\n';
+		overviewerConfigFile += '\n';
+	}
+
+	// Markers
+	overviewerConfigFile += 'def signIcons(poi):\n';
+	overviewerConfigFile += '\t\tif poi["id"] == "Sign" or poi["id"] == "minecraft:sign":\n';
+	overviewerConfigFile += '\t\t\treturn "\\n".join([poi["Text1"], poi["Text2"], poi["Text3"], poi["Text4"]])\n';
+
+	overviewerConfigFile += '\n';
+
+	overviewerConfigFile += 'def caveSignIcons(poi):\n';
+	overviewerConfigFile += '\tif poi["id"] == "Sign" or poi["id"] == "minecraft:sign":\n';
+	overviewerConfigFile += '\t\tif poi["z"] <= 128:\n';
+	overviewerConfigFile += '\t\t\treturn "\\n".join([poi["Text1"], poi["Text2"], poi["Text3"], poi["Text4"]])\n';
+
+	overviewerConfigFile += '\n';
+
+	overviewerConfigFile += 'def chestIcons(poi):\n';
+	overviewerConfigFile += '\tif poi["id"] == "Chest":\n';
+	overviewerConfigFile += '\t\tif not "Items" in poi:\n';
+	overviewerConfigFile += '\t\t\treturn "Chest with items"\n';
+	overviewerConfigFile += '\t\telse:\n';
+	overviewerConfigFile += '\t\t\treturn "Chest with %d items" % len(poi["Items"])\n';
+
+	overviewerConfigFile += '\n';
+
+	overviewerConfigFile += 'def caveChestIcons(poi):\n';
+	overviewerConfigFile += '\tif poi["id"] == "Chest":\n';
+	overviewerConfigFile += '\t\tif poi["z"] <= 128:\n';
+	overviewerConfigFile += '\t\t\tif not "Items" in poi:\n';
+	overviewerConfigFile += '\t\t\t\treturn "Chest with items"\n';
+	overviewerConfigFile += '\t\t\telse:\n';
+	overviewerConfigFile += '\t\t\t\treturn "Chest with %d items" % len(poi["Items"])\n';
+
+	overviewerConfigFile += '\n';
+
+	overviewerConfigFile += 'def playerIcons(poi):\n';
+	overviewerConfigFile += '\tif poi["id"] == "Player":\n';
+	overviewerConfigFile += '\t\tpoi["icon"] = "https://overviewer.org/avatar/%s" % poi["EntityId"]\n';
+	overviewerConfigFile += '\t\treturn "Last known location for %s" % poi["EntityId"]\n';
+
+	overviewerConfigFile += '\n';
+
+	overviewerConfigFile += 'def cavePlayerIcons(poi):\n';
+	overviewerConfigFile += '\tif poi["id"] == "Player":\n';
+	overviewerConfigFile += '\t\tif poi["z"] <= 128:\n';
+	overviewerConfigFile += '\t\t\tpoi["icon"] = "https://overviewer.org/avatar/%s" % poi["EntityId"]\n';
+	overviewerConfigFile += '\t\t\treturn "Last known location for %s" % poi["EntityId"]\n';
+
+	overviewerConfigFile += '\n';
+
+	overviewerConfigFile += 'signFilter = dict(name="Signs", filterFunction=signIcons)\n';
+	overviewerConfigFile += 'caveSignFilter = dict(name="Signs", filterFunction=caveSignIcons)\n';
+	overviewerConfigFile += 'chestFilter = dict(name="Chests", filterFunction=chestIcons, icon="chest.png", createInfoWindow=True)\n';
+	overviewerConfigFile += 'caveChestFilter = dict(name="Chests", filterFunction=caveChestIcons, icon="chest.png", createInfoWindow=True)\n';
+	overviewerConfigFile += 'playerFilter = dict(name="Players", filterFunction=playerIcons, checked=True)\n';
+	overviewerConfigFile += 'cavePlayerFilter = dict(name="Players", filterFunction=cavePlayerIcons, checked=True)\n';
+
+	overviewerConfigFile += '\n';
+
+	overviewerConfigFile += 'regularMarkers = [signFilter, chestFilter, playerFilter]\n';
+	overviewerConfigFile += 'caveMarkers = [caveSignFilter, caveChestFilter, cavePlayerFilter]\n';
+	overviewerConfigFile += 'netherMarkers = regularMarkers\n';
+	overviewerConfigFile += 'endMarkers = regularMarkers\n';
+
+	// World Config Setup
+	Object.values(json.worlds).forEach(function (worldInfo, worldIndex) {
+		if (worldInfo.enabled) {
+			overviewerConfigFile += '\n';
+			overviewerConfigFile += '###\t' + worldInfo.name + '\n';
+
+			if (worldInfo.renderTypes.day.enabled) {
+				overviewerConfigFile += '##\tDay\n';
+				if (worldInfo.directions.ul)
+					renderDirection("ul", worldInfo);
+				if (worldInfo.directions.ur)
+					renderDirection("ur", worldInfo);
+				if (worldInfo.directions.lr)
+					renderDirection("lr", worldInfo);
+				if (worldInfo.directions.ll)
+					renderDirection("ll", worldInfo);
+
+				function renderDirection(direction) {
+					overviewerConfigFile += 'renders["' + Object.keys(json.worlds)[worldIndex] + '-' + direction + '-day"] = {\n';
+					switch (direction) {
+						case "ur":
+							overviewerConfigFile += '#\tUpper Right\n';
+							overviewerConfigFile += '\t"northdirection": "upper-right",\n';
+							break;
+						case "ll":
+							overviewerConfigFile += '#\tLower Left\n';
+							overviewerConfigFile += '\t"northdirection": "lower-left",\n';
+							break;
+						case "lr":
+							overviewerConfigFile += '#\tLower Right\n';
+							overviewerConfigFile += '\t"northdirection": "lower-right",\n';
+							break;
+						default:
+							overviewerConfigFile += '#\tUpper Left\n';
+							overviewerConfigFile += '\t"northdirection": "upper-left",\n';
+							break;
+					}
+					overviewerConfigFile += '\t"world": "' + worldInfo.name + '",\n';
+					overviewerConfigFile += '\t"title": "Day",\n';
+					if (worldInfo.renderTypes.day.smoothLighting) {
+						overviewerConfigFile += '\t"rendermode": "smooth_lighting",\n';
+					} else {
+						overviewerConfigFile += '\t"rendermode": "lighting",\n';
+					}
+					overviewerConfigFile += '\t"markers": regularMarkers\n';
+					overviewerConfigFile += '\t"renderchecks": ' + worldInfo.renderTypes.day.updateMode + ',\n';
+					overviewerConfigFile += '}\n';
+				}
+			}
+
+			if (worldInfo.renderTypes.caves.enabled) {
+				overviewerConfigFile += '##\tCaves\n';
+				if (worldInfo.directions.ul)
+					renderDirection("ul", worldInfo);
+				if (worldInfo.directions.ur)
+					renderDirection("ur", worldInfo);
+				if (worldInfo.directions.lr)
+					renderDirection("lr", worldInfo);
+				if (worldInfo.directions.ll)
+					renderDirection("ll", worldInfo);
+
+				function renderDirection(direction) {
+					overviewerConfigFile += 'renders["' + Object.keys(json.worlds)[worldIndex] + '-' + direction + '-caves"] = {\n';
+					switch (direction) {
+						case "ur":
+							overviewerConfigFile += '#\tUpper Right\n';
+							overviewerConfigFile += '\t"northdirection": "upper-right",\n';
+							break;
+						case "ll":
+							overviewerConfigFile += '#\tLower Left\n';
+							overviewerConfigFile += '\t"northdirection": "lower-left",\n';
+							break;
+						case "lr":
+							overviewerConfigFile += '#\tLower Right\n';
+							overviewerConfigFile += '\t"northdirection": "lower-right",\n';
+							break;
+						default:
+							overviewerConfigFile += '#\tUpper Left\n';
+							overviewerConfigFile += '\t"northdirection": "upper-left",\n';
+							break;
+					}
+					overviewerConfigFile += '\t"world": "' + worldInfo.name + '",\n';
+					overviewerConfigFile += '\t"title": "Caves",\n';
+					overviewerConfigFile += '\t"rendermode": "cave_custom",\n';
+					overviewerConfigFile += '\t"markers": caveMarkers\n';
+					overviewerConfigFile += '\t"renderchecks": ' + worldInfo.renderTypes.caves.updateMode + ',\n';
+					overviewerConfigFile += '}\n';
+				}
+			}
+
+			if (worldInfo.renderTypes.night.enabled) {
+				overviewerConfigFile += '##\tNight\n';
+				if (worldInfo.directions.ul)
+					renderDirection("ul", worldInfo);
+				if (worldInfo.directions.ur)
+					renderDirection("ur", worldInfo);
+				if (worldInfo.directions.lr)
+					renderDirection("lr", worldInfo);
+				if (worldInfo.directions.ll)
+					renderDirection("ll", worldInfo);
+
+				function renderDirection(direction) {
+					overviewerConfigFile += 'renders["' + Object.keys(json.worlds)[worldIndex] + '-' + direction + '-night"] = {\n';
+					switch (direction) {
+						case "ur":
+							overviewerConfigFile += '#\tUpper Right\n';
+							overviewerConfigFile += '\t"northdirection": "upper-right",\n';
+							break;
+						case "ll":
+							overviewerConfigFile += '#\tLower Left\n';
+							overviewerConfigFile += '\t"northdirection": "lower-left",\n';
+							break;
+						case "lr":
+							overviewerConfigFile += '#\tLower Right\n';
+							overviewerConfigFile += '\t"northdirection": "lower-right",\n';
+							break;
+						default:
+							overviewerConfigFile += '#\tUpper Left\n';
+							overviewerConfigFile += '\t"northdirection": "upper-left",\n';
+							break;
+					}
+					overviewerConfigFile += '\t"world": "' + worldInfo.name + '",\n';
+					overviewerConfigFile += '\t"title": "Night",\n';
+					if (worldInfo.renderTypes.night.smoothLighting) {
+						overviewerConfigFile += '\t"rendermode": "smooth_night",\n';
+					} else {
+						overviewerConfigFile += '\t"rendermode": "night",\n';
+					}
+					overviewerConfigFile += '\t"markers": regularMarkers\n';
+					overviewerConfigFile += '\t"renderchecks": ' + worldInfo.renderTypes.night.updateMode + ',\n';
+					overviewerConfigFile += '}\n';
+				}
+			}
+
+			if (worldInfo.renderTypes.minerals.enabled || worldInfo.renderTypes.spawn.enabled) overviewerConfigFile += '###\tOverlays\n';
+
+			if (worldInfo.renderTypes.minerals.enabled) {
+				overviewerConfigFile += '##\tMinerals\n';
+				if (worldInfo.directions.ul)
+					renderDirection("ul", worldInfo);
+				if (worldInfo.directions.ur)
+					renderDirection("ur", worldInfo);
+				if (worldInfo.directions.lr)
+					renderDirection("lr", worldInfo);
+				if (worldInfo.directions.ll)
+					renderDirection("ll", worldInfo);
+
+				function renderDirection(direction) {
+					overviewerConfigFile += 'renders["' + Object.keys(json.worlds)[worldIndex] + '-' + direction + '-minerals"] = {\n';
+					switch (direction) {
+						case "ur":
+							overviewerConfigFile += '#\tUpper Right\n';
+							overviewerConfigFile += '\t"northdirection": "upper-right",\n';
+							break;
+						case "ll":
+							overviewerConfigFile += '#\tLower Left\n';
+							overviewerConfigFile += '\t"northdirection": "lower-left",\n';
+							break;
+						case "lr":
+							overviewerConfigFile += '#\tLower Right\n';
+							overviewerConfigFile += '\t"northdirection": "lower-right",\n';
+							break;
+						default:
+							overviewerConfigFile += '#\tUpper Left\n';
+							overviewerConfigFile += '\t"northdirection": "upper-left",\n';
+							break;
+					}
+					overviewerConfigFile += '\t"world": "' + worldInfo.name + '",\n';
+					overviewerConfigFile += '\t"title": "Minerals",\n';
+					overviewerConfigFile += '\t"rendermode": [ClearBase(), MineralOverlay()],\n';
+					var overlay = '[';
+					if (worldInfo.renderTypes.day.enabled) overlay += '"' + Object.keys(json.worlds)[worldIndex] + '-' + direction + '-day",';
+					if (worldInfo.renderTypes.caves.enabled) overlay += '"' + Object.keys(json.worlds)[worldIndex] + '-' + direction + '-caves",';
+					if (worldInfo.renderTypes.night.enabled) overlay += '"' + Object.keys(json.worlds)[worldIndex] + '-' + direction + '-night",';
+					overviewerConfigFile += '\t"overlay": ' + overlay.substring(0, overlay.length - 1) + '],\n';
+					overviewerConfigFile += '\t"renderchecks": ' + worldInfo.renderTypes.minerals.updateMode + ',\n';
+					overviewerConfigFile += '}\n';
+				}
+			}
+
+			if (worldInfo.renderTypes.spawn.enabled) {
+				overviewerConfigFile += '##\tMob Spawn\n';
+				if (worldInfo.directions.ul)
+					renderDirection("ul", worldInfo);
+				if (worldInfo.directions.ur)
+					renderDirection("ur", worldInfo);
+				if (worldInfo.directions.lr)
+					renderDirection("lr", worldInfo);
+				if (worldInfo.directions.ll)
+					renderDirection("ll", worldInfo);
+
+				function renderDirection(direction) {
+					overviewerConfigFile += 'renders["' + Object.keys(json.worlds)[worldIndex] + '-' + direction + '-spawn"] = {\n';
+					switch (direction) {
+						case "ur":
+							overviewerConfigFile += '#\tUpper Right\n';
+							overviewerConfigFile += '\t"northdirection": "upper-right",\n';
+							break;
+						case "ll":
+							overviewerConfigFile += '#\tLower Left\n';
+							overviewerConfigFile += '\t"northdirection": "lower-left",\n';
+							break;
+						case "lr":
+							overviewerConfigFile += '#\tLower Right\n';
+							overviewerConfigFile += '\t"northdirection": "lower-right",\n';
+							break;
+						default:
+							overviewerConfigFile += '#\tUpper Left\n';
+							overviewerConfigFile += '\t"northdirection": "upper-left",\n';
+							break;
+					}
+					overviewerConfigFile += '\t"world": "' + worldInfo.name + '",\n';
+					overviewerConfigFile += '\t"title": "Mob Spawn",\n';
+					overviewerConfigFile += '\t"rendermode": [ClearBase(), SpawnOverlay()],\n';
+					var overlay = '[';
+					if (worldInfo.renderTypes.day.enabled) overlay += '"' + Object.keys(json.worlds)[worldIndex] + '-' + direction + '-day",';
+					if (worldInfo.renderTypes.caves.enabled) overlay += '"' + Object.keys(json.worlds)[worldIndex] + '-' + direction + '-caves",';
+					if (worldInfo.renderTypes.night.enabled) overlay += '"' + Object.keys(json.worlds)[worldIndex] + '-' + direction + '-night",';
+					overviewerConfigFile += '\t"overlay": ' + overlay.substring(0, overlay.length - 1) + '],\n';
+					overviewerConfigFile += '\t"renderchecks": ' + worldInfo.renderTypes.spawn.updateMode + ',\n';
+					overviewerConfigFile += '}\n';
+				}
+			}
+
+			if (worldInfo.renderTypes.nether.enabled) {
+				overviewerConfigFile += '##\tNether\n';
+				if (worldInfo.directions.ul)
+					renderDirection("ul", worldInfo);
+				if (worldInfo.directions.ur)
+					renderDirection("ur", worldInfo);
+				if (worldInfo.directions.lr)
+					renderDirection("lr", worldInfo);
+				if (worldInfo.directions.ll)
+					renderDirection("ll", worldInfo);
+
+				function renderDirection(direction) {
+					overviewerConfigFile += 'renders["' + Object.keys(json.worlds)[worldIndex] + '-' + direction + '-nether"] = {\n';
+					switch (direction) {
+						case "ur":
+							overviewerConfigFile += '#\tUpper Right\n';
+							overviewerConfigFile += '\t"northdirection": "upper-right",\n';
+							break;
+						case "ll":
+							overviewerConfigFile += '#\tLower Left\n';
+							overviewerConfigFile += '\t"northdirection": "lower-left",\n';
+							break;
+						case "lr":
+							overviewerConfigFile += '#\tLower Right\n';
+							overviewerConfigFile += '\t"northdirection": "lower-right",\n';
+							break;
+						default:
+							overviewerConfigFile += '#\tUpper Left\n';
+							overviewerConfigFile += '\t"northdirection": "upper-left",\n';
+							break;
+					}
+					overviewerConfigFile += '\t"world": "' + worldInfo.name + '",\n';
+					overviewerConfigFile += '\t"title": "Nether",\n';
+					overviewerConfigFile += '\t"dimension": "nether",\n';
+					if (worldInfo.renderTypes.nether.smoothLighting) {
+						overviewerConfigFile += '\t"rendermode": "lighter_nether_smooth_lighting",\n';
+					} else {
+						overviewerConfigFile += '\t"rendermode": "lighter_nether_lighting",\n';
+					}
+					overviewerConfigFile += '\t"markers": netherMarkers\n';
+					overviewerConfigFile += '\t"renderchecks": ' + worldInfo.renderTypes.nether.updateMode + ',\n';
+					overviewerConfigFile += '}\n';
+				}
+			}
+
+			if (worldInfo.renderTypes.end.enabled) {
+				overviewerConfigFile += '##\tEnd\n';
+				if (worldInfo.directions.ul)
+					renderDirection("ul", worldInfo);
+				if (worldInfo.directions.ur)
+					renderDirection("ur", worldInfo);
+				if (worldInfo.directions.lr)
+					renderDirection("lr", worldInfo);
+				if (worldInfo.directions.ll)
+					renderDirection("ll", worldInfo);
+
+				function renderDirection(direction) {
+					overviewerConfigFile += 'renders["' + Object.keys(json.worlds)[worldIndex] + '-' + direction + '-end"] = {\n';
+					switch (direction) {
+						case "ur":
+							overviewerConfigFile += '#\tUpper Right\n';
+							overviewerConfigFile += '\t"northdirection": "upper-right",\n';
+							break;
+						case "ll":
+							overviewerConfigFile += '#\tLower Left\n';
+							overviewerConfigFile += '\t"northdirection": "lower-left",\n';
+							break;
+						case "lr":
+							overviewerConfigFile += '#\tLower Right\n';
+							overviewerConfigFile += '\t"northdirection": "lower-right",\n';
+							break;
+						default:
+							overviewerConfigFile += '#\tUpper Left\n';
+							overviewerConfigFile += '\t"northdirection": "upper-left",\n';
+							break;
+					}
+					overviewerConfigFile += '\t"world": "' + worldInfo.name + '",\n';
+					overviewerConfigFile += '\t"title": "End",\n';
+					overviewerConfigFile += '\t"dimension": "end",\n';
+					if (worldInfo.renderTypes.end.smoothLighting) {
+						overviewerConfigFile += '\t"rendermode": "end_smooth_lighting",\n';
+					} else {
+						overviewerConfigFile += '\t"rendermode": "end_lighting",\n';
+					}
+					overviewerConfigFile += '\t"markers": endMarkers\n';
+					overviewerConfigFile += '\t"renderchecks": ' + worldInfo.renderTypes.end.updateMode + ',\n';
+					overviewerConfigFile += '}\n';
+				}
+			}
+		}
+	});
+
+	return overviewerConfigFile;
 }
