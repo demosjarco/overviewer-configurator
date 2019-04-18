@@ -1,4 +1,4 @@
-﻿$(document).ready(function () {
+﻿$(function () {
 	ipcRenderer.send('readOldSettings');
 });
 ipcRenderer.on('readSetting_global_worldsLocation', function (event, value) {
