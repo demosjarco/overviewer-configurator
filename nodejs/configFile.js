@@ -504,3 +504,16 @@ module.exports.updateWorldConfig = function (worldKey, worldName, worldPath, wor
 		saveJSON(tempJSON);
 	});
 }
+
+let pyConfigFileQueue = [];
+function processPyConfigFileQueue() {
+	let timestamp = jsonSaveQueue.shift();
+
+	if (pyConfigFileQueue.length > 0)
+		processPyConfigFileQueue();
+}
+function savePyConfigFile(timestamp = new Date()) {
+	pyConfigFileQueue.push(timestamp);
+	if (pyConfigFileQueue.length > 0)
+		processPyConfigFileQueue();
+}
