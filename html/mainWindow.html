@@ -12,7 +12,6 @@
 	<aside>
 		<ul>
 			<li><a href="#tabs-1"><img src="../img/overviewerLogo.png" /></a></li>
-			<li class="worldItem"><a class="worlds" href="#tabs-2">[w1]</a></li>
 		</ul>
 	</aside>
 	<main>
@@ -87,106 +86,6 @@
 					<ul></ul>
 				</div>
 			</div>
-		</div>
-		<div class="worldItem" id="tabs-2">
-			<h2>[code] World Name</h2>
-			<table>
-				<tr>
-					<td>Path:</td>
-					<td><pre>Loading...</pre></td>
-				</tr>
-			</table>
-			<div class="directions">
-				<div onclick="selectedRenderDirection('w', 'ul')" class="direction ul selected"></div>
-				<div onclick="selectedRenderDirection('w', 'ur')" class="direction ur"></div>
-				<div onclick="selectedRenderDirection('w', 'lr')" class="direction lr"></div>
-				<div onclick="selectedRenderDirection('w', 'll')" class="direction ll"></div>
-			</div>
-			<h3>Render Types</h3>
-			<hr />
-			<input type="checkbox" onchange="selectedRenderType('w', 'day', this.checked)" />
-			<details>
-				<summary>Day</summary>
-				<p>A normal render with smooth lighting, which looks similar to Minecraft with smooth lighting turned on.</p>
-				<select onchange="selectedRenderType('w', 'day', null, this.value)">
-					<option value="0">Normal</option>
-					<option value="1">Check Tiles</option>
-					<option value="2">Force Render</option>
-					<option value="3">Ignore changes</option>
-				</select>
-			</details>
-			<br>
-			<input type="checkbox" onchange="selectedRenderType('w', 'caves', this.checked)" />
-			<details>
-				<summary>Caves</summary>
-				<p>A cave render with or without depth tinting (check overviewer tab for setting)</p>
-				<select onchange="selectedRenderType('w', 'caves', null, this.value)">
-					<option value="0">Normal</option>
-					<option value="1">Check Tiles</option>
-					<option value="2">Force Render</option>
-					<option value="3">Ignore changes</option>
-				</select>
-			</details>
-			<br>
-			<input type="checkbox" onchange="selectedRenderType('w', 'night', this.checked)" />
-			<details>
-				<summary>Night</summary>
-				<p>A "nighttime" render with smooth lighting</p>
-				<select onchange="selectedRenderType('w', 'night', null, this.value)">
-					<option value="0">Normal</option>
-					<option value="1">Check Tiles</option>
-					<option value="2">Force Render</option>
-					<option value="3">Ignore changes</option>
-				</select>
-			</details>
-			<br>
-			<input type="checkbox" onchange="selectedRenderType('w', 'minerals', this.checked)" />
-			<details>
-				<summary>Minerals</summary>
-				<p>Overlay that colors the map according to what minerals can be found underneath</p>
-				<select onchange="selectedRenderType('w', 'minerals', null, this.value)">
-					<option value="0">Normal</option>
-					<option value="1">Check Tiles</option>
-					<option value="2">Force Render</option>
-					<option value="3">Ignore changes</option>
-				</select>
-			</details>
-			<br>
-			<input type="checkbox" onchange="selectedRenderType('w', 'spawn', this.checked)" />
-			<details>
-				<summary>Spawn</summary>
-				<p>Overlay that colors the map red in areas where monsters can spawn</p>
-				<select onchange="selectedRenderType('w', 'spawn', null, this.value)">
-					<option value="0">Normal</option>
-					<option value="1">Check Tiles</option>
-					<option value="2">Force Render</option>
-					<option value="3">Ignore changes</option>
-				</select>
-			</details>
-			<br>
-			<input type="checkbox" onchange="selectedRenderType('w', 'nether', this.checked)" />
-			<details>
-				<summary>Nether</summary>
-				<p>A smooth lighting render of the nether</p>
-				<select onchange="selectedRenderType('w', 'nether', null, this.value)">
-					<option value="0">Normal</option>
-					<option value="1">Check Tiles</option>
-					<option value="2">Force Render</option>
-					<option value="3">Ignore changes</option>
-				</select>
-			</details>
-			<br>
-			<input type="checkbox" onchange="selectedRenderType('w', 'end', this.checked)" />
-			<details>
-				<summary>End</summary>
-				<p>A smooth lighting render of the end</p>
-				<select onchange="selectedRenderType('w', 'end', null, this.value)">
-					<option value="0">Normal</option>
-					<option value="1">Check Tiles</option>
-					<option value="2">Force Render</option>
-					<option value="3">Ignore changes</option>
-				</select>
-			</details>
 		</div>
 	</main>
 	<script>window.$ = window.jQuery = require('jquery');</script>
