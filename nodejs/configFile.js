@@ -8,6 +8,8 @@ function processJsonQueue() {
 	fs.writeFile(app.getPath('userData').replace(/\\/g, "/") + '/settings.json', JSON.stringify(json, null, 4), (err) => {
 		if (err) throw err;
 
+		savePyConfigFile();
+
 		if (jsonSaveQueue.length > 0)
 			processJsonQueue();
 	});
