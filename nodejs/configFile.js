@@ -569,7 +569,7 @@ function createPyConfigFile(json, timestamp) {
 
 	if (json.global.compressLevel > 0) {
 		overviewerConfigFile += 'from optimizeimages import oxipng\n';
-		overviewerConfigFile += 'optimizeimg = [oxipng(olevel=' + json.global.compressLevel + ')]\n\n';
+		overviewerConfigFile += 'optimizeimg = [oxipng(olevel=' + json.global.compressLevel + ')]\n';
 		overviewerConfigFile += '\n';
 	}
 
