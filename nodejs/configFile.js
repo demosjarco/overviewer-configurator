@@ -306,6 +306,7 @@ module.exports.updateWorldConfig = function (worldKey, worldName, worldPath, wor
 					}
 				}
 			}
+			changed = true;
 		} else {
 			if (!('directions' in json.worlds[worldKey])) {
 				json.worlds[worldKey].directions = {
@@ -314,22 +315,37 @@ module.exports.updateWorldConfig = function (worldKey, worldName, worldPath, wor
 					lr: false,
 					ll: false
 				};
+				changed = true;
 			} else {
-				if (!('ul' in json.worlds[worldKey].directions))
+				if (!('ul' in json.worlds[worldKey].directions)) {
 					json.worlds[worldKey].directions.ul = true;
-				if (!('ur' in json.worlds[worldKey].directions))
+					changed = true;
+				}
+				if (!('ur' in json.worlds[worldKey].directions)) {
 					json.worlds[worldKey].directions.ur = false;
-				if (!('ll' in json.worlds[worldKey].directions))
+					changed = true;
+				}
+				if (!('ll' in json.worlds[worldKey].directions)) {
 					json.worlds[worldKey].directions.ll = false;
-				if (!('lr' in json.worlds[worldKey].directions))
+					changed = true;
+				}
+				if (!('lr' in json.worlds[worldKey].directions)) {
 					json.worlds[worldKey].directions.lr = false;
+					changed = true;
+				}
 			}
-			if (!('enabled' in json.worlds[worldKey]))
+			if (!('enabled' in json.worlds[worldKey])) {
 				json.worlds[worldKey].enabled = true;
-			if (!('name' in json.worlds[worldKey]))
+				changed = true;
+			}
+			if (!('name' in json.worlds[worldKey])) {
 				json.worlds[worldKey].name = worldName;
-			if (!('path' in json.worlds[worldKey]))
+				changed = true;
+			}
+			if (!('path' in json.worlds[worldKey])) {
 				json.worlds[worldKey].path = worldPath;
+				changed = true;
+			}
 			if (!('renderTypes' in json.worlds[worldKey])) {
 				json.worlds[worldKey].renderTypes = {
 					day: {
@@ -365,6 +381,7 @@ module.exports.updateWorldConfig = function (worldKey, worldName, worldPath, wor
 						updateMode: 0
 					}
 				};
+				changed = true;
 			} else {
 				if (!('day' in json.worlds[worldKey].renderTypes)) {
 					json.worlds[worldKey].renderTypes.day = {
@@ -372,27 +389,39 @@ module.exports.updateWorldConfig = function (worldKey, worldName, worldPath, wor
 						smoothLighting: true,
 						updateMode: 0
 					};
+					changed = true;
 				} else {
-					if (!('enabled' in json.worlds[worldKey].renderTypes.day))
+					if (!('enabled' in json.worlds[worldKey].renderTypes.day)) {
 						json.worlds[worldKey].renderTypes.day.enabled = true;
+						changed = true;
+					}
 
-					if (!('smoothLighting' in json.worlds[worldKey].renderTypes.day))
+					if (!('smoothLighting' in json.worlds[worldKey].renderTypes.day)) {
 						json.worlds[worldKey].renderTypes.day.smoothLighting = true;
+						changed = true;
+					}
 
-					if (!('updateMode' in json.worlds[worldKey].renderTypes.day))
+					if (!('updateMode' in json.worlds[worldKey].renderTypes.day)) {
 						json.worlds[worldKey].renderTypes.day.updateMode = 0;
+						changed = true;
+					}
 				}
 				if (!('caves' in json.worlds[worldKey].renderTypes)) {
 					json.worlds[worldKey].renderTypes.caves = {
 						enabled: true,
 						updateMode: 0
 					};
+					changed = true;
 				} else {
-					if (!('enabled' in json.worlds[worldKey].renderTypes.caves))
+					if (!('enabled' in json.worlds[worldKey].renderTypes.caves)) {
 						json.worlds[worldKey].renderTypes.caves.enabled = true;
+						changed = true;
+					}
 
-					if (!('updateMode' in json.worlds[worldKey].renderTypes.caves))
+					if (!('updateMode' in json.worlds[worldKey].renderTypes.caves)) {
 						json.worlds[worldKey].renderTypes.caves.updateMode = 0;
+						changed = true;
+					}
 				}
 				if (!('night' in json.worlds[worldKey].renderTypes)) {
 					json.worlds[worldKey].renderTypes.night = {
@@ -400,39 +429,56 @@ module.exports.updateWorldConfig = function (worldKey, worldName, worldPath, wor
 						smoothLighting: true,
 						updateMode: 0
 					};
+					changed = true;
 				} else {
-					if (!('enabled' in json.worlds[worldKey].renderTypes.night))
+					if (!('enabled' in json.worlds[worldKey].renderTypes.night)) {
 						json.worlds[worldKey].renderTypes.night.enabled = true;
+						changed = true;
+					}
 
-					if (!('smoothLighting' in json.worlds[worldKey].renderTypes.night))
+					if (!('smoothLighting' in json.worlds[worldKey].renderTypes.night)) {
 						json.worlds[worldKey].renderTypes.night.smoothLighting = true;
+						changed = true;
+					}
 
-					if (!('updateMode' in json.worlds[worldKey].renderTypes.night))
+					if (!('updateMode' in json.worlds[worldKey].renderTypes.night)) {
 						json.worlds[worldKey].renderTypes.night.updateMode = 0;
+						changed = true;
+					}
 				}
 				if (!('minerals' in json.worlds[worldKey].renderTypes)) {
 					json.worlds[worldKey].renderTypes.minerals = {
 						enabled: true,
 						updateMode: 0
 					};
+					changed = true;
 				} else {
-					if (!('enabled' in json.worlds[worldKey].renderTypes.minerals))
+					if (!('enabled' in json.worlds[worldKey].renderTypes.minerals)) {
 						json.worlds[worldKey].renderTypes.minerals.enabled = true;
+						changed = true;
+					}
 
-					if (!('updateMode' in json.worlds[worldKey].renderTypes.minerals))
+					if (!('updateMode' in json.worlds[worldKey].renderTypes.minerals)) {
 						json.worlds[worldKey].renderTypes.minerals.updateMode = 0;
+						changed = true;
+					}
 				}
 				if (!('spawn' in json.worlds[worldKey].renderTypes)) {
 					json.worlds[worldKey].renderTypes.spawn = {
 						enabled: true,
 						updateMode: 0
 					};
+					changed = true;
 				} else {
-					if (!('enabled' in json.worlds[worldKey].renderTypes.spawn))
+					if (!('enabled' in json.worlds[worldKey].renderTypes.spawn)) {
 						json.worlds[worldKey].renderTypes.spawn.enabled = true;
+						changed = true;
+					}
 
-					if (!('updateMode' in json.worlds[worldKey].renderTypes.spawn))
+					if (!('updateMode' in json.worlds[worldKey].renderTypes.spawn)) {
 						json.worlds[worldKey].renderTypes.spawn.updateMode = 0;
+						changed = true;
+					}
 				}
 				if (!('nether' in json.worlds[worldKey].renderTypes)) {
 					json.worlds[worldKey].renderTypes.nether = {
@@ -440,15 +486,22 @@ module.exports.updateWorldConfig = function (worldKey, worldName, worldPath, wor
 						smoothLighting: true,
 						updateMode: 0
 					};
+					changed = true;
 				} else {
-					if (!('enabled' in json.worlds[worldKey].renderTypes.nether))
+					if (!('enabled' in json.worlds[worldKey].renderTypes.nether)) {
 						json.worlds[worldKey].renderTypes.nether.enabled = true;
+						changed = true;
+					}
 
-					if (!('smoothLighting' in json.worlds[worldKey].renderTypes.nether))
+					if (!('smoothLighting' in json.worlds[worldKey].renderTypes.nether)) {
 						json.worlds[worldKey].renderTypes.nether.smoothLighting = true;
+						changed = true;
+					}
 
-					if (!('updateMode' in json.worlds[worldKey].renderTypes.nether))
+					if (!('updateMode' in json.worlds[worldKey].renderTypes.nether)) {
 						json.worlds[worldKey].renderTypes.nether.updateMode = 0;
+						changed = true;
+					}
 				}
 				if (!('end' in json.worlds[worldKey].renderTypes)) {
 					json.worlds[worldKey].renderTypes.end = {
@@ -456,74 +509,119 @@ module.exports.updateWorldConfig = function (worldKey, worldName, worldPath, wor
 						smoothLighting: true,
 						updateMode: 0
 					};
+					changed = true;
 				} else {
-					if (!('enabled' in json.worlds[worldKey].renderTypes.end))
+					if (!('enabled' in json.worlds[worldKey].renderTypes.end)) {
 						json.worlds[worldKey].renderTypes.end.enabled = true;
+						changed = true;
+					}
 
-					if (!('smoothLighting' in json.worlds[worldKey].renderTypes.end))
+					if (!('smoothLighting' in json.worlds[worldKey].renderTypes.end)) {
 						json.worlds[worldKey].renderTypes.end.smoothLighting = true;
+						changed = true;
+					}
 
-					if (!('updateMode' in json.worlds[worldKey].renderTypes.end))
+					if (!('updateMode' in json.worlds[worldKey].renderTypes.end)) {
 						json.worlds[worldKey].renderTypes.end.updateMode = 0;
+						changed = true;
+					}
 				}
 			}
 
 			if (worldDirections) {
-				if (('ul' in worldDirections))
+				if (('ul' in worldDirections)) {
 					json.worlds[worldKey].directions.ul = worldDirections.ul;
-				if (('ur' in worldDirections))
+					changed = true;
+				}
+				if (('ur' in worldDirections)) {
 					json.worlds[worldKey].directions.ur = worldDirections.ur;
-				if (('lr' in worldDirections))
+					changed = true;
+				}
+				if (('lr' in worldDirections)) {
 					json.worlds[worldKey].directions.lr = worldDirections.lr;
-				if (('ll' in worldDirections))
+					changed = true;
+				}
+				if (('ll' in worldDirections)) {
 					json.worlds[worldKey].directions.ll = worldDirections.ll;
+					changed = true;
+				}
 			}
 
-			if (worldEnabled)
+			if (worldEnabled) {
 				json.worlds[worldKey].enabled = worldEnabled;
+				changed = true;
+			}
 
 			if (renderTypes) {
 				if (('day' in renderTypes)) {
-					if (('enabled' in renderTypes.day))
+					if (('enabled' in renderTypes.day)) {
 						json.worlds[worldKey].renderTypes.day.enabled = renderTypes.day.enabled;
-					if (('updateMode' in renderTypes.day))
+						changed = true;
+					}
+					if (('updateMode' in renderTypes.day)) {
 						json.worlds[worldKey].renderTypes.day.updateMode = renderTypes.day.updateMode;
+						changed = true;
+					}
 				}
 				if (('caves' in renderTypes)) {
-					if (('enabled' in renderTypes.caves))
+					if (('enabled' in renderTypes.caves)) {
 						json.worlds[worldKey].renderTypes.caves.enabled = renderTypes.caves.enabled;
-					if (('updateMode' in renderTypes.caves))
+						changed = true;
+					}
+					if (('updateMode' in renderTypes.caves)) {
 						json.worlds[worldKey].renderTypes.caves.updateMode = renderTypes.caves.updateMode;
+						changed = true;
+					}
 				}
 				if (('night' in renderTypes)) {
-					if (('enabled' in renderTypes.night))
+					if (('enabled' in renderTypes.night)) {
 						json.worlds[worldKey].renderTypes.night.enabled = renderTypes.night.enabled;
-					if (('updateMode' in renderTypes.night))
+						changed = true;
+					}
+					if (('updateMode' in renderTypes.night)) {
 						json.worlds[worldKey].renderTypes.night.updateMode = renderTypes.night.updateMode;
+						changed = true;
+					}
 				}
 				if (('minerals' in renderTypes)) {
-					if (('enabled' in renderTypes.minerals))
+					if (('enabled' in renderTypes.minerals)) {
 						json.worlds[worldKey].renderTypes.minerals.enabled = renderTypes.minerals.enabled;
-					if (('updateMode' in renderTypes.minerals))
+						changed = true;
+					}
+					if (('updateMode' in renderTypes.minerals)) {
 						json.worlds[worldKey].renderTypes.minerals.updateMode = renderTypes.minerals.updateMode;
+						changed = true;
+					}
 				}
 				if (('spawn' in renderTypes)) {
-					if (('enabled' in renderTypes.spawn))
+					if (('enabled' in renderTypes.spawn)) {
 						json.worlds[worldKey].renderTypes.spawn.enabled = renderTypes.spawn.enabled;
-					if (('updateMode' in renderTypes.spawn))
+						changed = true;
+					}
+					if (('updateMode' in renderTypes.spawn)) {
 						json.worlds[worldKey].renderTypes.spawn.updateMode = renderTypes.spawn.updateMode;
+						changed = true;
+					}
 				}
 				if (('nether' in renderTypes)) {
-					if (('enabled' in renderTypes.nether))
+					if (('enabled' in renderTypes.nether)) {
 						json.worlds[worldKey].renderTypes.nether.enabled = renderTypes.nether.enabled;
-					if (('updateMode' in renderTypes.nether))
+						changed = true;
+					}
+					if (('updateMode' in renderTypes.nether)) {
 						json.worlds[worldKey].renderTypes.nether.updateMode = renderTypes.nether.updateMode;
+						changed = true;
+					}
 				}
 				if (('end' in renderTypes)) {
-					if (('enabled' in renderTypes.end))
+					if (('enabled' in renderTypes.end)) {
 						json.worlds[worldKey].renderTypes.end.enabled = renderTypes.end.enabled;
-					if (('updateMode' in renderTypes.end))
+						changed = true;
+					}
+					if (('updateMode' in renderTypes.end)) {
 						json.worlds[worldKey].renderTypes.end.updateMode = renderTypes.end.updateMode;
+						changed = true;
+					}
 				}
 			}
 		}
