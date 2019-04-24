@@ -152,8 +152,10 @@ getSavedJSON(null);
 function saveJSON(updatedJSON) {
 	permJson = updatedJSON;
 	jsonSaveQueue.push(updatedJSON);
-	if (jsonSaveQueue.length >= 1)
+	if (jsonSaveQueue.length >= 1 && !jsonQueueProcessing) {
+		jsonQueueProcessing = true;
 		processJsonWriteQueue();
+	}
 }
 
 module.exports.changedSetting = function (optionValue, settingType, optionKey1, optionKey2, optionKey3, optionKey4, optionKey5) {
