@@ -244,8 +244,6 @@ module.exports.readOldSettings = function () {
 
 module.exports.outputFolderSelection = function () {
 	dialog.showOpenDialog({
-		title: 'test',
-		message: 'test2',
 		properties: ['openDirectory']
 	}, function (filePaths, bookmarks) {
 		if (filePaths.length > 0) {

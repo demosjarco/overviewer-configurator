@@ -4,8 +4,6 @@ const electron = require('./electronSetup.js');
 
 module.exports.worldsFolderSelection = function () {
 	dialog.showOpenDialog({
-		title: 'test',
-		message: 'test2',
 		properties: ['openDirectory']
 	}, function (filePaths, bookmarks) {
 		if (filePaths.length > 0) {
