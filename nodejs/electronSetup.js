@@ -83,6 +83,8 @@ app.on('ready', () => {
 				devTools: true,
 				nodeIntegration: true,
 				enableRemoteModule: false,
+				webSecurity: true,
+				allowRunningInsecureContent: false,
 				scrollBounce: true,
 				//enableBlinkFeatures: 'OverlayScrollbars'
 			}
