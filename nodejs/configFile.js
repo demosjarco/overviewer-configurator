@@ -11,8 +11,11 @@ function processJsonWriteQueue() {
 
 		savePyConfigFile();
 
-		if (jsonSaveQueue.length > 0)
+		if (jsonSaveQueue.length > 0) {
 			processJsonWriteQueue();
+		} else {
+			jsonQueueProcessing = false;
+		}
 	});
 }
 
