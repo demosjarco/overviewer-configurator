@@ -159,7 +159,7 @@ function processJsonReadQueue() {
 }
 function getSavedJSON(jsonCallback) {
 	jsonReadQueue.push(jsonCallback);
-	if (jsonReadQueue.length >= 1 && !jsonReadQueueProcessing) {
+	if (jsonReadQueue.length > 0 && !jsonReadQueueProcessing) {
 		jsonReadQueueProcessing = true;
 		processJsonReadQueue();
 	}
@@ -170,7 +170,7 @@ getSavedJSON(null);
 function saveJSON(updatedJSON) {
 	permJson = updatedJSON;
 	jsonSaveQueue.push(updatedJSON);
-	if (jsonSaveQueue.length >= 1 && !jsonSaveQueueProcessing) {
+	if (jsonSaveQueue.length > 0 && !jsonSaveQueueProcessing) {
 		jsonSaveQueueProcessing = true;
 		processJsonWriteQueue();
 	}
