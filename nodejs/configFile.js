@@ -2,7 +2,7 @@ const { app, dialog } = require('electron');
 const fs = require('fs');
 
 let jsonSaveQueue = [];
-let jsonQueueProcessing = false;
+let jsonSaveQueueProcessing = false;
 let permJson = {};
 function processJsonWriteQueue() {
 	let json = jsonSaveQueue.shift();
@@ -14,7 +14,7 @@ function processJsonWriteQueue() {
 		if (jsonSaveQueue.length > 0) {
 			processJsonWriteQueue();
 		} else {
-			jsonQueueProcessing = false;
+			jsonSaveQueueProcessing = false;
 		}
 	});
 }
@@ -155,8 +155,8 @@ getSavedJSON(null);
 function saveJSON(updatedJSON) {
 	permJson = updatedJSON;
 	jsonSaveQueue.push(updatedJSON);
-	if (jsonSaveQueue.length >= 1 && !jsonQueueProcessing) {
-		jsonQueueProcessing = true;
+	if (jsonSaveQueue.length >= 1 && !jsonSaveQueueProcessing) {
+		jsonSaveQueueProcessing = true;
 		processJsonWriteQueue();
 	}
 }
