@@ -3,7 +3,7 @@ const fs = require('fs');
 
 let jsonSaveQueue = [];
 let permJson = {};
-function processJsonQueue() {
+function processJsonWriteQueue() {
 	let json = jsonSaveQueue.shift();
 	fs.writeFile(app.getPath('userData').replace(/\\/g, "/") + '/settings.json', JSON.stringify(json, null, 4), (err) => {
 		if (err) throw err;
@@ -11,7 +11,7 @@ function processJsonQueue() {
 		savePyConfigFile();
 
 		if (jsonSaveQueue.length > 0)
-			processJsonQueue();
+			processJsonWriteQueue();
 	});
 }
 
@@ -150,7 +150,7 @@ function saveJSON(updatedJSON) {
 	permJson = updatedJSON;
 	jsonSaveQueue.push(updatedJSON);
 	if (jsonSaveQueue.length == 1)
-		processJsonQueue();
+		processJsonWriteQueue();
 }
 
 module.exports.changedSetting = function (optionValue, settingType, optionKey1, optionKey2, optionKey3, optionKey4, optionKey5) {
