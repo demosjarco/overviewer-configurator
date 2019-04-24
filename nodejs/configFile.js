@@ -150,7 +150,7 @@ getSavedJSON();
 function saveJSON(updatedJSON) {
 	permJson = updatedJSON;
 	jsonSaveQueue.push(updatedJSON);
-	if (jsonSaveQueue.length == 1)
+	if (jsonSaveQueue.length >= 1)
 		processJsonWriteQueue();
 }
 
