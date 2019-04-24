@@ -15,6 +15,7 @@ function processJsonWriteQueue() {
 	});
 }
 
+let jsonReadQueue = [];
 function getSavedJSON(jsonCallback) {
 	if (Object.keys(permJson).length > 0) {
 		updatePreferencesFileIfNeeded(function (json2) {
