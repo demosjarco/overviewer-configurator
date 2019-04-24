@@ -20,6 +20,7 @@ function processJsonWriteQueue() {
 }
 
 let jsonReadQueue = [];
+let jsonReadQueueProcessing = false;
 function processJsonReadQueue() {
 	let callback = jsonReadQueue.shift();
 	fs.readFile(app.getPath('userData').replace(/\\/g, "/") + '/settings.json', (err, data) => {
@@ -28,6 +29,12 @@ function processJsonReadQueue() {
 				updatePreferencesFileIfNeeded(function (json) {
 					if (callback)
 						callback(json);
+
+					if (jsonReadQueue.length > 0) {
+						processJsonReadQueue();
+					} else {
+						jsonReadQueueProcessing = false;
+					}
 				}, permJson);
 			}
 		} else {
@@ -35,6 +42,12 @@ function processJsonReadQueue() {
 				permJson = json;
 				if (callback)
 					callback(json);
+
+				if (jsonReadQueue.length > 0) {
+					processJsonReadQueue();
+				} else {
+					jsonReadQueueProcessing = false;
+				}
 			}, JSON.parse(data));
 		}
 	});
@@ -146,8 +159,10 @@ function processJsonReadQueue() {
 }
 function getSavedJSON(jsonCallback) {
 	jsonReadQueue.push(jsonCallback);
-	if (jsonReadQueue.length >= 1)
+	if (jsonReadQueue.length >= 1 && !jsonReadQueueProcessing) {
+		jsonReadQueueProcessing = true;
 		processJsonReadQueue();
+	}
 }
 // First time setup
 getSavedJSON(null);
