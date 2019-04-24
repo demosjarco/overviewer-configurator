@@ -23,10 +23,22 @@ let jsonReadQueue = [];
 let jsonReadQueueProcessing = false;
 function processJsonReadQueue() {
 	let callback = jsonReadQueue.shift();
-	fs.readFile(app.getPath('userData').replace(/\\/g, "/") + '/settings.json', (err, data) => {
-		if (err) {
-			if (Object.keys(permJson).length > 0) {
+	if (Object.keys(permJson).length > 0) {
+		updatePreferencesFileIfNeeded(function (json) {
+			if (callback)
+				callback(json);
+
+			if (jsonReadQueue.length > 0) {
+				processJsonReadQueue();
+			} else {
+				jsonReadQueueProcessing = false;
+			}
+		}, permJson);
+	} else {
+		fs.readFile(app.getPath('userData').replace(/\\/g, "/") + '/settings.json', (err, data) => {
+			if (!err) {
 				updatePreferencesFileIfNeeded(function (json) {
+					permJson = json;
 					if (callback)
 						callback(json);
 
@@ -35,22 +47,10 @@ function processJsonReadQueue() {
 					} else {
 						jsonReadQueueProcessing = false;
 					}
-				}, permJson);
+				}, JSON.parse(data));
 			}
-		} else {
-			updatePreferencesFileIfNeeded(function (json) {
-				permJson = json;
-				if (callback)
-					callback(json);
-
-				if (jsonReadQueue.length > 0) {
-					processJsonReadQueue();
-				} else {
-					jsonReadQueueProcessing = false;
-				}
-			}, JSON.parse(data));
-		}
-	});
+		});
+	}
 
 	function updatePreferencesFileIfNeeded(finishedCallback, json = {}) {
 		let tempJson = json;
