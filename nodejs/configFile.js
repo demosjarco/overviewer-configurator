@@ -558,6 +558,10 @@ module.exports.updateWorldConfig = function (worldKey, worldName, worldPath, wor
 						json.worlds[worldKey].renderTypes.day.enabled = renderTypes.day.enabled;
 						changed = true;
 					}
+					if (('smoothLighting' in renderTypes.day)) {
+						json.worlds[worldKey].renderTypes.day.smoothLighting = renderTypes.day.smoothLighting;
+						changed = true;
+					}
 					if (('updateMode' in renderTypes.day)) {
 						json.worlds[worldKey].renderTypes.day.updateMode = renderTypes.day.updateMode;
 						changed = true;
@@ -576,6 +580,10 @@ module.exports.updateWorldConfig = function (worldKey, worldName, worldPath, wor
 				if (('night' in renderTypes)) {
 					if (('enabled' in renderTypes.night)) {
 						json.worlds[worldKey].renderTypes.night.enabled = renderTypes.night.enabled;
+						changed = true;
+					}
+					if (('smoothLighting' in renderTypes.night)) {
+						json.worlds[worldKey].renderTypes.night.smoothLighting = renderTypes.night.smoothLighting;
 						changed = true;
 					}
 					if (('updateMode' in renderTypes.night)) {
@@ -608,6 +616,10 @@ module.exports.updateWorldConfig = function (worldKey, worldName, worldPath, wor
 						json.worlds[worldKey].renderTypes.nether.enabled = renderTypes.nether.enabled;
 						changed = true;
 					}
+					if (('smoothLighting' in renderTypes.nether)) {
+						json.worlds[worldKey].renderTypes.nether.smoothLighting = renderTypes.nether.smoothLighting;
+						changed = true;
+					}
 					if (('updateMode' in renderTypes.nether)) {
 						json.worlds[worldKey].renderTypes.nether.updateMode = renderTypes.nether.updateMode;
 						changed = true;
@@ -616,6 +628,10 @@ module.exports.updateWorldConfig = function (worldKey, worldName, worldPath, wor
 				if (('end' in renderTypes)) {
 					if (('enabled' in renderTypes.end)) {
 						json.worlds[worldKey].renderTypes.end.enabled = renderTypes.end.enabled;
+						changed = true;
+					}
+					if (('smoothLighting' in renderTypes.end)) {
+						json.worlds[worldKey].renderTypes.end.smoothLighting = renderTypes.end.smoothLighting;
 						changed = true;
 					}
 					if (('updateMode' in renderTypes.end)) {
