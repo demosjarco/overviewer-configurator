@@ -16,28 +16,24 @@ function processJsonWriteQueue() {
 }
 
 let jsonReadQueue = [];
-function getSavedJSON(jsonCallback) {
-	if (Object.keys(permJson).length > 0) {
-		updatePreferencesFileIfNeeded(function (json2) {
-			if (jsonCallback)
-				jsonCallback(json2);
-		}, permJson);
-	} else {
-		fs.readFile(app.getPath('userData').replace(/\\/g, "/") + '/settings.json', (err, data) => {
-			if (err) {
+function processJsonReadQueue() {
+	let callback = jsonReadQueue.shift();
+	fs.readFile(app.getPath('userData').replace(/\\/g, "/") + '/settings.json', (err, data) => {
+		if (err) {
+			if (Object.keys(permJson).length > 0) {
 				updatePreferencesFileIfNeeded(function (json) {
-					if (jsonCallback)
-						jsonCallback(json);
-				});
-			} else {
-				permJson = JSON.parse(data);
-				updatePreferencesFileIfNeeded(function (json) {
-					if (jsonCallback)
-						jsonCallback(json);
+					if (callback)
+						callback(json);
 				}, permJson);
 			}
-		});
-	}
+		} else {
+			updatePreferencesFileIfNeeded(function (json) {
+				permJson = json;
+				if (callback)
+					callback(json);
+			}, JSON.parse(data));
+		}
+	});
 
 	function updatePreferencesFileIfNeeded(finishedCallback, json = {}) {
 		let tempJson = json;
@@ -144,8 +140,13 @@ function getSavedJSON(jsonCallback) {
 			finishedCallback(tempJson);
 	}
 }
+function getSavedJSON(jsonCallback) {
+	jsonReadQueue.push(jsonCallback);
+	if (jsonReadQueue.length >= 1)
+		processJsonReadQueue();
+}
 // First time setup
-getSavedJSON();
+getSavedJSON(null);
 
 function saveJSON(updatedJSON) {
 	permJson = updatedJSON;
