@@ -86,7 +86,7 @@ app.on('ready', () => {
 				webSecurity: true,
 				allowRunningInsecureContent: false,
 				scrollBounce: true,
-				//enableBlinkFeatures: 'OverlayScrollbars'
+				enableBlinkFeatures: 'OverlayScrollbars'
 			}
 		});
 		mainWindow.center();
