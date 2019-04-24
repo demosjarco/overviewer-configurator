@@ -2,6 +2,7 @@ const { app, dialog } = require('electron');
 const fs = require('fs');
 
 let jsonSaveQueue = [];
+let jsonQueueProcessing = false;
 let permJson = {};
 function processJsonWriteQueue() {
 	let json = jsonSaveQueue.shift();
