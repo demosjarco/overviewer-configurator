@@ -246,7 +246,7 @@ module.exports.outputFolderSelection = function () {
 	dialog.showOpenDialog({
 		properties: ['openDirectory']
 	}, function (filePaths, bookmarks) {
-		if (filePaths.length > 0) {
+		if (filePaths && filePaths.length > 0) {
 			let path = filePaths[0].replace(/\\/g, "/");
 			module.exports.changedSetting(path, 'global', 'outputLocation');
 			electron.mainWindow.webContents.send('readSetting_global_outputLocation', path);
