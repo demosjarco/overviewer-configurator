@@ -81,6 +81,7 @@ app.on('ready', () => {
 			vibrancy: 'dark',
 			webPreferences: {
 				devTools: true,
+				nodeIntegration: true,
 				scrollBounce: true,
 				//enableBlinkFeatures: 'OverlayScrollbars'
 			}
