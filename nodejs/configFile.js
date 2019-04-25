@@ -644,6 +644,13 @@ module.exports.updateWorldConfig = function (worldKey, worldName, worldPath, wor
 	});
 }
 
+const { ipcMain } = require('electron');
+ipcMain.on('loadWorldSettings', (event, worldKey) => {
+	readSetting(function (json) {
+		event.sender.send('gotWorldSettings', worldKey, json);
+	}, 'worlds', worldKey);
+});
+
 let pyConfigFileQueue = [];
 function processPyConfigFileQueue() {
 	let timestamp = pyConfigFileQueue.shift();
