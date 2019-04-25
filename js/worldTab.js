@@ -16,11 +16,17 @@ function selectedRenderDirection(worldNickName, direction) {
 
 function selectedRenderType(worldNickName, renderType, enabled1, smoothLighting1, renderMode) {
 	let temp = {};
-	if (renderMode) {
+	if (renderMode != null && renderMode != undefined) {
 		temp[renderType] = { updateMode: parseInt(renderMode) };
-		ipcRenderer.send('updateWorldInfo', worldNickName, null, null, null, temp);
-	} else {
-		temp[renderType] = { enabled: enabled1 };
 		ipcRenderer.send('updateWorldInfo', worldNickName, null, null, temp);
+	}
+	if (smoothLighting1 != null && smoothLighting1 != undefined) {
+		console.log('test');
+		temp[renderType] = { smoothLighting: smoothLighting1 };
+		ipcRenderer.send('updateWorldInfo', worldNickName, null, null, temp);
+	}
+	if (enabled1 != null && enabled1 != undefined) {
+		temp[renderType] = { enabled: enabled1 };
+		ipcRenderer.send('updateWorldInfo', worldNickName, null, temp);
 	}
 }
