@@ -35,6 +35,8 @@ ipcRenderer.on('gotWorldSettings', function (event, worldNickName, json) {
 
 	Object.keys(json.renderTypes).forEach(function (renderType) {
 		$('div.worldItem.' + worldNickName + ' input:checkbox.enable.' + renderType).prop('checked', json.renderTypes[renderType].enabled);
+		if (('smoothLighting' in json.renderTypes[renderType]))
+			$('div.worldItem.' + worldNickName + ' input:checkbox.smoothLighting.' + renderType).prop('checked', json.renderTypes[renderType].smoothLighting);
 		$('div.worldItem.' + worldNickName + ' details select.renderType.' + renderType).val(json.renderTypes[renderType].updateMode);
 	});
 });
