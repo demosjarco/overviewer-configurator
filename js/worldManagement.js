@@ -23,5 +23,11 @@ ipcRenderer.on('gotWorld', function (event, worldNickName, worldName, worldPath)
 });
 
 ipcRenderer.on('gotWorldSettings', function (event, worldNickName, json) {
-
+	Object.keys(json.directions).forEach(function (direction) {
+		if (json.directions[direction]) {
+			$('div.worldItem.' + worldNickName + ' div.directions div.direction.' + direction).addClass('selected');
+		} else {
+			$('div.worldItem.' + worldNickName + ' div.directions div.direction.' + direction).removeClass('selected');
+		}
+	});
 });
