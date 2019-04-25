@@ -14,13 +14,13 @@ function selectedRenderDirection(worldNickName, direction) {
 	}
 }
 
-function selectedRenderType(worldNickName, renderType, enabled, renderMode) {
+function selectedRenderType(worldNickName, renderType, enabled1, renderMode) {
 	let temp = {};
 	if (renderMode) {
-		temp[renderType] = parseInt(renderMode);
+		temp[renderType] = { updateMode: parseInt(renderMode) };
 		ipcRenderer.send('updateWorldInfo', worldNickName, null, null, null, temp);
 	} else {
-		temp[renderType] = enabled;
+		temp[renderType] = { enabled: enabled1 };
 		ipcRenderer.send('updateWorldInfo', worldNickName, null, null, temp);
 	}
 }
