@@ -35,6 +35,6 @@ ipcRenderer.on('gotWorldSettings', function (event, worldNickName, json) {
 
 	Object.keys(json.renderTypes).forEach(function (renderType) {
 		$('div.worldItem.' + worldNickName + ' input:checkbox.enable.' + renderType).prop('checked', json.renderTypes[renderType].enabled);
-		$('div.worldItem.' + worldNickName + ' details select.renderType.' + renderType + ' option[value="' + json.renderTypes[renderType].updateMode + '"]').prop('selected', true);
+		$('div.worldItem.' + worldNickName + ' details select.renderType.' + renderType).val(json.renderTypes[renderType].updateMode);
 	});
 });
