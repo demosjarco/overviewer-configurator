@@ -31,8 +31,6 @@ ipcRenderer.on('gotWorldSettings', function (event, worldNickName, json) {
 		}
 	});
 
-	// TODO: smooth lighting checkbox
-
 	Object.keys(json.renderTypes).forEach(function (renderType) {
 		$('div.worldItem.' + worldNickName + ' input:checkbox.enable.' + renderType).prop('checked', json.renderTypes[renderType].enabled);
 		if (('smoothLighting' in json.renderTypes[renderType]))
