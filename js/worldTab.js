@@ -14,7 +14,7 @@ function selectedRenderDirection(worldNickName, direction) {
 	}
 }
 
-function selectedRenderType(worldNickName, renderType, enabled1, renderMode) {
+function selectedRenderType(worldNickName, renderType, enabled1, smoothLighting, renderMode) {
 	let temp = {};
 	if (renderMode) {
 		temp[renderType] = { updateMode: parseInt(renderMode) };
