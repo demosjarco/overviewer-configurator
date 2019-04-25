@@ -30,4 +30,6 @@ ipcRenderer.on('gotWorldSettings', function (event, worldNickName, json) {
 			$('div.worldItem.' + worldNickName + ' div.directions div.direction.' + direction).removeClass('selected');
 		}
 	});
+
+	// TODO: smooth lighting checkbox
 });
