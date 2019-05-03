@@ -29,7 +29,7 @@
 	},
 	"dependencies": {
 		"adm-zip": "^0.4.13",
-		"jquery": "^3.4.0",
+		"jquery": "^3.4.1",
 		"request": "^2.88.0",
 		"rimraf": "^2.6.3"
 	}
