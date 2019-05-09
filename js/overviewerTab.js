@@ -2,7 +2,7 @@ const os = require('os');
 let numVisibleMessages = 25;
 
 $(document).ready(function () {
-	$("#tabs1-content").tabs();
+	$("body main div#tabs-1 #tabs1-content").tabs();
 
 	ipcRenderer.send('getOverviewerVersion');
 	ipcRenderer.send('getLatestOverviewerVersion');
