@@ -53,21 +53,21 @@ $(document).ready(function () {
 });
 
 ipcRenderer.on('gotOverviewerVersion', function (event, version) {
-	$('span#ovVersion').text(version);
+	$('body main div#tabs-1 table tbody tr td span#ovVersion').text(version);
 });
 ipcRenderer.on('gotLatestOverviewerVersion', function (event, version) {
-	$('span#latestOvVersion').text(version).css('color', '#a5d6a7');
-	if ($('span#ovVersion').text() == $('span#latestOvVersion').text()) {
-		$('span#ovVersion').css('color', '#a5d6a7');
+	$('body main div#tabs-1 table tbody tr td span#latestOvVersion').text(version).css('color', '#a5d6a7');
+	if ($('body main div#tabs-1 table tbody tr td span#ovVersion').text() == $('span#latestOvVersion').text()) {
+		$('body main div#tabs-1 table tbody tr td span#ovVersion').css('color', '#a5d6a7');
 	} else {
-		$('span#ovVersion').css('color', '#ef9a9a');
+		$('body main div#tabs-1 table tbody tr td span#ovVersion').css('color', '#ef9a9a');
 	}
 });
 
 function changeLogCount(newNumVisMessages) {
 	numVisibleMessages = newNumVisMessages;
-	if ($('#tabs1-2 ul li').length > numVisibleMessages)
-		$('#tabs1-2 ul li').slice(numVisibleMessages - 1).remove();
+	if ($('body main div#tabs-1 div#tabs1-content #tabs1-2 ul li').length > numVisibleMessages)
+		$('body main div#tabs-1 div#tabs1-content #tabs1-2 ul li').slice(numVisibleMessages - 1).remove();
 }
 
 ipcRenderer.on('visualLog', function (event, message) {
@@ -76,7 +76,7 @@ ipcRenderer.on('visualLog', function (event, message) {
 
 function newVisualLog(message) {
 	let tempDate = new Date();
-	$('#tabs1-2 ul').prepend('<li><span class="timeStamp">' + tempDate.toLocaleTimeString() + '</span><span class="message">' + message + '</span></li>');
-	if ($('#tabs1-2 ul li').length > numVisibleMessages)
-		$('#tabs1-2 ul li').slice(numVisibleMessages - 1).remove();
+	$('body main div#tabs-1 div#tabs1-content #tabs1-2 ul').prepend('<li><span class="timeStamp">' + tempDate.toLocaleTimeString() + '</span><span class="message">' + message + '</span></li>');
+	if ($('body main div#tabs-1 div#tabs1-content #tabs1-2 ul li').length > numVisibleMessages)
+		$('body main div#tabs-1 div#tabs1-content #tabs1-2 ul li').slice(numVisibleMessages - 1).remove();
 }
