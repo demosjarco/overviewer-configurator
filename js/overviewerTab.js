@@ -6,7 +6,7 @@ $(document).ready(function () {
 	ipcRenderer.send('getLatestOverviewerVersion');
 
 	for (let i = 0; i < os.cpus().length; i++) {
-		$('div#cpu').append('<div id="cpuCore' + i + '"><div id="cpuCore' + i + '-t1" class="progressBar"><div class="progressBarInside"></div></div ><div id="cpuCore' + i + '-t2" class="progressBar"><div class="progressBarInside"></div></div><div id="cpuCore' + i + '-t3" class="progressBar"><div class="progressBarInside"></div></div><div id="cpuCore' + i + '-t4" class="progressBar"><div class="progressBarInside"></div></div><div id="cpuCore' + i + '-t5" class="progressBar"><div class="progressBarInside"></div></div></div >');
+		$('body main div#tabs-1 div#cpu').append('<div id="cpuCore' + i + '"><div id="cpuCore' + i + '-t1" class="progressBar"><div class="progressBarInside"></div></div ><div id="cpuCore' + i + '-t2" class="progressBar"><div class="progressBarInside"></div></div><div id="cpuCore' + i + '-t3" class="progressBar"><div class="progressBarInside"></div></div><div id="cpuCore' + i + '-t4" class="progressBar"><div class="progressBarInside"></div></div><div id="cpuCore' + i + '-t5" class="progressBar"><div class="progressBarInside"></div></div></div >');
 	}
 
 	setInterval(function () {
