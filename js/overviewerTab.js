@@ -21,11 +21,17 @@ $(document).ready(function () {
 				if (type != 'idle')
 					used += coreInfo.times[type];
 			});
-			$('div#cpuCore' + coreIndex + ' div#cpuCore' + coreIndex + '-t5 div.progressBarInside').css('height', $('div#cpuCore' + coreIndex + ' div#cpuCore' + coreIndex + '-t4 div.progressBarInside').css('height'));
-			$('div#cpuCore' + coreIndex + ' div#cpuCore' + coreIndex + '-t4 div.progressBarInside').css('height', $('div#cpuCore' + coreIndex + ' div#cpuCore' + coreIndex + '-t3 div.progressBarInside').css('height'));
-			$('div#cpuCore' + coreIndex + ' div#cpuCore' + coreIndex + '-t3 div.progressBarInside').css('height', $('div#cpuCore' + coreIndex + ' div#cpuCore' + coreIndex + '-t2 div.progressBarInside').css('height'));
-			$('div#cpuCore' + coreIndex + ' div#cpuCore' + coreIndex + '-t2 div.progressBarInside').css('height', $('div#cpuCore' + coreIndex + ' div#cpuCore' + coreIndex + '-t1 div.progressBarInside').css('height'));
-			$('div#cpuCore' + coreIndex + ' div#cpuCore' + coreIndex + '-t1 div.progressBarInside').css('height', (used / total) * 100 + '%');
+			let time5 = $('body main div#tabs-1 div#cpu div#cpuCore' + coreIndex + ' div#cpuCore' + coreIndex + '-t5 div.progressBarInside');
+			let time4 = $('body main div#tabs-1 div#cpu div#cpuCore' + coreIndex + ' div#cpuCore' + coreIndex + '-t4 div.progressBarInside');
+			let time3 = $('body main div#tabs-1 div#cpu div#cpuCore' + coreIndex + ' div#cpuCore' + coreIndex + '-t3 div.progressBarInside');
+			let time2 = $('body main div#tabs-1 div#cpu div#cpuCore' + coreIndex + ' div#cpuCore' + coreIndex + '-t2 div.progressBarInside');
+			let time1 = $('body main div#tabs-1 div#cpu div#cpuCore' + coreIndex + ' div#cpuCore' + coreIndex + '-t1 div.progressBarInside');
+			time5.css('height', time4.css('height'));
+			time4.css('height', time3.css('height'));
+			time3.css('height', time2.css('height'));
+			time2.css('height', time1.css('height'));
+			time1.css('height', (used / total) * 100 + '%');
+			time5 = time4 = time3 = time2 = time1 = null;
 		});
 
 		$('div#ramHistory div#ram5 div.progressBarInside').css('height', $('div#ramHistory div#ram4 div.progressBarInside').css('height'));
