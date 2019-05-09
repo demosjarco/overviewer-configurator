@@ -1,7 +1,7 @@
 const os = require('os');
 let numVisibleMessages = 25;
 
-$(document).ready(function () {
+$(function () {
 	ipcRenderer.send('getOverviewerVersion');
 	ipcRenderer.send('getLatestOverviewerVersion');
 
