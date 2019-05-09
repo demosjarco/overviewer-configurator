@@ -41,8 +41,7 @@ ipcRenderer.on('gotOverviewerVersion', function (event, version) {
 	$('span#ovVersion').text(version);
 });
 ipcRenderer.on('gotLatestOverviewerVersion', function (event, version) {
-	$('span#latestOvVersion').text(version);
-	$('span#latestOvVersion').css('color', '#a5d6a7');
+	$('span#latestOvVersion').text(version).css('color', '#a5d6a7');
 	if ($('span#ovVersion').text() == $('span#latestOvVersion').text()) {
 		$('span#ovVersion').css('color', '#a5d6a7');
 	} else {

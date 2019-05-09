@@ -1,10 +1,8 @@
 let tabCounter = 2;
 
 function redoTabs() {
-	$('#tabs').tabs('destroy');
-	$('#tabs').tabs();
-	$('aside ul li a').height($(window).width() * 0.0375);
-	$('aside ul li a').css('line-height', ($(window).width() * 0.0375) + 'px');
+	$('#tabs').tabs('destroy').tabs();
+	$('aside ul li a').height($(window).width() * 0.0375).css('line-height', ($(window).width() * 0.0375) + 'px');
 }
 
 ipcRenderer.on('clearWorlds', function (event, arg) {
