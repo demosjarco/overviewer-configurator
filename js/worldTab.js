@@ -1,5 +1,5 @@
 function selectedRenderDirection(worldNickName, direction) {
-	if ($('main div.worldItem div.directions div.direction.' + direction).hasClass('selected')) {
+	if ($('body main div.worldItem div.directions div.direction.' + direction).hasClass('selected')) {
 		// Unselect
 		$('main div.worldItem div.directions div.direction.' + direction).removeClass('selected');
 		let temp = {};
