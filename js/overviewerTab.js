@@ -34,11 +34,17 @@ $(document).ready(function () {
 			time5 = time4 = time3 = time2 = time1 = null;
 		});
 
-		$('div#ramHistory div#ram5 div.progressBarInside').css('height', $('div#ramHistory div#ram4 div.progressBarInside').css('height'));
-		$('div#ramHistory div#ram4 div.progressBarInside').css('height', $('div#ramHistory div#ram3 div.progressBarInside').css('height'));
-		$('div#ramHistory div#ram3 div.progressBarInside').css('height', $('div#ramHistory div#ram2 div.progressBarInside').css('height'));
-		$('div#ramHistory div#ram2 div.progressBarInside').css('height', $('div#ramHistory div#ram1 div.progressBarInside').css('height'));
-		$('div#ramHistory div#ram1 div.progressBarInside').css('height', ((os.totalmem() - os.freemem()) / os.totalmem()) * 100 + '%');
+		let time5 = $('body main div#tabs-1 div#ram div#ramHistory div#ram5 div.progressBarInside');
+		let time4 = $('body main div#tabs-1 div#ram div#ramHistory div#ram4 div.progressBarInside');
+		let time3 = $('body main div#tabs-1 div#ram div#ramHistory div#ram3 div.progressBarInside');
+		let time2 = $('body main div#tabs-1 div#ram div#ramHistory div#ram2 div.progressBarInside');
+		let time1 = $('body main div#tabs-1 div#ram div#ramHistory div#ram1 div.progressBarInside');
+		time5.css('height', time4.css('height'));
+		time4.css('height', time3.css('height'));
+		time3.css('height', time2.css('height'));
+		time2.css('height', time1.css('height'));
+		time1.css('height', ((os.totalmem() - os.freemem()) / os.totalmem()) * 100 + '%');
+		time5 = time4 = time3 = time2 = time1 = null;
 	}, 1000);
 
 	$("body main div#tabs-1 #tabs1-content").tabs();
