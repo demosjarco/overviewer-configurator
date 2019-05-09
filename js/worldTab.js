@@ -7,7 +7,7 @@ function selectedRenderDirection(worldNickName, direction) {
 		ipcRenderer.send('updateWorldInfo', worldNickName, temp);
 	} else {
 		// Select
-		$('main div.worldItem div.directions div.direction.' + direction).addClass('selected');
+		$('body main div.worldItem div.directions div.direction.' + direction).addClass('selected');
 		let temp = {};
 		temp[direction] = true;
 		ipcRenderer.send('updateWorldInfo', worldNickName, temp);
