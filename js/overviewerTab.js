@@ -2,8 +2,6 @@ const os = require('os');
 let numVisibleMessages = 25;
 
 $(document).ready(function () {
-	$("body main div#tabs-1 #tabs1-content").tabs();
-
 	ipcRenderer.send('getOverviewerVersion');
 	ipcRenderer.send('getLatestOverviewerVersion');
 
@@ -33,6 +31,8 @@ $(document).ready(function () {
 		$('div#ramHistory div#ram2 div.progressBarInside').css('height', $('div#ramHistory div#ram1 div.progressBarInside').css('height'));
 		$('div#ramHistory div#ram1 div.progressBarInside').css('height', ((os.totalmem() - os.freemem()) / os.totalmem()) * 100 + '%');
 	}, 1000);
+
+	$("body main div#tabs-1 #tabs1-content").tabs();
 
 	newVisualLog('Last ' + numVisibleMessages + ' messages will appear here');
 });
