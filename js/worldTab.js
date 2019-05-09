@@ -1,7 +1,7 @@
 function selectedRenderDirection(worldNickName, direction) {
 	if ($('body main div.worldItem div.directions div.direction.' + direction).hasClass('selected')) {
 		// Unselect
-		$('main div.worldItem div.directions div.direction.' + direction).removeClass('selected');
+		$(this).removeClass('selected');
 		let temp = {};
 		temp[direction] = false;
 		ipcRenderer.send('updateWorldInfo', worldNickName, temp);
