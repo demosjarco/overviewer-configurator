@@ -65,75 +65,51 @@ const overviewerVersions = require('./overviewerVersions.js');
 
 app.on('ready', () => {
 	// Create the browser window.
-	configFile.getLastState(function (lastState) {
-		let lastDisplay = require('electron').screen.getAllDisplays()[lastState.monitor];
-		mainWindow = new BrowserWindow({
-			width: lastState.size.width,
-			height: lastState.size.height,
-			x: lastDisplay.workArea.x,
-			y: lastDisplay.workArea.y,
-			minWidth: 800,
-			minHeight: 600,
-			title: 'Overviewer Config',
-			frame: true,
-			backgroundColor: '#212121',
-			darkTheme: true,
-			vibrancy: 'dark',
-			webPreferences: {
-				devTools: true,
-				nodeIntegration: true,
-				enableRemoteModule: false,
-				webSecurity: true,
-				allowRunningInsecureContent: false,
-				scrollBounce: true,
-				enableBlinkFeatures: 'OverlayScrollbars'
-			}
-		});
-		mainWindow.center();
-		if (lastState.maximized)
-			mainWindow.maximize();
-
-		// and load the index.html of the app.
-		mainWindow.loadFile('./html/mainWindow.html');
-		Menu.setApplicationMenu(Menu.buildFromTemplate(mainMenuTemplate));
-		//mainWindow.webContents.openDevTools();
-		
-		let displays = require('electron').screen.getAllDisplays();
-		let weirdOffset = 0;
-		let weirdOffsetPlatform = /win\d+/;
-		if (weirdOffsetPlatform.test(process.platform)) {
-			weirdOffset = 8;
-		}
-		mainWindow.on('move', () => {
-			displays.forEach(function (display, index) {
-				if (mainWindow.getBounds().x >= display.workArea.x - weirdOffset && mainWindow.getBounds().x < display.workArea.x + display.workArea.width - weirdOffset) {
-					configFile.changedSetting(index, 'global', 'lastState', 'monitor');
-				}
-			});
-		});
-		mainWindow.on('will-resize', (event, newBounds) => {
-			configFile.changedSetting(newBounds.width, 'global', 'lastState', 'size', 'width');
-			configFile.changedSetting(newBounds.height, 'global', 'lastState', 'size', 'height');
-		});
-		mainWindow.on('maximize', () => {
-			configFile.changedSetting(true, 'global', 'lastState', 'maximized');
-		});
-		mainWindow.on('unmaximize', () => {
-			configFile.changedSetting(false, 'global', 'lastState', 'maximized');
-		});
-
-		// Emitted when the window is closed.
-		mainWindow.on('closed', () => {
-			// Dereference the window object, usually you would store windows
-			// in an array if your app supports multi windows, this is the time
-			// when you should delete the corresponding element.
-			mainWindow = null;
-		});
-
-		module.exports.mainWindow = mainWindow;
-		overviewerVersions.updateLocalOverviewerVersion();
-		overviewerVersions.updateOverviewerVersions();
+	let mainWindowState = require('electron-window-state')({
+		defaultWidth: 800,
+		defaultHeight: 600
 	});
+	mainWindow = new BrowserWindow({
+		width: mainWindowState.width,
+		height: mainWindowState.height,
+		x: mainWindowState.x,
+		y: mainWindowState.y,
+		minWidth: 800,
+		minHeight: 600,
+		title: 'Overviewer Config',
+		frame: true,
+		backgroundColor: '#212121',
+		darkTheme: true,
+		vibrancy: 'dark',
+		webPreferences: {
+			devTools: true,
+			nodeIntegration: true,
+			enableRemoteModule: false,
+			webSecurity: true,
+			allowRunningInsecureContent: false,
+			scrollBounce: true,
+			enableBlinkFeatures: 'OverlayScrollbars'
+		}
+	});
+
+	mainWindowState.manage(mainWindow);
+
+	// and load the index.html of the app.
+	mainWindow.loadFile('./html/mainWindow.html');
+	Menu.setApplicationMenu(Menu.buildFromTemplate(mainMenuTemplate));
+	//mainWindow.webContents.openDevTools();
+
+	// Emitted when the window is closed.
+	mainWindow.on('closed', () => {
+		// Dereference the window object, usually you would store windows
+		// in an array if your app supports multi windows, this is the time
+		// when you should delete the corresponding element.
+		mainWindow = null;
+	});
+
+	module.exports.mainWindow = mainWindow;
+	overviewerVersions.updateLocalOverviewerVersion();
+	overviewerVersions.updateOverviewerVersions();
 });
 
 // Quit when all windows are closed.
