@@ -19,15 +19,15 @@
 	},
 	"homepage": "https://github.com/victhebeast/overviewer-configurator#readme",
 	"devDependencies": {
-		"electromon": "1.x",
+		"electromon": "^1.0.10",
 		"electron": "4.x",
-		"electron-packager": "13.x"
+		"electron-packager": "^13.1.1"
 	},
 	"dependencies": {
-		"adm-zip": "0.x",
+		"adm-zip": "^0.4.13",
 		"cheerio": "^1.0.0-rc.2",
-		"jquery": "3.x",
+		"jquery": "^3.4.1",
 		"request": "2.x",
-		"rimraf": "2.x"
+		"rimraf": "^2.6.3"
 	}
 }
