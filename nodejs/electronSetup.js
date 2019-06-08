@@ -1,8 +1,3 @@
-const { app, BrowserWindow, Menu } = require('electron');
-
-let mainWindow;
-module.exports.mainWindow = mainWindow;
-
 let mainMenuTemplate = [
 	{
 		label: 'File',
@@ -60,8 +55,12 @@ let mainMenuTemplate = [
 	}
 ];
 
+const { app, BrowserWindow, Menu } = require('electron');
 const configFile = require('./configFile.js');
 const overviewerVersions = require('./overviewerVersions.js');
+
+let mainWindow;
+module.exports.mainWindow = mainWindow;
 
 app.on('ready', () => {
 	// Create the browser window.
