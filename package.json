@@ -6,7 +6,7 @@
 	"scripts": {
 		"test": "echo \"npm test temporarily disabled\"",
 		"start": "electron .",
-		"dev": "electromon . --dev",
+		"dev": "electromon .",
 		"less": "less-watch-compiler css css",
 		"packagewin": "electron-packager . --platform=win32 --arch=x64"
 	},
