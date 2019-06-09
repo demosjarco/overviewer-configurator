@@ -16,6 +16,18 @@ $(function () {
 	$("body main div#tabs-1 #tabs1-content").tabs();
 });
 
+let initialCpuUsed = {};
+let initialCpuTotal = {};
+os.cpus().forEach(function (coreInfo, coreIndex) {
+	initialCpuTotal[coreIndex] = 0;
+	initialCpuUsed[coreIndex] = 0;
+	Object.keys(coreInfo.times).forEach(function (type) {
+		initialCpuTotal[coreIndex] += coreInfo.times[type];
+		if (type != 'idle')
+			initialCpuUsed[coreIndex] += coreInfo.times[type];
+	});
+});
+
 setInterval(function () {
 	os.cpus().forEach(function (coreInfo, coreIndex) {
 		let total = 0;
@@ -35,11 +47,13 @@ setInterval(function () {
 			cpuTime4.css('height', cpuTime3.css('height'));
 			cpuTime3.css('height', cpuTime2.css('height'));
 			cpuTime2.css('height', cpuTime1.css('height'));
-			cpuTime1.css('height', (used / total) * 100 + '%');
+			cpuTime1.css('height', (parseFloat((used - initialCpuUsed[coreIndex])) / parseFloat(total - initialCpuTotal[coreIndex])) * 100 + '%');
 			cpuTime5 = cpuTime4 = cpuTime3 = cpuTime2 = cpuTime1 = null;
 		});
 	});
+}, 1000);
 
+setInterval(function () {
 	$(function () {
 		let ramTime5 = $('body main div#tabs-1 div#ram div#ramHistory div#ram5 div.progressBarInside');
 		let ramTime4 = $('body main div#tabs-1 div#ram div#ramHistory div#ram4 div.progressBarInside');
