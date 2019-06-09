@@ -16,6 +16,19 @@ ipcMain.on('runOverviewer', (event, runType) => {
 			return;
 	}
 });
+ipcMain.on('stopOverviewer', (event, runType) => {
+	switch (runType) {
+		case 'map':
+			runOverviewer.stopRenderMap();
+			return;
+		case 'poi':
+			runOverviewer.stopRenderPoi();
+			return;
+		case 'webass':
+			runOverviewer.stopRenderWebAssets();
+			return;
+	}
+});
 
 const overviewerVersions = require('./nodejs/overviewerVersions.js');
 ipcMain.on('getOverviewerVersion', (event, arg) => {

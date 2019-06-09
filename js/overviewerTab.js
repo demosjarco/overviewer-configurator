@@ -94,6 +94,10 @@ function runOverviewer(runType) {
 	ipcRenderer.send('runOverviewer', runType);
 }
 
+function stopOverviewer() {
+	ipcRenderer.send('stopOverviewer', runType);
+}
+
 ipcRenderer.on('overviewerRunProgress', function (event, runType, max = '0', current = '0') {
 	$(function () {
 		if ($('body main div#tabs-1 table tr.renderControl.' + runType + ' td progress').length == 0) {
