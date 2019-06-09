@@ -77,6 +77,7 @@ let mainMenuTemplate = [
 
 const { app, BrowserWindow, Menu } = require('electron');
 const overviewerVersions = require('./overviewerVersions.js');
+const oxipngVersions = require('./oxipngVersions.js');
 
 let mainWindow;
 module.exports.mainWindow = mainWindow;
@@ -160,5 +161,21 @@ module.exports.addNewOverviewerVersionMenu = function(menuItem) {
 }
 module.exports.reverseOverviewerVersionMenu = function() {
 	mainMenuTemplate[1].submenu[1].submenu.reverse();
+	Menu.setApplicationMenu(Menu.buildFromTemplate(mainMenuTemplate));
+}
+
+module.exports.setOxipngCurrentVersionMenu = function (currentVersion) {
+	mainMenuTemplate[2].submenu[0].sublabel = currentVersion;
+	Menu.setApplicationMenu(Menu.buildFromTemplate(mainMenuTemplate));
+}
+module.exports.emptyOxipngVersionsMenu = function () {
+	delete mainMenuTemplate[2].submenu[1].sublabel;
+	mainMenuTemplate[2].submenu[1].submenu = [];
+}
+module.exports.addNewOxipngVersionMenu = function (menuItem) {
+	mainMenuTemplate[2].submenu[1].submenu.push(menuItem);
+}
+module.exports.reverseOxipngVersionMenu = function () {
+	mainMenuTemplate[2].submenu[1].submenu.reverse();
 	Menu.setApplicationMenu(Menu.buildFromTemplate(mainMenuTemplate));
 }
