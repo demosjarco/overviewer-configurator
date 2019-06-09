@@ -36,19 +36,17 @@ function processJsonReadQueue() {
 		}, permJson);
 	} else {
 		fs.readFile(app.getPath('userData').replace(/\\/g, "/") + '/settings.json', (err, data) => {
-			if (!err) {
-				updatePreferencesFileIfNeeded(function (json) {
-					permJson = json;
-					if (callback)
-						callback(json);
+			updatePreferencesFileIfNeeded(function (json) {
+				permJson = json;
+				if (callback)
+					callback(json);
 
-					if (jsonReadQueue.length > 0) {
-						processJsonReadQueue();
-					} else {
-						jsonReadQueueProcessing = false;
-					}
-				}, JSON.parse(data));
-			}
+				if (jsonReadQueue.length > 0) {
+					processJsonReadQueue();
+				} else {
+					jsonReadQueueProcessing = false;
+				}
+			}, (err || !data) ? {} : JSON.parse(data));
 		});
 	}
 
