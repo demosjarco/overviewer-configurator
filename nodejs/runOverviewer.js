@@ -31,7 +31,7 @@ function getOverviewerPaths(callback) {
 
 module.exports.renderMap = function () {
 	getOverviewerPaths(function (exec, wd) {
-		mapRenderer = spawn(exec, ['--config=../config.py'], {
+		mapRenderer = spawn(exec, ['--config=../config.py', '--processes', '' + require('os').cpus().length], {
 			cwd: wd,
 			windowsHide: true
 		});
