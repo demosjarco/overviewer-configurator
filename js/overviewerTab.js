@@ -93,3 +93,17 @@ function newVisualLog(message) {
 function runOverviewer(runType) {
 	ipcRenderer.send('runOverviewer', runType);
 }
+
+ipcRenderer.on('overviewerRunProgress', function (event, runType, max = '0', current = '0') {
+	$(function () {
+		if ($('body main div#tabs-1 table tr.renderControl.' + runType + ' td progress').length == 0) {
+			$('body main div#tabs-1 table tr.renderControl.' + runType).append('<td><progress></progress></td>');
+		}
+		if (parseInt(max) > 0 && max != current) {
+			$('body main div#tabs-1 table tr.renderControl.' + runType + ' td progress').attr('max', max);
+			$('body main div#tabs-1 table tr.renderControl.' + runType + ' td progress').attr('value', current);
+		} else if (parseInt(max) > 0 && max == current) {
+			$('body main div#tabs-1 table tr.renderControl.' + runType + ' td progress').closest('td').remove();
+		}
+	});
+});
