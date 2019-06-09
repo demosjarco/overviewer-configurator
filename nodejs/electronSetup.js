@@ -19,9 +19,6 @@ let mainMenuTemplate = [
 				enabled: false
 			},
 			{
-				type: 'separator'
-			},
-			{
 				label: 'Versions',
 				sublabel: 'Loading...'
 			}
@@ -144,13 +141,13 @@ module.exports.setCurrentVersionMenu = function(currentVersion) {
 	Menu.setApplicationMenu(Menu.buildFromTemplate(mainMenuTemplate));
 }
 module.exports.deleteLeadingVersionsMenu = function() {
-	delete mainMenuTemplate[1].submenu[2].sublabel;
-	mainMenuTemplate[1].submenu[2].submenu = [];
+	delete mainMenuTemplate[1].submenu[1].sublabel;
+	mainMenuTemplate[1].submenu[1].submenu = [];
 }
 module.exports.addNewVersionMenu = function(menuItem) {
-	mainMenuTemplate[1].submenu[2].submenu.push(menuItem);
+	mainMenuTemplate[1].submenu[1].submenu.push(menuItem);
 }
 module.exports.reverseVersionMenu = function() {
-	mainMenuTemplate[1].submenu[2].submenu.reverse();
+	mainMenuTemplate[1].submenu[1].submenu.reverse();
 	Menu.setApplicationMenu(Menu.buildFromTemplate(mainMenuTemplate));
 }
