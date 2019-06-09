@@ -29,6 +29,9 @@ function updateOverviewerVersions(latestVersionCallback) {
 	const os = require('os');
 	let osType = '';
 	switch (os.platform()) {
+		case 'darwin':
+			osType = '';
+			break;
 		case 'win32':
 			const platformReg = /^\w+\D+/;
 			const archReg = /(?<=^x)\d+$/;
