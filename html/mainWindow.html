@@ -5,506 +5,103 @@
 <title>Overviewer Config</title>
 <meta name="theme-color" content="#36b030" />
 <link rel="stylesheet" href="../css/main.css" type="text/css" />
+<link rel="stylesheet" href="../css/material.css" type="text/css" />
 </head>
 
-<body>
-<header>
-	<div id="softwareInfo"><span class="nice">v<span id="version">...</span>(Latest: <span id="latestVersion">...</span>)</span> Oxipng:<span id="oxipngInstalled">...</span><button id="oxipngUpdate" onClick="updateOxipng()">Update</button> Log Count: <input onChange="changeLogCount(this.value)" type="number" min="1" step="1" value="10" /><br />Compression level: <input type="number" id="compressLevel" max="6" min="0" step="1" value="0" /><br />Progress: <input id="consoleProgress" type="checkbox" />Console <input id="webProgress" type="checkbox" />Web<br />Cave: <input id="caveDepthShading" type="checkbox" />Depth Shading<br /><button onClick="generateConfig()">Generate</button><button onClick="runOverviewer('web')">Render Web Assets</button><button onClick="runOverviewer('poi')">Render POIs</button><button onClick="runOverviewer()">Render Map</button></div>
-</header>
-<div id="worldConfig"></div>
-<footer>
-	<ul>
-	</ul>
-</footer>
-<script>
-window.$ = window.jQuery = require('jquery');
-const {ipcRenderer} = require('electron');
-
-ipcRenderer.send('getVersion');
-ipcRenderer.on('gotVersion', function(event, version) {
-	$('header div span#version').text(version.current);
-	$('header div span#latestVersion').text(version.latest);
-	if (version.current == version.latest) {
-		$('header div span#version').css('color', 'green');
-		$('header div button#overviewerUpdate').remove();
-	} else {
-		$('header div#softwareInfo span.nice').after('<button id="overviewerUpdate" onClick="updateOverviewer()">Update</button>');
-		if (version.latest == 'Update in progress')
-			$('header div#softwareInfo button#overviewerUpdate').prop("disabled", true);
-	}
-});
-function updateOverviewer() {
-	ipcRenderer.send('updateOverviewer');
-	$('header div#softwareInfo button#overviewerUpdate').prop("disabled", true);
-}
-
-ipcRenderer.send('getOxipng');
-ipcRenderer.on('gotOxipng', function(event, installed) {
-	$('header div span#oxipngInstalled').text(installed ? 'Installed' : 'Missing');
-	$('header div#softwareInfo button#oxipngUpdate').prop("disabled", false);
-	if (installed) {
-		$('header div span#oxipngInstalled').css('color', 'green');
-	} else {
-		$('header div span#oxipngInstalled').css('color', 'red');
-	}
-});
-function updateOxipng() {
-	ipcRenderer.send('updateOxipng');
-	$('header div#softwareInfo button#oxipngUpdate').prop("disabled", true);
-}
-
-let worldRenderConfig = [];
-	
-function worldNickName(worldName) {
-	var nickname = "";
-	worldName.split(" ").forEach(function(namePart) {
-		nickname += namePart.charAt(namePart.search(/[0-9a-z]/i)).toLowerCase();
-	});
-	return nickname;
-}
-
-ipcRenderer.send('getWorlds');
-ipcRenderer.on('gotWorlds', function(event, worlds, worldsSavedPrefs) {
-	worlds.forEach(function(world) {
-		let worldSavedPref;
-		if (worldsSavedPrefs)
-			worldsSavedPrefs.forEach(function(savedWorldPrefs) {
-				if (savedWorldPrefs.name == world) {
-					worldSavedPref = savedWorldPrefs;
-				}
-			});
-		
-		var world = {
-			key: worldNickName(world),
-			name: world,
-			path: 'Z:/Minecraft Servers/' + world + '/world',
-			selected: worldSavedPref ? worldSavedPref.selected : false,
-			forcerender: {
-				day: worldSavedPref ? worldSavedPref.forcerender.day : false,
-				caves: worldSavedPref ? worldSavedPref.forcerender.caves : false,
-				night: worldSavedPref ? worldSavedPref.forcerender.night : false,
-				minerals: worldSavedPref ? worldSavedPref.forcerender.minerals : false,
-				spawn: worldSavedPref ? worldSavedPref.forcerender.spawn : false,
-				nether: worldSavedPref ? worldSavedPref.forcerender.nether : false,
-				end: worldSavedPref ? worldSavedPref.forcerender.end : false
-			},
-			day: worldSavedPref ? worldSavedPref.day : true,
-			caves: worldSavedPref ? worldSavedPref.caves : true,
-			night: worldSavedPref ? worldSavedPref.night : true,
-			minerals: worldSavedPref ? worldSavedPref.minerals : true,
-			spawn: worldSavedPref ? worldSavedPref.spawn : true,
-			nether: worldSavedPref ? worldSavedPref.nether : true,
-			end: worldSavedPref ? worldSavedPref.end : true
-		};
-		worldRenderConfig.push(world);
-	});
-	
-	ipcRenderer.send('saveWorldPref', worldRenderConfig);
-	worldRenderConfig.forEach(function(worldConfig) {
-		$('div#worldConfig').append('<fieldset><legend><input type="checkbox" onClick="updateSavePref(\'' + worldConfig.key + '\', \'selected\', this.checked)" ' + (worldConfig.selected ? 'checked' : '') + ' />' + '[' + worldConfig.key + '] ' + worldConfig.name + '</legend><fieldset><legend>Render Types</legend><span><input type="checkbox" onClick="updateSavePref(\'' + worldConfig.key + '\', \'day\', this.checked)" ' + (worldConfig.day ? 'checked' : '') + ' />Day</span><span><input type="checkbox" onClick="updateSavePref(\'' + worldConfig.key + '\', \'caves\', this.checked)" ' + (worldConfig.caves ? 'checked' : '') + ' />Caves</span><span><input type="checkbox" onClick="updateSavePref(\'' + worldConfig.key + '\', \'night\', this.checked)" ' + (worldConfig.night ? 'checked' : '') + ' />Night</span><span><input type="checkbox" onClick="updateSavePref(\'' + worldConfig.key + '\', \'minerals\', this.checked)" ' + (worldConfig.minerals ? 'checked' : '') + ' >Minerals</span><span><input type="checkbox" onClick="updateSavePref(\'' + worldConfig.key + '\', \'spawn\', this.checked)" ' + (worldConfig.spawn ? 'checked' : '') + ' />Spawn</span><span><input type="checkbox" onClick="updateSavePref(\'' + worldConfig.key + '\', \'nether\', this.checked)" ' + (worldConfig.nether ? 'checked' : '') + ' />Nether</span><span><input type="checkbox" onClick="updateSavePref(\'' + worldConfig.key + '\', \'end\', this.checked)" ' + (worldConfig.end ? 'checked' : '') + ' />End</span></fieldset><fieldset><legend>Force Render</legend><span><input type="checkbox" onClick="updateSavePref(\'' + worldConfig.key + '\', \'day\', this.checked, true)" ' + (worldConfig.forcerender.day ? 'checked' : '') + ' />Day</span><span><input type="checkbox" onClick="updateSavePref(\'' + worldConfig.key + '\', \'caves\', this.checked, true)" ' + (worldConfig.forcerender.caves ? 'checked' : '') + ' />Caves</span><span><input type="checkbox" onClick="updateSavePref(\'' + worldConfig.key + '\', \'night\', this.checked, true)" ' + (worldConfig.forcerender.night ? 'checked' : '') + ' />Night</span><span><input type="checkbox" onClick="updateSavePref(\'' + worldConfig.key + '\', \'minerals\', this.checked, true)" ' + (worldConfig.forcerender.minerals ? 'checked' : '') + ' />Minerals</span><span><input type="checkbox" onClick="updateSavePref(\'' + worldConfig.key + '\', \'nether\', this.checked, true)" ' + (worldConfig.forcerender.nether ? 'checked' : '') + '>Spawn</span><span><input type="checkbox">Nether</span><span><input type="checkbox" onClick="updateSavePref(\'' + worldConfig.key + '\', \'end\', this.checked, true)" ' + (worldConfig.forcerender.end ? 'checked' : '') + ' />End</span></fieldset></fieldset>');
-	});
-});
-
-function updateSavePref(worldKey, preference, value, forceRender = false) {
-	worldRenderConfig.forEach(function(savedPref) {
-		if (savedPref.key == worldKey) {
-			if (forceRender) {
-				savedPref.forcerender[preference] = value;
-			} else {
-				savedPref[preference] = value;
-			}
-		}
-	});
-	
-	ipcRenderer.send('saveWorldPref', worldRenderConfig);
-}
-
-function generateConfig() {
-	const worlds = worldRenderConfig;
-	let overviewerConfigFile = "";
-	
-	// Create worlds dictionary
-	worlds.forEach(function(worldInfo) {
-		if (worldInfo.selected)
-			overviewerConfigFile += 'worlds["' + worldInfo.name + '"] = "' + worldInfo.path + '"\n';
-	});
-
-	overviewerConfigFile += '\n';
-	
-	overviewerConfigFile += 'outputdir = "W:/mcmaps"\n';
-	overviewerConfigFile += 'customwebassets = "../web_assets"\n';
-
-	overviewerConfigFile += '\n';
-	
-	if ($('header div#softwareInfo input#consoleProgress').prop('checked') && $('header div#softwareInfo input#webProgress').prop('checked')) {
-		overviewerConfigFile += 'from observer import MultiplexingObserver, LoggingObserver, JSObserver\n';
-		overviewerConfigFile += 'observer = MultiplexingObserver(LoggingObserver(), JSObserver(outputdir, 10))\n';
-	} else if ($('header div#softwareInfo input#consoleProgress').prop('checked')) {
-		overviewerConfigFile += 'from observer import LoggingObserver\n';
-		overviewerConfigFile += 'observer = LoggingObserver()\n';
-	} else if ($('header div#softwareInfo input#webProgress').prop('checked')) {
-		overviewerConfigFile += 'from observer import JSObserver\n';
-		overviewerConfigFile += 'observer = JSObserver(outputdir, 10)\n';
-	}
-
-	overviewerConfigFile += '\n';
-	
-	if (parseInt($('header div#softwareInfo input#compressLevel').val()) > 0) {
-		overviewerConfigFile += 'from optimizeimages import oxipng\n';
-		overviewerConfigFile += 'optimizeimg = [oxipng(olevel=' + parseInt($('header div#softwareInfo input#compressLevel').val()) + ')]\n\n';
-	}
-
-	overviewerConfigFile += 'bgcolor = "#000000"\n';
-	overviewerConfigFile += 'end_smooth_lighting = [Base(), EdgeLines(), SmoothLighting(strength=0.5)]\n';
-	overviewerConfigFile += 'lighter_nether_smooth_lighting = [Base(), EdgeLines(), Nether(), SmoothLighting(strength=0.5)]\n';
-	if ($('header div#softwareInfo input#caveDepthShading').prop('checked')) {
-		overviewerConfigFile += 'cave_noDepth = "cave"\n';
-	} else {
-		overviewerConfigFile += 'cave_noDepth = [Base(), EdgeLines(), Cave()]\n';
-	}
-
-	overviewerConfigFile += '\n';
-
-	overviewerConfigFile += 'def signIcons(poi):\n';
-	overviewerConfigFile += '\t\tif poi["id"] == "Sign" or poi["id"] == "minecraft:sign":\n';
-	overviewerConfigFile += '\t\t\treturn "\\n".join([poi["Text1"], poi["Text2"], poi["Text3"], poi["Text4"]])\n';
-
-	overviewerConfigFile += '\n';
-
-	overviewerConfigFile += 'def caveSignIcons(poi):\n';
-	overviewerConfigFile += '\tif poi["id"] == "Sign" or poi["id"] == "minecraft:sign":\n';
-	overviewerConfigFile += '\t\tif poi["z"] <= 128:\n';
-	overviewerConfigFile += '\t\t\treturn "\\n".join([poi["Text1"], poi["Text2"], poi["Text3"], poi["Text4"]])\n';
-
-	overviewerConfigFile += '\n';
-
-	overviewerConfigFile += 'def chestIcons(poi):\n';
-	overviewerConfigFile += '\tif poi["id"] == "Chest":\n';
-	overviewerConfigFile += '\t\tif not "Items" in poi:\n';
-	overviewerConfigFile += '\t\t\treturn "Chest with items"\n';
-	overviewerConfigFile += '\t\telse:\n';
-	overviewerConfigFile += '\t\t\treturn "Chest with %d items" % len(poi["Items"])\n';
-
-	overviewerConfigFile += '\n';
-
-	overviewerConfigFile += 'def caveChestIcons(poi):\n';
-	overviewerConfigFile += '\tif poi["id"] == "Chest":\n';
-	overviewerConfigFile += '\t\tif poi["z"] <= 128:\n';
-	overviewerConfigFile += '\t\t\tif not "Items" in poi:\n';
-	overviewerConfigFile += '\t\t\t\treturn "Chest with items"\n';
-	overviewerConfigFile += '\t\t\telse:\n';
-	overviewerConfigFile += '\t\t\t\treturn "Chest with %d items" % len(poi["Items"])\n';
-
-	overviewerConfigFile += '\n';
-
-	overviewerConfigFile += 'def playerIcons(poi):\n';
-	overviewerConfigFile += '\tif poi["id"] == "Player":\n';
-	overviewerConfigFile += '\t\tpoi["icon"] = "https://overviewer.org/avatar/%s" % poi["EntityId"]\n';
-	overviewerConfigFile += '\t\treturn "Last known location for %s" % poi["EntityId"]\n';
-
-	overviewerConfigFile += '\n';
-
-	overviewerConfigFile += 'def cavePlayerIcons(poi):\n';
-	overviewerConfigFile += '\tif poi["id"] == "Player":\n';
-	overviewerConfigFile += '\t\tif poi["z"] <= 128:\n';
-	overviewerConfigFile += '\t\t\tpoi["icon"] = "https://overviewer.org/avatar/%s" % poi["EntityId"]\n';
-	overviewerConfigFile += '\t\t\treturn "Last known location for %s" % poi["EntityId"]\n';
-
-	overviewerConfigFile += '\n';
-
-	overviewerConfigFile += 'signFilter = dict(name="Signs", filterFunction=signIcons)\n';
-	overviewerConfigFile += 'caveSignFilter = dict(name="Signs", filterFunction=caveSignIcons)\n';
-	overviewerConfigFile += 'chestFilter = dict(name="Chests", filterFunction=chestIcons, icon="chest.png", createInfoWindow=True)\n';
-	overviewerConfigFile += 'caveChestFilter = dict(name="Chests", filterFunction=caveChestIcons, icon="chest.png", createInfoWindow=True)\n';
-	overviewerConfigFile += 'playerFilter = dict(name="Players", filterFunction=playerIcons, checked=True)\n';
-	overviewerConfigFile += 'cavePlayerFilter = dict(name="Players", filterFunction=cavePlayerIcons, checked=True)\n';
-
-	overviewerConfigFile += '\n';
-
-	overviewerConfigFile += 'regularMarkers = [signFilter, chestFilter, playerFilter]\n';
-	overviewerConfigFile += 'caveMarkers = [caveSignFilter, caveChestFilter, cavePlayerFilter]\n';
-	overviewerConfigFile += 'netherMarkers = regularMarkers\n';
-	overviewerConfigFile += 'endMarkers = regularMarkers\n';
-
-	worlds.forEach(function(world) {
-		if (world.selected) {
-			overviewerConfigFile += '\n';
-			overviewerConfigFile += '####\t' + world.name + '\n';
-
-			if (world.day) {
-				overviewerConfigFile += '###\tDay\n';
-				renderDirection("ul", world);
-
-				function renderDirection(direction, world) {
-					overviewerConfigFile += 'renders["' + world.key + '-' + direction + '-day"] = {\n';
-					switch(direction) {
-						case "ur":
-							overviewerConfigFile += '#\tUpper Right\n';
-							overviewerConfigFile += '\t"northdirection": "upper-right",\n';
-							break;
-						case "ll":
-							overviewerConfigFile += '#\tLower Left\n';
-							overviewerConfigFile += '\t"northdirection": "lower-left",\n';
-							break;
-						case "lr":
-							overviewerConfigFile += '#\tLower Right\n';
-							overviewerConfigFile += '\t"northdirection": "lower-right",\n';
-							break;
-						default:
-							overviewerConfigFile += '#\tUpper Left\n';
-							overviewerConfigFile += '\t"northdirection": "upper-left",\n';
-							break;
-					}
-					overviewerConfigFile += '\t"world": "' + world.name + '",\n';
-					overviewerConfigFile += '\t"title": "Day",\n';
-					overviewerConfigFile += '\t"rendermode": "smooth_lighting",\n';
-					overviewerConfigFile += '\t"markers": regularMarkers\n';
-					if (world.forcerender.day) overviewerConfigFile += '\t"forcerender": true,\n';
-					overviewerConfigFile += '}\n';
-				}
-			}
-
-			if (world.caves) {
-				overviewerConfigFile += '###\tCaves\n';
-				renderDirection("ul", world);
-
-				function renderDirection(direction, world) {
-					overviewerConfigFile += 'renders["' + world.key + '-' + direction + '-caves"] = {\n';
-					switch(direction) {
-						case "ur":
-							overviewerConfigFile += '#\tUpper Right\n';
-							overviewerConfigFile += '\t"northdirection": "upper-right",\n';
-							break;
-						case "ll":
-							overviewerConfigFile += '#\tLower Left\n';
-							overviewerConfigFile += '\t"northdirection": "lower-left",\n';
-							break;
-						case "lr":
-							overviewerConfigFile += '#\tLower Right\n';
-							overviewerConfigFile += '\t"northdirection": "lower-right",\n';
-							break;
-						default:
-							overviewerConfigFile += '#\tUpper Left\n';
-							overviewerConfigFile += '\t"northdirection": "upper-left",\n';
-							break;
-					}
-					overviewerConfigFile += '\t"world": "' + world.name + '",\n';
-					overviewerConfigFile += '\t"title": "Caves",\n';
-					overviewerConfigFile += '\t"rendermode": cave_noDepth,\n';
-					overviewerConfigFile += '\t"markers": caveMarkers\n';
-					if (world.forcerender.caves) overviewerConfigFile += '\t"forcerender": true,\n';
-					overviewerConfigFile += '}\n';
-				}
-			}
-
-			if (world.night) {
-				overviewerConfigFile += '###\tNight\n';
-				renderDirection("ul", world);
-
-				function renderDirection(direction, world) {
-					overviewerConfigFile += 'renders["' + world.key + '-' + direction + '-night"] = {\n';
-					switch(direction) {
-						case "ur":
-							overviewerConfigFile += '#\tUpper Right\n';
-							overviewerConfigFile += '\t"northdirection": "upper-right",\n';
-							break;
-						case "ll":
-							overviewerConfigFile += '#\tLower Left\n';
-							overviewerConfigFile += '\t"northdirection": "lower-left",\n';
-							break;
-						case "lr":
-							overviewerConfigFile += '#\tLower Right\n';
-							overviewerConfigFile += '\t"northdirection": "lower-right",\n';
-							break;
-						default:
-							overviewerConfigFile += '#\tUpper Left\n';
-							overviewerConfigFile += '\t"northdirection": "upper-left",\n';
-							break;
-					}
-					overviewerConfigFile += '\t"world": "' + world.name + '",\n';
-					overviewerConfigFile += '\t"title": "Night",\n';
-					overviewerConfigFile += '\t"rendermode": "smooth_night",\n';
-					overviewerConfigFile += '\t"markers": regularMarkers\n';
-					if (world.forcerender.night) overviewerConfigFile += '\t"forcerender": true,\n';
-					overviewerConfigFile += '}\n';
-				}
-			}
-
-			if (world.minerals || world.spawn) overviewerConfigFile += '###\tOverlays\n';
-
-			if (world.minerals) {
-				overviewerConfigFile += '##\tMinerals\n';
-				renderDirection("ul", world);
-
-				function renderDirection(direction, world) {
-					overviewerConfigFile += 'renders["' + world.key + '-' + direction + '-minerals"] = {\n';
-					switch(direction) {
-						case "ur":
-							overviewerConfigFile += '#\tUpper Right\n';
-							overviewerConfigFile += '\t"northdirection": "upper-right",\n';
-							break;
-						case "ll":
-							overviewerConfigFile += '#\tLower Left\n';
-							overviewerConfigFile += '\t"northdirection": "lower-left",\n';
-							break;
-						case "lr":
-							overviewerConfigFile += '#\tLower Right\n';
-							overviewerConfigFile += '\t"northdirection": "lower-right",\n';
-							break;
-						default:
-							overviewerConfigFile += '#\tUpper Left\n';
-							overviewerConfigFile += '\t"northdirection": "upper-left",\n';
-							break;
-					}
-					overviewerConfigFile += '\t"world": "' + world.name + '",\n';
-					overviewerConfigFile += '\t"title": "Minerals",\n';
-					overviewerConfigFile += '\t"rendermode": [ClearBase(), MineralOverlay()],\n';
-					var overlay = '[';
-					if (world.day) overlay += '"' + world.key + '-' + direction + '-day",';
-					if (world.caves) overlay += '"' + world.key + '-' + direction + '-caves",';
-					if (world.night) overlay += '"' + world.key + '-' + direction + '-night",';
-					overviewerConfigFile += '\t"overlay": ' + overlay.substring(0, overlay.length - 1) + '],\n';
-					if (world.forcerender.minerals) overviewerConfigFile += '\t"forcerender": true,\n';
-					overviewerConfigFile += '}\n';
-				}
-			}
-
-			if (world.spawn) {
-				overviewerConfigFile += '##\tMob Spawn\n';
-				renderDirection("ul", world);
-
-				function renderDirection(direction, world) {
-					overviewerConfigFile += 'renders["' + world.key + '-' + direction + '-spawn"] = {\n';
-					switch(direction) {
-						case "ur":
-							overviewerConfigFile += '#\tUpper Right\n';
-							overviewerConfigFile += '\t"northdirection": "upper-right",\n';
-							break;
-						case "ll":
-							overviewerConfigFile += '#\tLower Left\n';
-							overviewerConfigFile += '\t"northdirection": "lower-left",\n';
-							break;
-						case "lr":
-							overviewerConfigFile += '#\tLower Right\n';
-							overviewerConfigFile += '\t"northdirection": "lower-right",\n';
-							break;
-						default:
-							overviewerConfigFile += '#\tUpper Left\n';
-							overviewerConfigFile += '\t"northdirection": "upper-left",\n';
-							break;
-					}
-					overviewerConfigFile += '\t"world": "' + world.name + '",\n';
-					overviewerConfigFile += '\t"title": "Mob Spawn",\n';
-					overviewerConfigFile += '\t"rendermode": [ClearBase(), SpawnOverlay()],\n';
-					var overlay = '[';
-					if (world.day) overlay += '"' + world.key + '-' + direction + '-day",';
-					if (world.caves) overlay += '"' + world.key + '-' + direction + '-caves",';
-					if (world.night) overlay += '"' + world.key + '-' + direction + '-night",';
-					overviewerConfigFile += '\t"overlay": ' + overlay.substring(0, overlay.length - 1) + '],\n';
-					if (world.forcerender.spawn) overviewerConfigFile += '\t"forcerender": true,\n';
-					overviewerConfigFile += '}\n';
-				}
-			}
-
-			if (world.nether) {
-				overviewerConfigFile += '###\tNether\n';
-				renderDirection("ul", world);
-
-				function renderDirection(direction, world) {
-					overviewerConfigFile += 'renders["' + world.key + '-' + direction + '-nether"] = {\n';
-					switch(direction) {
-						case "ur":
-							overviewerConfigFile += '#\tUpper Right\n';
-							overviewerConfigFile += '\t"northdirection": "upper-right",\n';
-							break;
-						case "ll":
-							overviewerConfigFile += '#\tLower Left\n';
-							overviewerConfigFile += '\t"northdirection": "lower-left",\n';
-							break;
-						case "lr":
-							overviewerConfigFile += '#\tLower Right\n';
-							overviewerConfigFile += '\t"northdirection": "lower-right",\n';
-							break;
-						default:
-							overviewerConfigFile += '#\tUpper Left\n';
-							overviewerConfigFile += '\t"northdirection": "upper-left",\n';
-							break;
-					}
-					overviewerConfigFile += '\t"world": "' + world.name + '",\n';
-					overviewerConfigFile += '\t"title": "Nether",\n';
-					overviewerConfigFile += '\t"dimension": "nether",\n';
-					overviewerConfigFile += '\t"rendermode": lighter_nether_smooth_lighting,\n';
-					overviewerConfigFile += '\t"markers": netherMarkers\n';
-					if (world.forcerender.nether) overviewerConfigFile += '\t"forcerender": true,\n';
-					overviewerConfigFile += '}\n';
-				}
-			}
-
-			if (world.end) {
-				overviewerConfigFile += '###\tEnd\n';
-				renderDirection("ul", world);
-
-				function renderDirection(direction, world) {
-					overviewerConfigFile += 'renders["' + world.key + '-' + direction + '-end"] = {\n';
-					switch(direction) {
-						case "ur":
-							overviewerConfigFile += '#\tUpper Right\n';
-							overviewerConfigFile += '\t"northdirection": "upper-right",\n';
-							break;
-						case "ll":
-							overviewerConfigFile += '#\tLower Left\n';
-							overviewerConfigFile += '\t"northdirection": "lower-left",\n';
-							break;
-						case "lr":
-							overviewerConfigFile += '#\tLower Right\n';
-							overviewerConfigFile += '\t"northdirection": "lower-right",\n';
-							break;
-						default:
-							overviewerConfigFile += '#\tUpper Left\n';
-							overviewerConfigFile += '\t"northdirection": "upper-left",\n';
-							break;
-					}
-					overviewerConfigFile += '\t"world": "' + world.name + '",\n';
-					overviewerConfigFile += '\t"title": "End",\n';
-					overviewerConfigFile += '\t"dimension": "end",\n';
-					overviewerConfigFile += '\t"rendermode": end_smooth_lighting,\n';
-					overviewerConfigFile += '\t"markers": endMarkers\n';
-					if (world.forcerender.nether) overviewerConfigFile += '\t"forcerender": true,\n';
-					overviewerConfigFile += '}\n';
-				}
-			}
-		}
-	});
-	
-	ipcRenderer.send('generateConfig', overviewerConfigFile);
-}
-
-ipcRenderer.on('visualLog', function(event, message) {
-	newVisualLog(message);
-});
-
-let numVisibleMessages = 10;
-
-function changeLogCount(newNumVisMessages) {
-	numVisibleMessages = newNumVisMessages;
-	if ($('footer ul li').length > numVisibleMessages) {
-		$('footer ul li').slice(0, $('footer ul li').length - numVisibleMessages).remove();
-	}
-}
-
-function newVisualLog(message) {
-	let tempDate = new Date();
-	$('footer ul').append('<li><span class="timeStamp">' + tempDate.toLocaleTimeString() + '</span><span class="message">' + message + '</span></li>');
-	if ($('footer ul li').length > numVisibleMessages) {
-		$('footer ul li').slice(0, $('footer ul li').length - numVisibleMessages).remove();
-	}
-	$("footer").scrollTop($("footer")[0].scrollHeight);
-}
-	newVisualLog('Last ' + numVisibleMessages + ' messages will appear here');
-
-function runOverviewer(type) {
-	ipcRenderer.send('runOverviewer', type);
-}
-</script>
+<body id="tabs">
+	<aside>
+		<ul>
+			<li><a href="#tabs-1"><img src="../img/overviewerLogo.png" /></a></li>
+		</ul>
+	</aside>
+	<main>
+		<div id="tabs-1">
+			<img src="../img/overviewerLogo.png" />
+			<h1>Overviewer</h1><br />
+			<table>
+				<tr>
+					<td>Version:</td>
+					<td><span id="ovVersion">Loading...</span> (Latest: <span id="latestOvVersion">Loading...</span>)</td>
+				</tr>
+				<tr class="renderControl map">
+					<td>Render Map</td>
+					<td><button onclick="runOverviewer('map')">Start</button></td>
+				</tr>
+				<tr class="renderControl poi">
+					<td>Render POIs</td>
+					<td><button onclick="runOverviewer('poi')">Start</button></td>
+				</tr>
+				<tr class="renderControl webass">
+					<td>Render Web Assets</td>
+					<td><button onclick="runOverviewer('webass')">Start</button></td>
+				</tr>
+			</table>
+			<br />
+			<br />
+			<br />
+			<div id="cpu">
+				<span>CPU</span>
+			</div>
+			<div id="ram">
+				<span>RAM</span>
+				<div id="ramHistory">
+					<div id="ram1" class="progressBar">
+						<div class="progressBarInside"></div>
+					</div>
+					<div id="ram2" class="progressBar">
+						<div class="progressBarInside"></div>
+					</div>
+					<div id="ram3" class="progressBar">
+						<div class="progressBarInside"></div>
+					</div>
+					<div id="ram4" class="progressBar">
+						<div class="progressBarInside"></div>
+					</div>
+					<div id="ram5" class="progressBar">
+						<div class="progressBarInside"></div>
+					</div>
+				</div>
+			</div>
+			<br />
+			<br />
+			<div id="tabs1-content">
+				<ul id="tabs1">
+					<li><a href="#tabs1-1">Global Config</a></li>
+					<li><a href="#tabs1-2">Logs</a></li>
+				</ul>
+				<div id="tabs1-1">
+					<h3>World Locations</h3>
+					<hr />
+					<p>Select the folder where the minecraft worlds that you want to render are located. level.dat can be up to 3 folders deep.</p>
+					<button onclick="worldsFolderSelection()">Choose Folder</button><span class="setting global worldsLocation">Loading...</span>
+					<h3>Output Location</h3>
+					<hr />
+					<p>Select the folder where the output map will be placed.</p>
+					<button onclick="outputFolderSelection()">Choose Folder</button><span class="setting global outputLocation">Loading...</span>
+					<h3>Render Progress</h3>
+					<hr />
+					<p>Choose to see overviewer render progress here in this program and/or in the output website.</p>
+					<input class="setting global renderProgress local" onchange="localRenderProgressChanged(this.checked)" type="checkbox" checked /><span>Local</span>
+					<br />
+					<input class="setting global renderProgress web" onchange="webRenderProgressChanged(this.checked)" type="checkbox" /><span>Web</span>
+					<h3>Cave Shading</h3>
+					<hr />
+					<p>Blocks are tinted with a color dependent on their depth, so it’s easier to tell overlapping caves apart (Only affects cave renders).</p>
+					<input class="setting global caveDepthShading" onchange="caveDepthShadingChanged(this.checked)" type="checkbox" /><span>Enabled</span>
+				</div>
+				<div id="tabs1-2">
+					<p>See the last <input onChange="changeLogCount(this.value)" type="number" min="1" step="1" value="25" /> logs here</p>
+					<ul></ul>
+				</div>
+			</div>
+		</div>
+	</main>
+	<script>window.$ = window.jQuery = require('jquery');</script>
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" integrity="sha384-Dziy8F2VlJQLMShA6FHWNul/veM9bCkRUaLqr199K94ntO5QUrLJBEbYegdSkkqX" crossorigin="anonymous"></script>
+	<script src="../js/common.js"></script>
+	<script src="../js/overviewerTab.js"></script>
+	<script src="../js/worldTab.js"></script>
+	<script src="../js/configManagement.js"></script>
+	<script src="../js/worldManagement.js"></script>
 </body>
 </html>

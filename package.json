@@ -1,12 +1,14 @@
 {
 	"name": "overviewer-configurator",
-	"version": "1.0.0",
+	"version": "2.0.0",
 	"description": "",
 	"main": "main.js",
 	"scripts": {
+		"test": "echo \"npm test temporarily disabled\"",
 		"start": "electron .",
-		"dev": "electromon . --dev",
-		"package": "electron-packager ."
+		"dev": "electromon .",
+		"less": "less-watch-compiler css css",
+		"packagewin": "electron-packager . --platform=win32 --arch=x64"
 	},
 	"repository": {
 		"type": "git",
@@ -20,14 +22,16 @@
 	"homepage": "https://github.com/victhebeast/overviewer-configurator#readme",
 	"devDependencies": {
 		"electromon": "^1.0.10",
-		"electron": "4.x",
-		"electron-packager": "^13.1.1"
+		"electron": "^5.0.3",
+		"electron-packager": "^13.1.1",
+		"less": "^3.9.0",
+		"less-watch-compiler": "^1.13.0"
 	},
 	"dependencies": {
 		"adm-zip": "^0.4.13",
-		"cheerio": "^1.0.0-rc.2",
+		"electron-window-state": "^5.0.3",
 		"jquery": "^3.4.1",
-		"request": "2.x",
+		"request": "^2.88.0",
 		"rimraf": "^2.6.3"
 	}
 }
