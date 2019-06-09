@@ -40,6 +40,16 @@ let mainMenuTemplate = [
 			},
 			{
 				type: 'separator'
+			},
+			{
+				label: 'Jpegoptim',
+				sublabel: 'Loading...',
+				enabled: false
+			},
+			{
+				label: 'Versions',
+				sublabel: 'Loading...',
+				submenu: []
 			}
 		]
 	},
