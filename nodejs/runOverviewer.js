@@ -64,11 +64,71 @@ module.exports.renderMap = function () {
 };
 
 module.exports.renderPoi = function () {
-
+	getOverviewerPaths(function (exec, wd) {
+		poiRenderer = spawn(exec, ['--config=../config.py', '--genpoi'], {
+			cwd: wd,
+			windowsHide: true
+		});
+		electron.mainWindow.webContents.send('overviewerRunProgress', 'poi');
+		electron.mainWindow.setProgressBar(1, { mode: 'indeterminate' });
+		poiRenderer.stdout.setEncoding('utf8');
+		const progressTest = /(?<=\d+-\d+-\d+\s\d+:\d+:\d+\s\s\w+\s)\d+\s\w+\s\d+/;
+		const progressCurrent = /(?<=\d+-\d+-\d+\s\d+:\d+:\d+\s\s\w+\s)\d+/;
+		const progressMax = /(?<=\d+-\d+-\d+\s\d+:\d+:\d+\s\s\w+\s\d+\s\w+\s)\d+/;
+		poiRenderer.stdout.on('data', function (data) {
+			if (progressTest.test(data)) {
+				electron.mainWindow.webContents.send('overviewerRunProgress', 'poi', progressMax.exec(data), progressCurrent.exec(data));
+				if (parseInt(progressCurrent.exec(data)) < parseInt(progressMax.exec(data))) {
+					electron.mainWindow.setProgressBar(parseFloat(progressCurrent.exec(data)) / parseFloat(progressMax.exec(data)), { mode: 'normal' });
+				} else {
+					electron.mainWindow.setProgressBar(1, { mode: 'none' });
+				}
+			}
+			logging.messageLog(data);
+		});
+		poiRenderer.stderr.on('data', function (data) {
+			logging.messageLog(data);
+		});
+		poiRenderer.on('close', function (exitCode) {
+			logging.messageLog('Closed with code ' + exitCode);
+			electron.mainWindow.webContents.send('overviewerRunProgress', 'poi', '1', '1');
+			electron.mainWindow.setProgressBar(1, { mode: 'none' });
+		});
+	});
 };
 
 module.exports.renderWebAssets = function () {
-
+	getOverviewerPaths(function (exec, wd) {
+		webassRenderer = spawn(exec, ['--config=../config.py', '--update-web-assets'], {
+			cwd: wd,
+			windowsHide: true
+		});
+		electron.mainWindow.webContents.send('overviewerRunProgress', 'webass');
+		electron.mainWindow.setProgressBar(1, { mode: 'indeterminate' });
+		webassRenderer.stdout.setEncoding('utf8');
+		const progressTest = /(?<=\d+-\d+-\d+\s\d+:\d+:\d+\s\s\w+\s)\d+\s\w+\s\d+/;
+		const progressCurrent = /(?<=\d+-\d+-\d+\s\d+:\d+:\d+\s\s\w+\s)\d+/;
+		const progressMax = /(?<=\d+-\d+-\d+\s\d+:\d+:\d+\s\s\w+\s\d+\s\w+\s)\d+/;
+		webassRenderer.stdout.on('data', function (data) {
+			if (progressTest.test(data)) {
+				electron.mainWindow.webContents.send('overviewerRunProgress', 'webass', progressMax.exec(data), progressCurrent.exec(data));
+				if (parseInt(progressCurrent.exec(data)) < parseInt(progressMax.exec(data))) {
+					electron.mainWindow.setProgressBar(parseFloat(progressCurrent.exec(data)) / parseFloat(progressMax.exec(data)), { mode: 'normal' });
+				} else {
+					electron.mainWindow.setProgressBar(1, { mode: 'none' });
+				}
+			}
+			logging.messageLog(data);
+		});
+		webassRenderer.stderr.on('data', function (data) {
+			logging.messageLog(data);
+		});
+		webassRenderer.on('close', function (exitCode) {
+			logging.messageLog('Closed with code ' + exitCode);
+			electron.mainWindow.webContents.send('overviewerRunProgress', 'webass', '1', '1');
+			electron.mainWindow.setProgressBar(1, { mode: 'none' });
+		});
+	});
 };
 
 module.exports.stopRenderMap = function () {
@@ -78,9 +138,13 @@ module.exports.stopRenderMap = function () {
 };
 
 module.exports.stopRenderPoi = function () {
-
+	poiRenderer.kill();
+	electron.mainWindow.webContents.send('overviewerRunProgress', 'poi', '1', '1');
+	electron.mainWindow.setProgressBar(1, { mode: 'none' });
 };
 
 module.exports.stopRenderWebAssets = function () {
-
+	webassRenderer.kill();
+	electron.mainWindow.webContents.send('overviewerRunProgress', 'webass', '1', '1');
+	electron.mainWindow.setProgressBar(1, { mode: 'none' });
 };
