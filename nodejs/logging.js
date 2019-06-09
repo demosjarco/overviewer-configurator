@@ -1,5 +1,5 @@
 const electron = require('./electronSetup.js');
-const cleanDate = /(?<=^\d+-\d+-\d+\s\d+:\d+:\d+\s+)\S+.+$/;
+const cleanDate = /(?<=\d+-\d+-\d+\s\d+:\d+:\d+\s+)\S+.+/;
 
 module.exports.messageLog = function (message, showOnUi = true) {
 	if (showOnUi) {
