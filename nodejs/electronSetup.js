@@ -20,7 +20,8 @@ let mainMenuTemplate = [
 			},
 			{
 				label: 'Versions',
-				sublabel: 'Loading...'
+				sublabel: 'Loading...',
+				submenu: []
 			}
 		]
 	},
@@ -34,7 +35,8 @@ let mainMenuTemplate = [
 			},
 			{
 				label: 'Versions',
-				sublabel: 'Loading...'
+				sublabel: 'Loading...',
+				submenu: []
 			},
 			{
 				type: 'separator'
