@@ -78,6 +78,7 @@ let mainMenuTemplate = [
 const { app, BrowserWindow, Menu } = require('electron');
 const configFile = require('./configFile.js');
 const overviewerVersions = require('./overviewerVersions.js');
+const oxipngVersions = require('./oxipngVersions.js');
 
 let mainWindow;
 module.exports.mainWindow = mainWindow;
