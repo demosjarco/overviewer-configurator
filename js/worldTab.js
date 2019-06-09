@@ -21,7 +21,6 @@ function selectedRenderType(worldNickName, renderType, enabled1, smoothLighting1
 		ipcRenderer.send('updateWorldInfo', worldNickName, null, null, temp);
 	}
 	if (smoothLighting1 != null && smoothLighting1 != undefined) {
-		console.log('test');
 		temp[renderType] = { smoothLighting: smoothLighting1 };
 		ipcRenderer.send('updateWorldInfo', worldNickName, null, null, temp);
 	}
