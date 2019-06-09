@@ -5,13 +5,13 @@ const { ipcMain } = require('electron');
 const runOverviewer = require('./nodejs/runOverviewer.js');
 ipcMain.on('runOverviewer', (event, runType) => {
 	switch (runType) {
-		case 0:
+		case 'map':
 			runOverviewer.renderMap();
 			return;
-		case 1:
+		case 'poi':
 			runOverviewer.renderPoi();
 			return;
-		case 2:
+		case 'webass':
 			runOverviewer.renderWebAssets();
 			return;
 	}
