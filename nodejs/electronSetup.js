@@ -26,34 +26,6 @@ let mainMenuTemplate = [
 		]
 	},
 	{
-		label: 'Compression',
-		submenu: [
-			{
-				label: 'Oxipng',
-				sublabel: 'Loading...',
-				enabled: false
-			},
-			{
-				label: 'Versions',
-				sublabel: 'Loading...',
-				submenu: []
-			},
-			{
-				type: 'separator'
-			},
-			{
-				label: 'Jpegoptim',
-				sublabel: 'Loading...',
-				enabled: false
-			},
-			{
-				label: 'Versions',
-				sublabel: 'Loading...',
-				submenu: []
-			}
-		]
-	},
-	{
 		role: 'help',
 		submenu: [
 			{

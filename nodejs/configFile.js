@@ -57,7 +57,7 @@ function processJsonReadQueue() {
 			changed = true;
 			tempJson.global = {
 				caveDepthShading: true,
-				compressLevel: 2,
+				compressLevel: 0,
 				outputLocation: null,
 				renderProgress: {
 					local: true,
@@ -72,7 +72,7 @@ function processJsonReadQueue() {
 			}
 			if (!('compressLevel' in json.global)) {
 				changed = true;
-				tempJson.global.compressLevel = 2;
+				tempJson.global.compressLevel = 0;
 			}
 			if (!('outputLocation' in json.global)) {
 				changed = true;
