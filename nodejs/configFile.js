@@ -627,6 +627,10 @@ function createPyConfigFile(json, timestamp) {
 
 	overviewerConfigFile += '\n';
 
+	overviewerConfigFile += 'imgformat = "webp"';
+	overviewerConfigFile += 'imgquality = 100';
+	overviewerConfigFile += 'imglossless = True';
+
 	// General Config
 	overviewerConfigFile += 'outputdir = "' + json.global.outputLocation + '"\n';
 	//overviewerConfigFile += 'customwebassets = "../web_assets"\n';
