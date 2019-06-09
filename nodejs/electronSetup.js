@@ -148,18 +148,18 @@ app.on('activate', () => {
 	}
 });
 
-module.exports.setCurrentVersionMenu = function(currentVersion) {
+module.exports.setOverviewerCurrentVersionMenu = function(currentVersion) {
 	mainMenuTemplate[1].submenu[0].sublabel = currentVersion;
 	Menu.setApplicationMenu(Menu.buildFromTemplate(mainMenuTemplate));
 }
-module.exports.deleteLeadingVersionsMenu = function() {
+module.exports.emptyOverviewerVersionsMenu = function() {
 	delete mainMenuTemplate[1].submenu[1].sublabel;
 	mainMenuTemplate[1].submenu[1].submenu = [];
 }
-module.exports.addNewVersionMenu = function(menuItem) {
+module.exports.addNewOverviewerVersionMenu = function(menuItem) {
 	mainMenuTemplate[1].submenu[1].submenu.push(menuItem);
 }
-module.exports.reverseVersionMenu = function() {
+module.exports.reverseOverviewerVersionMenu = function() {
 	mainMenuTemplate[1].submenu[1].submenu.reverse();
 	Menu.setApplicationMenu(Menu.buildFromTemplate(mainMenuTemplate));
 }

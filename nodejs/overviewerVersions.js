@@ -16,7 +16,7 @@ function updateLocalOverviewerVersion(currentVersionCallback) {
 			if (overviewerFolderReg.test(fileName))
 				currentVersion = overviewerFolderReg.exec(fileName)[0];
 		});
-		electron.setCurrentVersionMenu(currentVersion);
+		electron.setOverviewerCurrentVersionMenu(currentVersion);
 		if (currentVersionCallback)
 			currentVersionCallback(currentVersion);
 	});
@@ -31,7 +31,7 @@ function updateOverviewerVersions(latestVersionCallback) {
 			mainMenuTemplate[1].submenu[2].sublabel = 'Error loading';
 		} else {
 			let json = Object.values(JSON.parse(body));
-			electron.deleteLeadingVersionsMenu();
+			electron.emptyOverviewerVersionsMenu();
 			let latestVersion;
 			json.forEach(function (version) {
 				version.properties.forEach(function (property) {
@@ -39,14 +39,14 @@ function updateOverviewerVersions(latestVersionCallback) {
 						version.steps.forEach(function (step) {
 							if (step.name == 'upload') {
 								if (Object.values(step.urls)[0]) {
-									electron.addNewVersionMenu({
+									electron.addNewOverviewerVersionMenu({
 										label: property[1],
 										click() {
 											updateOverviewer(Object.values(step.urls)[0]);
 										}
 									});
 								} else {
-									electron.addNewVersionMenu({
+									electron.addNewOverviewerVersionMenu({
 										label: property[1],
 										enabled: false
 									});
@@ -57,7 +57,7 @@ function updateOverviewerVersions(latestVersionCallback) {
 					}
 				});
 			});
-			electron.reverseVersionMenu();
+			electron.reverseOverviewerVersionMenu();
 			if (latestVersionCallback)
 				latestVersionCallback(latestVersion);
 		}
