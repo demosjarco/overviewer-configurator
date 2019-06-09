@@ -57,6 +57,7 @@ module.exports.renderMap = function () {
 		});
 		mapRenderer.on('close', function (exitCode) {
 			logging.messageLog('Closed with code ' + exitCode);
+			electron.mainWindow.webContents.send('overviewerRunProgress', 'map', '1', '1');
 			electron.mainWindow.setProgressBar(1, { mode: 'none' });
 		});
 	});
