@@ -18,14 +18,12 @@ function selectedRenderType(worldNickName, renderType, enabled1, smoothLighting1
 	let temp = {};
 	if (renderMode != null && renderMode != undefined) {
 		temp[renderType] = { updateMode: parseInt(renderMode) };
-		ipcRenderer.send('updateWorldInfo', worldNickName, null, null, temp);
 	}
 	if (smoothLighting1 != null && smoothLighting1 != undefined) {
 		temp[renderType] = { smoothLighting: smoothLighting1 };
-		ipcRenderer.send('updateWorldInfo', worldNickName, null, null, temp);
 	}
 	if (enabled1 != null && enabled1 != undefined) {
 		temp[renderType] = { enabled: enabled1 };
-		ipcRenderer.send('updateWorldInfo', worldNickName, null, temp);
 	}
+	ipcRenderer.send('updateWorldInfo', worldNickName, null, null, temp);
 }
