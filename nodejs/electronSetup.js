@@ -48,6 +48,7 @@ let mainMenuTemplate = [
 ];
 
 const { app, BrowserWindow, Menu } = require('electron');
+const config = require('./configFile.js');
 const overviewerVersions = require('./overviewerVersions.js');
 const oxipngVersions = require('./oxipngVersions.js');
 
@@ -99,6 +100,7 @@ app.on('ready', () => {
 	});
 
 	module.exports.mainWindow = mainWindow;
+	config.runInit();
 	overviewerVersions.updateLocalOverviewerVersion();
 	overviewerVersions.updateOverviewerVersions();
 });

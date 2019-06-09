@@ -118,8 +118,10 @@ function getSavedJSON(jsonCallback) {
 		processJsonReadQueue();
 	}
 }
-// First time setup
-getSavedJSON(null);
+
+module.exports.runInit = function () {
+	getSavedJSON(null);
+};
 
 function saveJSON(updatedJSON) {
 	permJson = updatedJSON;
