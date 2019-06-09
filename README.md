@@ -29,7 +29,7 @@ An UI wrapper for [Overviewer](https://github.com/overviewer/Minecraft-Overviewe
 
 #### Map Renders
 * The text in the brackets is the world shortname. This name is made up by the first letter or number of every word in the world name. Make sure that no other world has the same shortname as it is used internally and will probably lead to problems
-* The anem after it is your world name and is what will be seen as on the map
+* The name after it is your world name and is what will be seen as on the map
 * The compasses on the right side are so you can choose what direction to render the map in. You can choose any combination of them as long as at least one is selected
 * The checkboxes next to the render name is to actually render it or not. If you expand it, you get more information
 	* For some renders you can choose if you use `Smooth Lighting` or not. This will increase render times but look nicer
