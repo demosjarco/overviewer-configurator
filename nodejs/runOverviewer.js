@@ -74,6 +74,7 @@ module.exports.renderWebAssets = function () {
 module.exports.stopRenderMap = function () {
 	mapRenderer.kill();
 	electron.mainWindow.webContents.send('overviewerRunProgress', 'map', '1', '1');
+	electron.mainWindow.setProgressBar(1, { mode: 'none' });
 };
 
 module.exports.stopRenderPoi = function () {
