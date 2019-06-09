@@ -37,7 +37,13 @@ module.exports.renderMap = function () {
 		});
 		electron.mainWindow.webContents.send('overviewerRunProgress', 'map');
 		mapRenderer.stdout.setEncoding('utf8');
+		const progressTest = /(?<=\d+-\d+-\d+\s\d+:\d+:\d+\s\s\w+\s)\d+\s\w+\s\d+/;
+		const progressCurrent = /(?<=\d+-\d+-\d+\s\d+:\d+:\d+\s\s\w+\s)\d+/;
+		const progressMax = /(?<=\d+-\d+-\d+\s\d+:\d+:\d+\s\s\w+\s\d+\s\w+\s)\d+/;
 		mapRenderer.stdout.on('data', function (data) {
+			if (progressTest.test(data)) {
+				electron.mainWindow.webContents.send('overviewerRunProgress', 'map', progressMax.exec(data), progressCurrent.exec(data));
+			}
 			logging.messageLog(data);
 		});
 		mapRenderer.stderr.on('data', function (data) {
