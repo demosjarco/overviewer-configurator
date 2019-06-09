@@ -57,6 +57,7 @@ module.exports.renderMap = function () {
 		});
 		mapRenderer.on('close', function (exitCode) {
 			logging.messageLog('Closed with code ' + exitCode);
+			electron.mainWindow.setProgressBar(1, { mode: 'none' });
 		});
 	});
 };
