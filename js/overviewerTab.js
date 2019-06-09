@@ -89,3 +89,7 @@ function newVisualLog(message) {
 			$('body main div#tabs-1 div#tabs1-content #tabs1-2 ul li').slice(numVisibleMessages - 1).remove();
 	});
 }
+
+function runOverviewer(runType) {
+	ipcRenderer.send('runOverviewer', runType);
+}

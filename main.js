@@ -1,6 +1,21 @@
 'use strict';
 
-const {ipcMain} = require('electron');
+const { ipcMain } = require('electron');
+
+const runOverviewer = require('./nodejs/runOverviewer.js');
+ipcMain.on('runOverviewer', (event, runType) => {
+	switch (runType) {
+		case 0:
+			runOverviewer.renderMap();
+			return;
+		case 1:
+			runOverviewer.renderPoi();
+			return;
+		case 2:
+			runOverviewer.renderWebAssets();
+			return;
+	}
+});
 
 const overviewerVersions = require('./nodejs/overviewerVersions.js');
 ipcMain.on('getOverviewerVersion', (event, arg) => {
