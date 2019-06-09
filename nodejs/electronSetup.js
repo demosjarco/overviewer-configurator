@@ -65,16 +65,16 @@ module.exports.mainWindow = mainWindow;
 app.on('ready', () => {
 	// Create the browser window.
 	let mainWindowState = require('electron-window-state')({
-		defaultWidth: 800,
-		defaultHeight: 600
+		defaultWidth: 1024,
+		defaultHeight: 768
 	});
 	mainWindow = new BrowserWindow({
 		width: mainWindowState.width,
 		height: mainWindowState.height,
 		x: mainWindowState.x,
 		y: mainWindowState.y,
-		minWidth: 800,
-		minHeight: 600,
+		minWidth: 1024,
+		minHeight: 768,
 		title: 'Overviewer Config',
 		frame: true,
 		backgroundColor: '#212121',
