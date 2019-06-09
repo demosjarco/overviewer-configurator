@@ -30,7 +30,18 @@ let mainMenuTemplate = [
 	{
 		label: 'Compression',
 		submenu: [
-
+			{
+				label: 'Oxipng',
+				sublabel: 'Loading...',
+				enabled: false
+			},
+			{
+				label: 'Versions',
+				sublabel: 'Loading...'
+			},
+			{
+				type: 'separator'
+			}
 		]
 	},
 	{
