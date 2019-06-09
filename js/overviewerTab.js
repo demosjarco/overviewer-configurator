@@ -39,7 +39,9 @@ setInterval(function () {
 			cpuTime5 = cpuTime4 = cpuTime3 = cpuTime2 = cpuTime1 = null;
 		});
 	});
+}, 1000);
 
+setInterval(function () {
 	$(function () {
 		let ramTime5 = $('body main div#tabs-1 div#ram div#ramHistory div#ram5 div.progressBarInside');
 		let ramTime4 = $('body main div#tabs-1 div#ram div#ramHistory div#ram4 div.progressBarInside');
