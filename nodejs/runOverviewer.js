@@ -56,7 +56,7 @@ module.exports.renderMap = function () {
 			logging.messageLog(data);
 		});
 		mapRenderer.on('close', function (exitCode) {
-			logging.messageLog('Closed with code ' + code);
+			logging.messageLog('Closed with code ' + exitCode);
 		});
 	});
 };
