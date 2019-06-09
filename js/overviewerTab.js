@@ -94,7 +94,7 @@ function runOverviewer(runType) {
 	ipcRenderer.send('runOverviewer', runType);
 }
 
-function stopOverviewer() {
+function stopOverviewer(runType) {
 	ipcRenderer.send('stopOverviewer', runType);
 }
 
