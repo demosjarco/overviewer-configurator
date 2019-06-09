@@ -36,6 +36,7 @@ module.exports.renderMap = function () {
 			windowsHide: true
 		});
 		electron.mainWindow.webContents.send('overviewerRunProgress', 'map');
+		electron.mainWindow.setProgressBar(1, { mode: 'indeterminate' });
 		mapRenderer.stdout.setEncoding('utf8');
 		const progressTest = /(?<=\d+-\d+-\d+\s\d+:\d+:\d+\s\s\w+\s)\d+\s\w+\s\d+/;
 		const progressCurrent = /(?<=\d+-\d+-\d+\s\d+:\d+:\d+\s\s\w+\s)\d+/;
@@ -43,6 +44,11 @@ module.exports.renderMap = function () {
 		mapRenderer.stdout.on('data', function (data) {
 			if (progressTest.test(data)) {
 				electron.mainWindow.webContents.send('overviewerRunProgress', 'map', progressMax.exec(data), progressCurrent.exec(data));
+				if (parseInt(progressCurrent.exec(data)) < parseInt(progressMax.exec(data))) {
+					electron.mainWindow.setProgressBar(parseFloat(progressCurrent.exec(data)) / parseFloat(progressMax.exec(data)), { mode: 'normal' });
+				} else {
+					electron.mainWindow.setProgressBar(1, { mode: 'none' });
+				}
 			}
 			logging.messageLog(data);
 		});
