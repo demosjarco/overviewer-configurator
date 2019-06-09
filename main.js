@@ -20,13 +20,13 @@ ipcMain.on('stopOverviewer', (event, runType) => {
 	switch (runType) {
 		case 'map':
 			runOverviewer.stopRenderMap();
-			return;
+			break;
 		case 'poi':
 			runOverviewer.stopRenderPoi();
-			return;
+			break;
 		case 'webass':
 			runOverviewer.stopRenderWebAssets();
-			return;
+			break;
 	}
 });
 
