@@ -38,7 +38,6 @@ function updateOverviewerVersions(latestVersionCallback) {
 			osType = platformReg.exec(os.platform()) + archReg.exec(os.arch());
 			break;
 	}
-	console.log('https://overviewer.org/build/json/builders/' + osType + '/builds/_all');
 	request('https://overviewer.org/build/json/builders/' + osType + '/builds/_all', function (error, response, body) {
 		if (error || response.statusCode != 200) {
 			mainMenuTemplate[1].submenu[2].sublabel = 'Error loading';
