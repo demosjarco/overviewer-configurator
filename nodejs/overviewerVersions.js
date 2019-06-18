@@ -126,9 +126,10 @@ function updateOverviewer(link) {
 						break;
 					case '.tar.gz':
 						const tar = require('tar-fs');
-						fs.createReadStream(app.getPath('userData').replace(/\\/g, "/") + '/' + fileName).pipe(tar.extract(app.getPath('userData').replace(/\\/g, "/") + '/'));
-						const gunzip = require('tar-fs');
-						break;
+						fs.createReadStream(app.getPath('userData').replace(/\\/g, "/") + '/' + fileName).pipe(tar.extract(app.getPath('userData').replace(/\\/g, "/") + '/')).on('close', function () {
+							const gunzip = require('tar-fs');
+							break;
+						});
 				}
 				logging.messageLog('Extracted overviewer archive');
 				fs.unlink(app.getPath('userData').replace(/\\/g, "/") + '/' + fileName, (err) => {
