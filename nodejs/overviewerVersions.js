@@ -109,6 +109,7 @@ function updateOverviewer(link) {
 	function beginDownload() {
 		logging.messageLog('Downloading overviewer zip');
 		const fileNameReg = /(?<=htt(p:|ps:)\/\/overviewer.org\/builds\/(win64|win32|src)\/\d+\/)overviewer-\d+\.\d+\.\d+\.\w+(.\w+)?/;
+		const fileName = fileNameReg.exec(link)[0];
 		let fileSize = 0;
 		let downloadedSize = 0;
 		if (fileNameReg.test(link)) {
@@ -120,10 +121,17 @@ function updateOverviewer(link) {
 			}).on('close', function () {
 				logging.messageLog('Downloaded overviewer archive');
 				electron.mainWindow.setProgressBar(1, { mode: 'indeterminate' });
-				let zip = new AdmZip(app.getPath('userData').replace(/\\/g, "/") + '/' + fileNameReg.exec(link)[0]);
-				zip.extractAllTo(app.getPath('userData').replace(/\\/g, "/") + '/', true);
-				logging.messageLog('Extracted overviewer zip');
-				fs.unlink(app.getPath('userData').replace(/\\/g, "/") + '/' + fileNameReg.exec(link)[0], (err) => {
+				const archiveExtension = /(?<=overviewer-\d+\.\d+\.\d+)\.\w+(\.\w+)?/;
+				switch (archiveExtension.exec(fileName)) {
+					case '.zip':
+						let zip = new AdmZip(app.getPath('userData').replace(/\\/g, "/") + '/' + fileName);
+						zip.extractAllTo(app.getPath('userData').replace(/\\/g, "/") + '/', true);
+						break;
+					case '.tar.gz':
+						break;
+				}
+				logging.messageLog('Extracted overviewer archive');
+				fs.unlink(app.getPath('userData').replace(/\\/g, "/") + '/' + fileName, (err) => {
 					if (err) throw err;
 					logging.messageLog('Deleted overviewer archive');
 					electron.mainWindow.setProgressBar(1, { mode: 'none' });
@@ -134,7 +142,7 @@ function updateOverviewer(link) {
 				updateOverviewerVersions(function (latestVersion) {
 					electron.mainWindow.webContents.send('gotLatestOverviewerVersion', latestVersion);
 				});
-			}).pipe(fs.createWriteStream(app.getPath('userData').replace(/\\/g, "/") + '/' + fileNameReg.exec(link)[0]));
+			}).pipe(fs.createWriteStream(app.getPath('userData').replace(/\\/g, "/") + '/' + fileName));
 		}
 	}
 }
