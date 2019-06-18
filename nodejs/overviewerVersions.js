@@ -106,7 +106,7 @@ function updateOverviewer(link) {
 	});
 	function beginDownload() {
 		logging.messageLog('Downloading overviewer zip');
-		const fileNameReg = /(?<=htt(p:|ps:)\/\/overviewer.org\/builds\/win64\/\d+\/)overviewer-\d+\.\d+\.\d+\.\w+$/;
+		const fileNameReg = /(?<=htt(p:|ps:)\/\/overviewer.org\/builds\/(win64|win32|src)\/\d+\/)overviewer-\d+\.\d+\.\d+\.\w+(.\w+)?/;
 		let fileSize = 0;
 		let downloadedSize = 0;
 		request(link).on('response', function (response) {
