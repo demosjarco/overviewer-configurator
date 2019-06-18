@@ -14,7 +14,7 @@ function getOverviewerPaths(callback) {
 		if (err) throw err;
 
 		files.forEach(function (fileName) {
-			const overviewerFolderReg = /(?<=overviewer-)\d+\.\d+\.\d+(?!.zip)$/;
+			const overviewerFolderReg = /(?<=(minecraft\-)?overviewer-)\d+\.\d+\.\d+(?!\.\w+(\.\w+)?)/i;
 			if (overviewerFolderReg.test(fileName)) {
 				fs.readdir(app.getPath('userData').replace(/\\/g, "/") + '/' + fileName + '/', function (err1, files1) {
 					files1.forEach(function (fileName1) {
