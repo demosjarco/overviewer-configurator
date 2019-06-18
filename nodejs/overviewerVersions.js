@@ -148,9 +148,9 @@ function updateOverviewer(link) {
 											if (err) throw err;
 										});
 										doneExtract();
-										break;
 									});
 							});
+						break;
 				}
 
 				function doneExtract() {
