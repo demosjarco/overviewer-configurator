@@ -1,12 +1,12 @@
 # overviewer-configurator
-An UI wrapper for [Overviewer](https://github.com/overviewer/Minecraft-Overviewer) that handles everything from map configuration to actually running it, all in an [Electron](https://github.com/electron/electron) application
+An UI wrapper for [Overviewer](https://github.com/overviewer/Minecraft-Overviewer) that handles everything from map configuration to actually running it, all in an [Electron](https://github.com/electron/electron) application that runs on Windows and MacOS (Linux soon™)
 
 ## Running
 1. ~~Download from [Releases](https://github.com/demosjarco/overviewer-configurator/releases) tab~~
 *Coming Soon: follow directions from Installation to run it for now*
 
 ## Installation
-1. Make sure you have [NodeJS](https://nodejs.org/en/download/) 10.5 or later installed
+1. Make sure you have [NodeJS](https://nodejs.org/en/download/) 10.5 or later installed. If you use MacOS, make sure to have [Python 3](https://www.python.org/downloads/mac-osx/) installed
 2. Clone project
 3. Run `npm i` to install everything needed (its actually very little compared to other node projects)
 4. Run `npm start` to run the tool
