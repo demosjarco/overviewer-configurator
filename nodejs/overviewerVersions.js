@@ -52,7 +52,7 @@ function updateOverviewerVersions(latestVersionCallback) {
 									electron.addNewOverviewerVersionMenu({
 										label: property[1],
 										click() {
-											updateOverviewer(Object.values(step.urls)[0]);
+											updateOverviewer(Object.values(step.urls)[0].replace(/http(?!s)/g, "https"));
 										}
 									});
 								} else {
