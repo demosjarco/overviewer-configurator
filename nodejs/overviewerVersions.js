@@ -87,7 +87,7 @@ function updateOverviewer(link) {
 
 		let exists = false;
 		files.forEach(function (fileName) {
-			const overviewerFolderReg = /(?<=overviewer-)\d+\.\d+\.\d+(?!.zip)$/;
+			const overviewerFolderReg = /(?<=overviewer-)\d+\.\d+\.\d+(?!\.\w+(\.\w+)?)/;
 			if (overviewerFolderReg.test(fileName)) {
 				exists = true;
 				logging.messageLog('Deleting old overviewer version');
