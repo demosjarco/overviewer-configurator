@@ -30,7 +30,7 @@ function updateOverviewerVersions(latestVersionCallback) {
 	let osType = '';
 	switch (os.platform()) {
 		case 'darwin':
-			osType = '';
+			osType = 'src';
 			break;
 		case 'win32':
 			const platformReg = /^\w+\D+/;
