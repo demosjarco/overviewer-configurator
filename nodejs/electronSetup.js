@@ -70,9 +70,9 @@ app.on('ready', () => {
 		minHeight: 768,
 		title: 'Overviewer Config',
 		frame: true,
-		backgroundColor: '#212121',
+		backgroundColor: (process.platform !== 'darwin') ? '#212121' : null,
 		darkTheme: true,
-		vibrancy: 'dark',
+		vibrancy: 'ultra-dark',
 		webPreferences: {
 			devTools: true,
 			nodeIntegration: true,
