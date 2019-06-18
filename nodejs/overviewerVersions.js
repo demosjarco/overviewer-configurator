@@ -76,10 +76,6 @@ function updateOverviewerVersions(latestVersionCallback) {
 	});
 }
 
-const AdmZip = require('adm-zip');
-const tar = require('tar-fs');
-const gunzip = require('tar-fs');
-const rimraf = require('rimraf');
 const logging = require('./logging.js');
 function updateOverviewer(link) {
 	electron.mainWindow.setProgressBar(0, { mode: 'indeterminate' });
@@ -93,6 +89,7 @@ function updateOverviewer(link) {
 			if (overviewerFolderReg.test(fileName)) {
 				exists = true;
 				logging.messageLog('Deleting old overviewer version');
+				const rimraf = require('rimraf');
 				rimraf(app.getPath('userData').replace(/\\/g, "/") + '/' + fileName + '/', function (err2) {
 					if (err2) throw err2;
 
@@ -124,10 +121,13 @@ function updateOverviewer(link) {
 				const archiveExtension = /(?<=overviewer-\d+\.\d+\.\d+)\.\w+(\.\w+)?/;
 				switch (archiveExtension.exec(fileName)[0]) {
 					case '.zip':
+						const AdmZip = require('adm-zip');
 						let zip = new AdmZip(app.getPath('userData').replace(/\\/g, "/") + '/' + fileName);
 						zip.extractAllTo(app.getPath('userData').replace(/\\/g, "/") + '/', true);
 						break;
 					case '.tar.gz':
+						const tar = require('tar-fs');
+						const gunzip = require('tar-fs');
 						break;
 				}
 				logging.messageLog('Extracted overviewer archive');
