@@ -118,14 +118,14 @@ function updateOverviewer(link) {
 				downloadedSize += parseInt(chunk.length);
 				electron.mainWindow.setProgressBar(downloadedSize / fileSize, { mode: 'normal' });
 			}).on('close', function () {
-				logging.messageLog('Downloaded overviewer zip');
+				logging.messageLog('Downloaded overviewer archive');
 				electron.mainWindow.setProgressBar(1, { mode: 'indeterminate' });
 				let zip = new AdmZip(app.getPath('userData').replace(/\\/g, "/") + '/' + fileNameReg.exec(link)[0]);
 				zip.extractAllTo(app.getPath('userData').replace(/\\/g, "/") + '/', true);
 				logging.messageLog('Extracted overviewer zip');
 				fs.unlink(app.getPath('userData').replace(/\\/g, "/") + '/' + fileNameReg.exec(link)[0], (err) => {
 					if (err) throw err;
-					logging.messageLog('Deleted overviewer zip');
+					logging.messageLog('Deleted overviewer archive');
 					electron.mainWindow.setProgressBar(1, { mode: 'none' });
 				});
 				updateLocalOverviewerVersion(function (currentVersion) {
