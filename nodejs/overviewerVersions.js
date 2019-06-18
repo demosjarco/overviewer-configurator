@@ -123,23 +123,28 @@ function updateOverviewer(link) {
 						const AdmZip = require('adm-zip');
 						let zip = new AdmZip(app.getPath('userData').replace(/\\/g, "/") + '/' + fileName);
 						zip.extractAllTo(app.getPath('userData').replace(/\\/g, "/") + '/', true);
+						doneExtract();
 						break;
 					case '.tar.gz':
 						const tar = require('tar-fs');
 						fs.createReadStream(app.getPath('userData').replace(/\\/g, "/") + '/' + fileName).pipe(tar.extract(app.getPath('userData').replace(/\\/g, "/") + '/')).on('close', function () {
 							const gunzip = require('tar-fs');
+							doneExtract();
 							break;
 						});
 				}
-				logging.messageLog('Extracted overviewer archive');
-				fs.unlink(app.getPath('userData').replace(/\\/g, "/") + '/' + fileName, (err) => {
-					if (err) throw err;
-					logging.messageLog('Deleted overviewer archive');
-					electron.mainWindow.setProgressBar(-Infinity, { mode: 'none' });
-					updateLocalOverviewerVersion(function (currentVersion) {
-						electron.mainWindow.webContents.send('gotOverviewerVersion', currentVersion);
+
+				function doneExtract() {
+					logging.messageLog('Extracted overviewer archive');
+					fs.unlink(app.getPath('userData').replace(/\\/g, "/") + '/' + fileName, (err) => {
+						if (err) throw err;
+						logging.messageLog('Deleted overviewer archive');
+						electron.mainWindow.setProgressBar(-Infinity, { mode: 'none' });
+						updateLocalOverviewerVersion(function (currentVersion) {
+							electron.mainWindow.webContents.send('gotOverviewerVersion', currentVersion);
+						});
 					});
-				});
+				}
 			}).pipe(fs.createWriteStream(app.getPath('userData').replace(/\\/g, "/") + '/' + fileName));
 		}
 	}
