@@ -141,7 +141,7 @@ function updateOverviewer(link) {
 							.on('close', function () {
 								const tar = require('tar-fs');
 								fs.createReadStream(app.getPath('userData').replace(/\\/g, "/") + '/' + fileName.replace(/\.gz/g, ''))
-									.pipe(tar.extract(app.getPath('userData').replace(/\\/g, "/") + '/test/'))
+									.pipe(tar.extract(app.getPath('userData').replace(/\\/g, "/") + '/'))
 									.on('close', function () {
 										fs.unlink(app.getPath('userData').replace(/\\/g, "/") + '/' + fileName.replace(/\.gz/g, ''), (err) => {
 											if (err) throw err;
