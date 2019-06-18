@@ -134,7 +134,7 @@ function updateOverviewer(link) {
 						});
 						break;
 					case '.tar.gz':
-						const gunzip = require('tar-fs');
+						const gunzip = require('gunzip-maybe');
 						fs.createReadStream(app.getPath('userData').replace(/\\/g, "/") + '/' + fileName)
 							.pipe(gunzip())
 							.pipe(fs.createWriteStream(app.getPath('userData').replace(/\\/g, "/") + '/' + fileName.replace(/\.gz/g, '')))
