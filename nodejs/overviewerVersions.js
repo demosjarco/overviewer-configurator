@@ -78,7 +78,7 @@ function updateOverviewerVersions(latestVersionCallback) {
 
 const logging = require('./logging.js');
 function updateOverviewer(link) {
-	electron.mainWindow.setProgressBar(0, { mode: 'indeterminate' });
+	electron.mainWindow.setProgressBar(Infinity, { mode: 'indeterminate' });
 	logging.messageLog('Checking for old overviewer version');
 	fs.readdir(app.getPath('userData'), function (err, files) {
 		if (err) throw err;
@@ -116,7 +116,7 @@ function updateOverviewer(link) {
 				electron.mainWindow.setProgressBar(downloadedSize / fileSize, { mode: 'normal' });
 			}).on('close', function () {
 				logging.messageLog('Downloaded overviewer archive');
-				electron.mainWindow.setProgressBar(1, { mode: 'indeterminate' });
+				electron.mainWindow.setProgressBar(Infinity, { mode: 'indeterminate' });
 				const archiveExtension = /(?<=overviewer-\d+\.\d+\.\d+)\.\w+(\.\w+)?/;
 				switch (archiveExtension.exec(fileName)[0]) {
 					case '.zip':
@@ -133,7 +133,7 @@ function updateOverviewer(link) {
 				fs.unlink(app.getPath('userData').replace(/\\/g, "/") + '/' + fileName, (err) => {
 					if (err) throw err;
 					logging.messageLog('Deleted overviewer archive');
-					electron.mainWindow.setProgressBar(1, { mode: 'none' });
+					electron.mainWindow.setProgressBar(-Infinity, { mode: 'none' });
 					updateLocalOverviewerVersion(function (currentVersion) {
 						electron.mainWindow.webContents.send('gotOverviewerVersion', currentVersion);
 					});
