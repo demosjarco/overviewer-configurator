@@ -12,7 +12,7 @@ function updateLocalOverviewerVersion(currentVersionCallback) {
 
 		let currentVersion = 'Not installed';
 		files.forEach(function (fileName) {
-			const overviewerFolderReg = /(?<=overviewer-)\d+\.\d+\.\d+(?!.zip)$/;
+			const overviewerFolderReg = /(?<=overviewer-)\d+\.\d+\.\d+(?!\.\w+(\.\w+)?)/;
 			if (overviewerFolderReg.test(fileName))
 				currentVersion = overviewerFolderReg.exec(fileName)[0];
 		});
