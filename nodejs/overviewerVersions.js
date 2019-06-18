@@ -124,14 +124,32 @@ function updateOverviewer(link) {
 						let zip = new AdmZip(app.getPath('userData').replace(/\\/g, "/") + '/' + fileName);
 						zip.extractAllTo(app.getPath('userData').replace(/\\/g, "/") + '/', true);
 						doneExtract();
+						fs.unlink(app.getPath('userData').replace(/\\/g, "/") + '/' + fileName, (err) => {
+							if (err) throw err;
+							logging.messageLog('Deleted overviewer archive');
+							electron.mainWindow.setProgressBar(-Infinity, { mode: 'none' });
+							updateLocalOverviewerVersion(function (currentVersion) {
+								electron.mainWindow.webContents.send('gotOverviewerVersion', currentVersion);
+							});
+						});
 						break;
 					case '.tar.gz':
-						const tar = require('tar-fs');
-						fs.createReadStream(app.getPath('userData').replace(/\\/g, "/") + '/' + fileName).pipe(tar.extract(app.getPath('userData').replace(/\\/g, "/") + '/')).on('close', function () {
-							const gunzip = require('tar-fs');
-							doneExtract();
-							break;
-						});
+						const gunzip = require('tar-fs');
+						fs.createReadStream(app.getPath('userData').replace(/\\/g, "/") + '/' + fileName)
+							.pipe(gunzip())
+							.pipe(fs.createWriteStream(app.getPath('userData').replace(/\\/g, "/") + '/' + fileName.replace(/\.gz/g, '')))
+							.on('close', function () {
+								const tar = require('tar-fs');
+								fs.createReadStream(app.getPath('userData').replace(/\\/g, "/") + '/' + fileName.replace(/\.gz/g, ''))
+									.pipe(tar.extract(app.getPath('userData').replace(/\\/g, "/") + '/test/'))
+									.on('close', function () {
+										fs.unlink(app.getPath('userData').replace(/\\/g, "/") + '/' + fileName.replace(/\.gz/g, ''), (err) => {
+											if (err) throw err;
+										});
+										doneExtract();
+										break;
+									});
+							});
 				}
 
 				function doneExtract() {
