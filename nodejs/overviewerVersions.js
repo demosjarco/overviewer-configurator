@@ -140,15 +140,9 @@ function updateOverviewer(link) {
 							.pipe(fs.createWriteStream(app.getPath('userData').replace(/\\/g, "/") + '/' + fileName.replace(/\.gz/g, '')))
 							.on('close', function () {
 								const tar = require('tar-fs');
-								fs.createReadStream(app.getPath('userData').replace(/\\/g, "/") + '/' + fileName.replace(/\.gz/g, ''))
-									.pipe(tar.extract(app.getPath('userData').replace(/\\/g, "/") + '/').on('finish', function () {
-										console.log('finished tar');
-									}).on('close', function () {
-										fs.unlink(app.getPath('userData').replace(/\\/g, "/") + '/' + fileName.replace(/\.gz/g, ''), (err) => {
-											if (err) throw err;
-										});
-										doneExtract();
-									});
+								fs.createReadStream(app.getPath('userData').replace(/\\/g, "/") + '/' + fileName.replace(/\.gz/g, '')).pipe(tar.extract(app.getPath('userData').replace(/\\/g, "/") + '/').on('finish', function () {
+									console.log('done tar');
+								}));
 							});
 						break;
 				}
