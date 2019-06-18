@@ -6,13 +6,13 @@ const electron = require('./electronSetup.js');
 module.exports.updateLocalOverviewerVersion = function (temp) {
 	updateLocalOverviewerVersion(temp);
 };
+const overviewerFolderReg = /(?<=overviewer-)\d+\.\d+\.\d+(?!\.\w+(\.\w+)?)/;
 function updateLocalOverviewerVersion(currentVersionCallback) {
 	fs.readdir(app.getPath('userData'), function (err, files) {
 		if (err) throw err;
 
 		let currentVersion = 'Not installed';
 		files.forEach(function (fileName) {
-			const overviewerFolderReg = /(?<=overviewer-)\d+\.\d+\.\d+(?!\.\w+(\.\w+)?)/;
 			if (overviewerFolderReg.test(fileName))
 				currentVersion = overviewerFolderReg.exec(fileName)[0];
 		});
@@ -85,7 +85,6 @@ function updateOverviewer(link) {
 
 		let exists = false;
 		files.forEach(function (fileName) {
-			const overviewerFolderReg = /(?<=overviewer-)\d+\.\d+\.\d+(?!\.\w+(\.\w+)?)/;
 			if (overviewerFolderReg.test(fileName)) {
 				exists = true;
 				logging.messageLog('Deleting old overviewer version');
