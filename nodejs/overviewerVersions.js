@@ -122,7 +122,7 @@ function updateOverviewer(link) {
 				logging.messageLog('Downloaded overviewer archive');
 				electron.mainWindow.setProgressBar(1, { mode: 'indeterminate' });
 				const archiveExtension = /(?<=overviewer-\d+\.\d+\.\d+)\.\w+(\.\w+)?/;
-				switch (archiveExtension.exec(fileName)) {
+				switch (archiveExtension.exec(fileName)[0]) {
 					case '.zip':
 						let zip = new AdmZip(app.getPath('userData').replace(/\\/g, "/") + '/' + fileName);
 						zip.extractAllTo(app.getPath('userData').replace(/\\/g, "/") + '/', true);
