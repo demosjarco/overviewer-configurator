@@ -89,8 +89,7 @@ function updateOverviewer(link) {
 			if (overviewerFolderReg.test(fileName)) {
 				exists = true;
 				logging.messageLog('Deleting old overviewer version');
-				const rimraf = require('rimraf');
-				rimraf(app.getPath('userData').replace(/\\/g, "/") + '/' + fileName + '/', function (err2) {
+				require('rimraf')(app.getPath('userData').replace(/\\/g, "/") + '/' + fileName + '/', function (err2) {
 					if (err2) throw err2;
 
 					logging.messageLog('Deleted old overviewer version');
