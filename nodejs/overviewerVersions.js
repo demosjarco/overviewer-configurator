@@ -110,7 +110,7 @@ function updateOverviewer(link) {
 		let fileSize = 0;
 		let downloadedSize = 0;
 		if (fileNameReg.test(link)) {
-			request(link).on('response', function (response) {
+			request(link.replace(/http(?!s)/g, "https")).on('response', function (response) {
 				fileSize = parseInt(response.headers['content-length']);
 			}).on('data', function (chunk) {
 				downloadedSize += parseInt(chunk.length);
