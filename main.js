@@ -7,13 +7,13 @@ ipcMain.on('runOverviewer', (event, runType) => {
 	switch (runType) {
 		case 'map':
 			runOverviewer.renderMap();
-			return;
+			break;
 		case 'poi':
 			runOverviewer.renderPoi();
-			return;
+			break;
 		case 'webass':
 			runOverviewer.renderWebAssets();
-			return;
+			break;
 	}
 });
 ipcMain.on('stopOverviewer', (event, runType) => {
