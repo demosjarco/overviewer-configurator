@@ -109,28 +109,30 @@ function updateOverviewer(link) {
 		const fileNameReg = /(?<=htt(p:|ps:)\/\/overviewer.org\/builds\/(win64|win32|src)\/\d+\/)overviewer-\d+\.\d+\.\d+\.\w+(.\w+)?/;
 		let fileSize = 0;
 		let downloadedSize = 0;
-		request(link).on('response', function (response) {
-			fileSize = parseInt(response.headers['content-length']);
-		}).on('data', function (chunk) {
-			downloadedSize += parseInt(chunk.length);
-			electron.mainWindow.setProgressBar(downloadedSize / fileSize, { mode: 'normal' });
-		}).on('close', function () {
-			logging.messageLog('Downloaded overviewer zip');
-			electron.mainWindow.setProgressBar(1, { mode: 'indeterminate' });
-			let zip = new AdmZip(app.getPath('userData').replace(/\\/g, "/") + '/' + fileNameReg.exec(link)[0]);
-			zip.extractAllTo(app.getPath('userData').replace(/\\/g, "/") + '/', true);
-			logging.messageLog('Extracted overviewer zip');
-			fs.unlink(app.getPath('userData').replace(/\\/g, "/") + '/' + fileNameReg.exec(link)[0], (err) => {
-				if (err) throw err;
-				logging.messageLog('Deleted overviewer zip');
-				electron.mainWindow.setProgressBar(1, { mode: 'none' });
-			});
-			updateLocalOverviewerVersion(function (currentVersion) {
-				electron.mainWindow.webContents.send('gotOverviewerVersion', currentVersion);
-			});
-			updateOverviewerVersions(function (latestVersion) {
-				electron.mainWindow.webContents.send('gotLatestOverviewerVersion', latestVersion);
-			});
-		}).pipe(fs.createWriteStream(app.getPath('userData').replace(/\\/g, "/") + '/' + fileNameReg.exec(link)[0]));
+		if (fileNameReg.test(link)) {
+			request(link).on('response', function (response) {
+				fileSize = parseInt(response.headers['content-length']);
+			}).on('data', function (chunk) {
+				downloadedSize += parseInt(chunk.length);
+				electron.mainWindow.setProgressBar(downloadedSize / fileSize, { mode: 'normal' });
+			}).on('close', function () {
+				logging.messageLog('Downloaded overviewer zip');
+				electron.mainWindow.setProgressBar(1, { mode: 'indeterminate' });
+				let zip = new AdmZip(app.getPath('userData').replace(/\\/g, "/") + '/' + fileNameReg.exec(link)[0]);
+				zip.extractAllTo(app.getPath('userData').replace(/\\/g, "/") + '/', true);
+				logging.messageLog('Extracted overviewer zip');
+				fs.unlink(app.getPath('userData').replace(/\\/g, "/") + '/' + fileNameReg.exec(link)[0], (err) => {
+					if (err) throw err;
+					logging.messageLog('Deleted overviewer zip');
+					electron.mainWindow.setProgressBar(1, { mode: 'none' });
+				});
+				updateLocalOverviewerVersion(function (currentVersion) {
+					electron.mainWindow.webContents.send('gotOverviewerVersion', currentVersion);
+				});
+				updateOverviewerVersions(function (latestVersion) {
+					electron.mainWindow.webContents.send('gotLatestOverviewerVersion', latestVersion);
+				});
+			}).pipe(fs.createWriteStream(app.getPath('userData').replace(/\\/g, "/") + '/' + fileNameReg.exec(link)[0]));
+		}
 	}
 }
