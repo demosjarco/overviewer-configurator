@@ -135,12 +135,12 @@ function updateOverviewer(link) {
 					if (err) throw err;
 					logging.messageLog('Deleted overviewer archive');
 					electron.mainWindow.setProgressBar(1, { mode: 'none' });
-				});
-				updateLocalOverviewerVersion(function (currentVersion) {
-					electron.mainWindow.webContents.send('gotOverviewerVersion', currentVersion);
-				});
-				updateOverviewerVersions(function (latestVersion) {
-					electron.mainWindow.webContents.send('gotLatestOverviewerVersion', latestVersion);
+					updateLocalOverviewerVersion(function (currentVersion) {
+						electron.mainWindow.webContents.send('gotOverviewerVersion', currentVersion);
+					});
+					updateOverviewerVersions(function (latestVersion) {
+						electron.mainWindow.webContents.send('gotLatestOverviewerVersion', latestVersion);
+					});
 				});
 			}).pipe(fs.createWriteStream(app.getPath('userData').replace(/\\/g, "/") + '/' + fileName));
 		}
