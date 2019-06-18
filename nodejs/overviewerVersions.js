@@ -77,6 +77,8 @@ function updateOverviewerVersions(latestVersionCallback) {
 }
 
 const AdmZip = require('adm-zip');
+const tar = require('tar-fs');
+const gunzip = require('tar-fs');
 const rimraf = require('rimraf');
 const logging = require('./logging.js');
 function updateOverviewer(link) {
