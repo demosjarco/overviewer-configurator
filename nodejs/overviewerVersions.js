@@ -124,14 +124,6 @@ function updateOverviewer(link) {
 						let zip = new AdmZip(app.getPath('userData').replace(/\\/g, "/") + '/' + fileName);
 						zip.extractAllTo(app.getPath('userData').replace(/\\/g, "/") + '/', true);
 						doneExtract();
-						fs.unlink(app.getPath('userData').replace(/\\/g, "/") + '/' + fileName, (err) => {
-							if (err) throw err;
-							logging.messageLog('Deleted overviewer archive');
-							electron.mainWindow.setProgressBar(-Infinity, { mode: 'none' });
-							updateLocalOverviewerVersion(function (currentVersion) {
-								electron.mainWindow.webContents.send('gotOverviewerVersion', currentVersion);
-							});
-						});
 						break;
 					case '.tar.gz':
 						const gunzip = require('gunzip-maybe');
