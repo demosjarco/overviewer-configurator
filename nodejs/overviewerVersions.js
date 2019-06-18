@@ -133,7 +133,10 @@ function updateOverviewer(link) {
 							.on('close', function () {
 								const tar = require('tar-fs');
 								fs.createReadStream(app.getPath('userData').replace(/\\/g, "/") + '/' + fileName.replace(/\.gz/g, '')).pipe(tar.extract(app.getPath('userData').replace(/\\/g, "/") + '/').on('finish', function () {
-									console.log('done tar');
+									fs.unlink(app.getPath('userData').replace(/\\/g, "/") + '/' + fileName.replace(/\.gz/g, ''), (err) => {
+										if (err) throw err;
+										doneExtract();
+									});
 								}));
 							});
 						break;
