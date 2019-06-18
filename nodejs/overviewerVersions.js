@@ -6,7 +6,7 @@ const electron = require('./electronSetup.js');
 module.exports.updateLocalOverviewerVersion = function (temp) {
 	updateLocalOverviewerVersion(temp);
 };
-const overviewerFolderReg = /(?<=overviewer-)\d+\.\d+\.\d+(?!\.\w+(\.\w+)?)/;
+const overviewerFolderReg = /(?<=(minecraft\-)?overviewer-)\d+\.\d+\.\d+(?!\.\w+(\.\w+)?)/i;
 function updateLocalOverviewerVersion(currentVersionCallback) {
 	fs.readdir(app.getPath('userData'), function (err, files) {
 		if (err) throw err;
