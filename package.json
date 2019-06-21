@@ -23,7 +23,7 @@
 	"devDependencies": {
 		"electromon": "^1.0.10",
 		"electron": "^5.0.4",
-		"electron-packager": "^13.1.1",
+		"electron-packager": "^14.0.0",
 		"less": "^3.9.0",
 		"less-watch-compiler": "^1.13.0"
 	},
