@@ -58,10 +58,7 @@ function updateOverviewerVersions(latestVersionCallback = null) {
 				function buildLoop(buildNumber) {
 					request('https://overviewer.org/build/api/v2/builders/' + osType + '/builds/' + buildNumber + '/steps/upload', function (error2, response2, body2) {
 						if (error2 || response2.statusCode != 200) {
-							electron.errorOverviewerVersionMenu();
-							logging.messageLog('HTTP ' + response2.statusCode + ' https://overviewer.org/build/api/v2/builders/' + osType + '/builds/' + latestBuild + '/steps/upload | ' + error2);
-							if (latestVersionCallback)
-								latestVersionCallback('Error...');
+							logging.messageLog('HTTP ' + response2.statusCode + ' https://overviewer.org/build/api/v2/builders/' + osType + '/builds/' + buildNumber + '/steps/upload | ' + error2);
 						} else {
 							const archiveUrl = JSON.parse(body2).steps[0].urls[0].url.replace(/http(?!s)/g, "https");
 							const versionReg = /(?<=htt(p:|ps:)\/\/overviewer.org\/builds\/(win64|win32|src)\/\d+\/overviewer-)\d+\.\d+\.\d+/;
