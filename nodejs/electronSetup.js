@@ -135,7 +135,3 @@ module.exports.errorOverviewerVersionMenu = function () {
 module.exports.addNewOverviewerVersionMenu = function(menuItem) {
 	mainMenuTemplate[1].submenu[1].submenu.push(menuItem);
 }
-module.exports.reverseOverviewerVersionMenu = function() {
-	mainMenuTemplate[1].submenu[1].submenu.reverse();
-	Menu.setApplicationMenu(Menu.buildFromTemplate(mainMenuTemplate));
-}
