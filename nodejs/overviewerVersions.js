@@ -64,7 +64,7 @@ function updateOverviewerVersions(latestVersionCallback = null) {
 							const versionReg = /(?<=htt(p:|ps:)\/\/overviewer.org\/builds\/(win64|win32|src)\/\d+\/overviewer-)\d+\.\d+\.\d+/;
 							if (versionReg.test(archiveUrl)) {
 								electron.addNewOverviewerVersionMenu({
-									label: versionReg.exec(archiveUrl),
+									label: versionReg.exec(archiveUrl)[0],
 									click() {
 										latestVersionCallback
 										updateOverviewer(archiveUrl);
@@ -72,7 +72,7 @@ function updateOverviewerVersions(latestVersionCallback = null) {
 								});
 
 								if (buildNumber == builds[0].number && latestVersionCallback) {
-									latestVersionCallback(versionReg.exec(archiveUrl));
+									latestVersionCallback(versionReg.exec(archiveUrl)[0]);
 								}
 							}
 						}
