@@ -1,26 +1,26 @@
 language: node_js
 node_js:
-	"node"
+  "node"
 sudo: required
 addons:
-	apt:
-		packages:
-			- wine
+  apt:
+    packages:
+      - wine
 before_deploy:
-	- npm i
-	- npm run packagewin
-	- zip -r overviewer-configurator-win32-x64.zip overviewer-configurator-win32-x64
+  - npm i
+  - npm run packagewin
+  - zip -r overviewer-configurator-win32-x64.zip overviewer-configurator-win32-x64
 before_deploy:
-	# Set up git user name and tag this commit
-	- git config --local user.name "demosjarco"
-	- git config --local user.email "demosjarco@users.noreply.github.com"
-	- export TRAVIS_TAG=${TRAVIS_TAG:-$(date +'%Y%m%d%H%M%S')-$(git log --format=%h -1)}
-	- git tag $TRAVIS_TAG
+  # Set up git user name and tag this commit
+  - git config --local user.name "demosjarco"
+  - git config --local user.email "demosjarco@users.noreply.github.com"
+  - export TRAVIS_TAG=${TRAVIS_TAG:-$(date +'%Y%m%d%H%M%S')-$(git log --format=%h -1)}
+  - git tag $TRAVIS_TAG
 deploy:
-	provider: releases
-	api_key:
-		secure: UaTeCUw9QAO42w+pRKqdhn/wx4hAfKcU7fKo4GkZ2j7zf2JId6R+3mPYSsvsjH6Z2t8zirj1FlC5nk63Wk0vWgdG4zDY0lamDuAAgG4P87p4YsTk+j6zRYNoq7Wko6eHqz4taL6o0M4H8ZfqOLuVH8Ge7bNCFkABhgFcTBVmIY676mytL9A8FO83RvQCvCEKsBzcvo9yZ0/9eLSiuz0FcY6q8fbHoZYMTucn4snqWwmd+r+iVdyieSEbxNNCEuyz43NV1eolQZrOdqbJKPQzaEJHSZIS1kuHXWd6VqNFEHY8zuN4kpGJMSw7pkLXjeM9Qoa/rB1OXTLJlPy5khVr6kcQCYELosXkRafjap+gcNVGlxScnO/3o+u/jTvvKRWbrOgS/oNqOGdnxsaCHjdqn2JMQir7nxmXtqUqhpy7HUa5mgE1V9e6QlTqSiCgR3lmUFgaJ5z8P/eGdE2AfUCGY0uGjzut8z4+bj1cs5akX9cxgwMYjHK/RJDr3It3RFCCqrMepU5Iq5gxt/3/K8wNe6EhUKrmstcYVEz3jMfn0PUeffVwsHAVY/MU7DaAan2XWxBeDYKHQ5RxorIV4FxVDfNqKb3SkKMkqvSYvfJ8E+5hw7Bblj0mrwXzJptu3Vr1UhoemRq0o97QENw9g8h2x9pTK1fZHR6Bg4mgdEe3oAs=
-	file: overviewer-configurator-win32-x64.zip
-	prerelease: true
-	on:
-		branch: master
+  provider: releases
+  api_key:
+    secure: UaTeCUw9QAO42w+pRKqdhn/wx4hAfKcU7fKo4GkZ2j7zf2JId6R+3mPYSsvsjH6Z2t8zirj1FlC5nk63Wk0vWgdG4zDY0lamDuAAgG4P87p4YsTk+j6zRYNoq7Wko6eHqz4taL6o0M4H8ZfqOLuVH8Ge7bNCFkABhgFcTBVmIY676mytL9A8FO83RvQCvCEKsBzcvo9yZ0/9eLSiuz0FcY6q8fbHoZYMTucn4snqWwmd+r+iVdyieSEbxNNCEuyz43NV1eolQZrOdqbJKPQzaEJHSZIS1kuHXWd6VqNFEHY8zuN4kpGJMSw7pkLXjeM9Qoa/rB1OXTLJlPy5khVr6kcQCYELosXkRafjap+gcNVGlxScnO/3o+u/jTvvKRWbrOgS/oNqOGdnxsaCHjdqn2JMQir7nxmXtqUqhpy7HUa5mgE1V9e6QlTqSiCgR3lmUFgaJ5z8P/eGdE2AfUCGY0uGjzut8z4+bj1cs5akX9cxgwMYjHK/RJDr3It3RFCCqrMepU5Iq5gxt/3/K8wNe6EhUKrmstcYVEz3jMfn0PUeffVwsHAVY/MU7DaAan2XWxBeDYKHQ5RxorIV4FxVDfNqKb3SkKMkqvSYvfJ8E+5hw7Bblj0mrwXzJptu3Vr1UhoemRq0o97QENw9g8h2x9pTK1fZHR6Bg4mgdEe3oAs=
+  file: overviewer-configurator-win32-x64.zip
+  prerelease: true
+  on:
+    branch: master
