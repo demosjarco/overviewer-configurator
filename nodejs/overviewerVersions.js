@@ -62,15 +62,18 @@ function updateOverviewerVersions(latestVersionCallback = null) {
 						} else {
 							const archiveUrl = JSON.parse(body2).steps[0].urls[0].url.replace(/http(?!s)/g, "https");
 							const versionReg = /(?<=htt(p:|ps:)\/\/overviewer.org\/builds\/(win64|win32|src)\/\d+\/overviewer-)\d+\.\d+\.\d+/;
-							electron.addNewOverviewerVersionMenu({
-								label: versionReg.exec(archiveUrl),
-								click() {latestVersionCallback
-									updateOverviewer(archiveUrl);
-								}
-							});
+							if (versionReg.test(archiveUrl)) {
+								electron.addNewOverviewerVersionMenu({
+									label: versionReg.exec(archiveUrl),
+									click() {
+										latestVersionCallback
+										updateOverviewer(archiveUrl);
+									}
+								});
 
-							if (buildNumber == builds[0].number && latestVersionCallback) {
-								latestVersionCallback(versionReg.exec(archiveUrl));
+								if (buildNumber == builds[0].number && latestVersionCallback) {
+									latestVersionCallback(versionReg.exec(archiveUrl));
+								}
 							}
 						}
 
