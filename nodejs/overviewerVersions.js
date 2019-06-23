@@ -79,11 +79,11 @@ function updateOverviewerVersions(latestVersionCallback = null) {
 
 						buildLoopCounter++;
 						if (buildLoopCounter < builds.length) {
-							buildLoop(buildLoopCounter);
+							buildLoop(builds[buildLoopCounter].number);
 						}
 					});
 				}
-				buildLoop(buildLoopCounter);
+				buildLoop(builds[buildLoopCounter].number);
 			} else {
 				problemGettingBuilds();
 			}
