@@ -1,26 +1,20 @@
 language: node_js
-node_js:
-  "node"
+node_js: node
 sudo: required
 addons:
   apt:
     packages:
-      - wine
+    - wine
 before_deploy:
-  - npm i
-  - npm run packagewin
-  - zip -r overviewer-configurator-win32-x64.zip overviewer-configurator-win32-x64
-before_deploy:
-  # Set up git user name and tag this commit
-  - git config --local user.name "demosjarco"
-  - git config --local user.email "demosjarco@users.noreply.github.com"
-  - export TRAVIS_TAG=${TRAVIS_TAG:-$(date +'%Y%m%d%H%M%S')-$(git log --format=%h -1)}
-  - git tag $TRAVIS_TAG
+- git config --local user.name "demosjarco"
+- git config --local user.email "demosjarco@users.noreply.github.com"
+- export TRAVIS_TAG=${TRAVIS_TAG:-$(date +'%Y%m%d%H%M%S')-$(git log --format=%h -1)}
+- git tag $TRAVIS_TAG
 deploy:
   provider: releases
   api_key:
-    secure: UaTeCUw9QAO42w+pRKqdhn/wx4hAfKcU7fKo4GkZ2j7zf2JId6R+3mPYSsvsjH6Z2t8zirj1FlC5nk63Wk0vWgdG4zDY0lamDuAAgG4P87p4YsTk+j6zRYNoq7Wko6eHqz4taL6o0M4H8ZfqOLuVH8Ge7bNCFkABhgFcTBVmIY676mytL9A8FO83RvQCvCEKsBzcvo9yZ0/9eLSiuz0FcY6q8fbHoZYMTucn4snqWwmd+r+iVdyieSEbxNNCEuyz43NV1eolQZrOdqbJKPQzaEJHSZIS1kuHXWd6VqNFEHY8zuN4kpGJMSw7pkLXjeM9Qoa/rB1OXTLJlPy5khVr6kcQCYELosXkRafjap+gcNVGlxScnO/3o+u/jTvvKRWbrOgS/oNqOGdnxsaCHjdqn2JMQir7nxmXtqUqhpy7HUa5mgE1V9e6QlTqSiCgR3lmUFgaJ5z8P/eGdE2AfUCGY0uGjzut8z4+bj1cs5akX9cxgwMYjHK/RJDr3It3RFCCqrMepU5Iq5gxt/3/K8wNe6EhUKrmstcYVEz3jMfn0PUeffVwsHAVY/MU7DaAan2XWxBeDYKHQ5RxorIV4FxVDfNqKb3SkKMkqvSYvfJ8E+5hw7Bblj0mrwXzJptu3Vr1UhoemRq0o97QENw9g8h2x9pTK1fZHR6Bg4mgdEe3oAs=
+    secure: JIRLLJ271JrKGCqUihjaw0ppmnc1DeH3kFqn8QOJgCz+gVnr8kK+hXhLAJXULkvc7+X4G+QFFy+i3wws6mnVfz6nHEjQcAh2OQaTdzsxljQFEfeyZaCyOW6v4lqSRN11oFMmWeAu/5Nh4rsfGyHFrC5YuXi64MotdbT44CCWI+N9IPTV04r4bzP6Rop12SXSFbYynhgzAVNeK/YS2YaNop0DWk1vjxjRtF//bT096xDOSZ4CwI7EaBTmLfJ8vWFS1ncbpVkK6rijeML1sh+RLZfnzcpbbzWNxH8haMdaSCpeySPVXBu5ytnuxgzCLaVCsRfXLHyJAmuuTuMB/TSSQon/Eqsufh+rw59uz6IpyRjYQ/6dl9LIODS7xq+jBkhacrUGmJuks43ljFcT9IJVj07TfE/ZdX8RIVWmiV4qjFL8LKvaq3H6DAtjyyczfyJ/qaV4/qw7qhmbDDFDHFL9pD/FjmpUv/4PqOdyOAAMHEIUuDjMUrboxsAmZpmOLQUYYDNKUa3l9AbnWdYXhumeHjx9UyuyWMvYjUUqNT/eWurkkphUf3cl+xihsQ2fZxoA96HxCAlHQw0PSoLEuhb6TWuhQchLFG7OSZrA/fr89muSdZq38HUzSiwtuZZi2MuRrtE/b6W6d41cTFg1fNZPUJvssclqJcWHewaAMSu41vk=
   file: overviewer-configurator-win32-x64.zip
-  prerelease: true
   on:
+    repo: demosjarco/overviewer-configurator
     branch: master
