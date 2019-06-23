@@ -648,21 +648,21 @@ function createPyConfigFile(json, timestamp) {
 
 	// Progress
 	if (json.global.renderProgress.local && json.global.renderProgress.web) {
-		overviewerConfigFile += 'from observer import MultiplexingObserver, LoggingObserver, JSObserver\n';
+		overviewerConfigFile += 'from .observer import MultiplexingObserver, LoggingObserver, JSObserver\n';
 		overviewerConfigFile += 'observer = MultiplexingObserver(LoggingObserver(), JSObserver(outputdir, 10))\n';
 		overviewerConfigFile += '\n';
 	} else if (json.global.renderProgress.web) {
-		overviewerConfigFile += 'from observer import JSObserver\n';
+		overviewerConfigFile += 'from .observer import JSObserver\n';
 		overviewerConfigFile += 'observer = JSObserver(outputdir, 10)\n';
 		overviewerConfigFile += '\n';
 	} else if (json.global.renderProgress.local) {
-		overviewerConfigFile += 'from observer import LoggingObserver\n';
+		overviewerConfigFile += 'from .observer import LoggingObserver\n';
 		overviewerConfigFile += 'observer = LoggingObserver()\n';
 		overviewerConfigFile += '\n';
 	}
 
 	if (json.global.compressLevel > 0) {
-		overviewerConfigFile += 'from optimizeimages import oxipng\n';
+		overviewerConfigFile += 'from .optimizeimages import oxipng\n';
 		overviewerConfigFile += 'optimizeimg = [oxipng(olevel=' + json.global.compressLevel + ')]\n';
 		overviewerConfigFile += '\n';
 	}
