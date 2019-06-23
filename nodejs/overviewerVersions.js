@@ -96,45 +96,6 @@ function updateOverviewerVersions(latestVersionCallback = null) {
 				latestVersionCallback('Error...');
 		}
 	});
-	/*request('https://overviewer.org/build/json/builders/' + osType + '/builds/_all', function (error, response, body) {
-		if (error || response.statusCode != 200) {
-			electron.errorOverviewerVersionMenu();
-			logging.messageLog('HTTP ' + response.statusCode + ' | ' + error);
-			if (latestVersionCallback)
-				latestVersionCallback('Error...');
-		} else {
-			let json = Object.values(JSON.parse(body));
-			electron.emptyOverviewerVersionsMenu();
-			let latestVersion;
-			json.forEach(function (version) {
-				version.properties.forEach(function (property) {
-					if (property[0] == 'version') {
-						version.steps.forEach(function (step) {
-							if (step.name == 'upload') {
-								if (Object.values(step.urls)[0]) {
-									electron.addNewOverviewerVersionMenu({
-										label: property[1],
-										click() {
-											updateOverviewer(Object.values(step.urls)[0].replace(/http(?!s)/g, "https"));
-										}
-									});
-								} else {
-									electron.addNewOverviewerVersionMenu({
-										label: property[1],
-										enabled: false
-									});
-								}
-								latestVersion = property[1];
-							}
-						});
-					}
-				});
-			});
-			electron.reverseOverviewerVersionMenu();
-			if (latestVersionCallback)
-				latestVersionCallback(latestVersion);
-		}
-	});*/
 }
 
 const logging = require('./logging.js');
