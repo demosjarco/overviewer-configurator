@@ -38,43 +38,62 @@ function updateOverviewerVersions(latestVersionCallback = null) {
 			osType = platformReg.exec(os.platform()) + archReg.exec(os.arch());
 			break;
 	}
-	request('https://overviewer.org/build/json/builders/' + osType + '/builds/_all', function (error, response, body) {
-		if (error || response.statusCode != 200) {
+	request('https://overviewer.org/build/api/v2/builders/' + osType + '/builds', function (error1, response1, body1) {
+		if (error1 || response1.statusCode != 200) {
+			problemGettingBuilds();
+		} else {
+			electron.emptyOverviewerVersionsMenu();
+			let temp = JSON.parse(body1).builds;
+			let builds = [];
+			temp.forEach(function (build) {
+				if (build.complete && build.state_string == 'build successful')
+					builds.push(build);
+			});
+			if (builds.length > 0) {
+				builds.sort(function (a, b) {
+					return new Date(b.started_at) - new Date(a.started_at);
+				});
+
+				let buildLoopCounter = 0;
+				function buildLoop(buildNumber) {
+					request('https://overviewer.org/build/api/v2/builders/' + osType + '/builds/' + buildNumber + '/steps/upload', function (error2, response2, body2) {
+						if (error2 || response2.statusCode != 200) {
+							logging.messageLog('HTTP ' + response2.statusCode + ' https://overviewer.org/build/api/v2/builders/' + osType + '/builds/' + buildNumber + '/steps/upload | ' + error2);
+						} else {
+							const archiveUrl = JSON.parse(body2).steps[0].urls[0].url.replace(/http(?!s)/g, "https");
+							const versionReg = /(?<=htt(p:|ps:)\/\/overviewer.org\/builds\/(win64|win32|src)\/\d+\/overviewer-)\d+\.\d+\.\d+/;
+							if (versionReg.test(archiveUrl)) {
+								electron.addNewOverviewerVersionMenu({
+									label: versionReg.exec(archiveUrl)[0],
+									click() {
+										latestVersionCallback
+										updateOverviewer(archiveUrl);
+									}
+								});
+
+								if (buildNumber == builds[0].number && latestVersionCallback) {
+									latestVersionCallback(versionReg.exec(archiveUrl)[0]);
+								}
+							}
+						}
+
+						buildLoopCounter++;
+						if (buildLoopCounter < builds.length) {
+							buildLoop(builds[buildLoopCounter].number);
+						}
+					});
+				}
+				buildLoop(builds[buildLoopCounter].number);
+			} else {
+				problemGettingBuilds();
+			}
+		}
+
+		function problemGettingBuilds() {
 			electron.errorOverviewerVersionMenu();
-			logging.messageLog('HTTP ' + response.statusCode + ' | ' + error);
+			logging.messageLog('HTTP ' + response1.statusCode + ' https://overviewer.org/build/api/v2/builders/' + osType + '/builds | ' + error1);
 			if (latestVersionCallback)
 				latestVersionCallback('Error...');
-		} else {
-			let json = Object.values(JSON.parse(body));
-			electron.emptyOverviewerVersionsMenu();
-			let latestVersion;
-			json.forEach(function (version) {
-				version.properties.forEach(function (property) {
-					if (property[0] == 'version') {
-						version.steps.forEach(function (step) {
-							if (step.name == 'upload') {
-								if (Object.values(step.urls)[0]) {
-									electron.addNewOverviewerVersionMenu({
-										label: property[1],
-										click() {
-											updateOverviewer(Object.values(step.urls)[0].replace(/http(?!s)/g, "https"));
-										}
-									});
-								} else {
-									electron.addNewOverviewerVersionMenu({
-										label: property[1],
-										enabled: false
-									});
-								}
-								latestVersion = property[1];
-							}
-						});
-					}
-				});
-			});
-			electron.reverseOverviewerVersionMenu();
-			if (latestVersionCallback)
-				latestVersionCallback(latestVersion);
 		}
 	});
 }

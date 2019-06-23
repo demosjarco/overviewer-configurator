@@ -72,6 +72,11 @@ setInterval(function () {
 ipcRenderer.on('gotOverviewerVersion', function (event, version) {
 	$(function () {
 		$('body main div#tabs-1 table tbody tr td span#ovVersion').text(version);
+		if ($('body main div#tabs-1 table tbody tr td span#ovVersion').text() == $('span#latestOvVersion').text()) {
+			$('body main div#tabs-1 table tbody tr td span#ovVersion').css('color', '#a5d6a7');
+		} else {
+			$('body main div#tabs-1 table tbody tr td span#ovVersion').css('color', '#ef9a9a');
+		}
 	});
 });
 ipcRenderer.on('gotLatestOverviewerVersion', function (event, version) {
