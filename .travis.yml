@@ -7,6 +7,8 @@ addons:
     packages:
     - wine
 before_deploy:
+- npm run packagewin
+- zip -r overviewer-configurator-win32-x64.zip overviewer-configurator-win32-x64
 - git config --local user.name "demosjarco"
 - git config --local user.email "demosjarco@users.noreply.github.com"
 - export TRAVIS_TAG=${TRAVIS_TAG:-$(date +'%Y%m%d%H%M%S')-$(git log --format=%h -1)}
