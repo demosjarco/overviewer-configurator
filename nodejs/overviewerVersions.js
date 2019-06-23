@@ -38,7 +38,27 @@ function updateOverviewerVersions(latestVersionCallback = null) {
 			osType = platformReg.exec(os.platform()) + archReg.exec(os.arch());
 			break;
 	}
-	request('https://overviewer.org/build/json/builders/' + osType + '/builds/_all', function (error, response, body) {
+	request('https://overviewer.org/build/api/v2/builders/' + osType + '/builds', function (error1, response1, body1) {
+		if (error1 || response1.statusCode != 200) {
+			electron.errorOverviewerVersionMenu();
+			logging.messageLog('HTTP ' + response.statusCode + 'https://overviewer.org/build/api/v2/builders/' + osType + '/builds | ' + error);
+			if (latestVersionCallback)
+				latestVersionCallback('Error...');
+		} else {
+			electron.emptyOverviewerVersionsMenu();
+			let temp = JSON.parse(body1).builds;
+			let builds = [];
+			temp.forEach(function (build) {
+				if (build.complete && build.state_string == 'build successful')
+					builds.push(build);
+			});
+			builds.sort(function (a, b) {
+				return new Date(b.started_at) - new Date(a.started_at);
+			});
+			console.log(builds);
+		}
+	});
+	/*request('https://overviewer.org/build/json/builders/' + osType + '/builds/_all', function (error, response, body) {
 		if (error || response.statusCode != 200) {
 			electron.errorOverviewerVersionMenu();
 			logging.messageLog('HTTP ' + response.statusCode + ' | ' + error);
@@ -76,7 +96,7 @@ function updateOverviewerVersions(latestVersionCallback = null) {
 			if (latestVersionCallback)
 				latestVersionCallback(latestVersion);
 		}
-	});
+	});*/
 }
 
 const logging = require('./logging.js');
