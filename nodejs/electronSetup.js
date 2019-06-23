@@ -126,6 +126,7 @@ module.exports.setOverviewerCurrentVersionMenu = function(currentVersion) {
 module.exports.emptyOverviewerVersionsMenu = function() {
 	delete mainMenuTemplate[1].submenu[1].sublabel;
 	mainMenuTemplate[1].submenu[1].submenu = [];
+	Menu.setApplicationMenu(Menu.buildFromTemplate(mainMenuTemplate));
 }
 module.exports.errorOverviewerVersionMenu = function () {
 	mainMenuTemplate[1].submenu[1].sublabel = 'Error loading';
@@ -134,4 +135,5 @@ module.exports.errorOverviewerVersionMenu = function () {
 }
 module.exports.addNewOverviewerVersionMenu = function(menuItem) {
 	mainMenuTemplate[1].submenu[1].submenu.push(menuItem);
+	Menu.setApplicationMenu(Menu.buildFromTemplate(mainMenuTemplate));
 }
