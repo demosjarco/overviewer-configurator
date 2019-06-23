@@ -53,7 +53,6 @@ const overviewerVersions = require('./overviewerVersions.js');
 const oxipngVersions = require('./oxipngVersions.js');
 
 let mainWindow;
-module.exports.mainWindow = mainWindow;
 
 app.on('ready', () => {
 	// Create the browser window.
@@ -101,8 +100,6 @@ app.on('ready', () => {
 
 	module.exports.mainWindow = mainWindow;
 	config.runInit();
-	overviewerVersions.updateLocalOverviewerVersion();
-	overviewerVersions.updateOverviewerVersions();
 });
 
 // Quit when all windows are closed.
@@ -129,6 +126,11 @@ module.exports.setOverviewerCurrentVersionMenu = function(currentVersion) {
 module.exports.emptyOverviewerVersionsMenu = function() {
 	delete mainMenuTemplate[1].submenu[1].sublabel;
 	mainMenuTemplate[1].submenu[1].submenu = [];
+}
+module.exports.errorOverviewerVersionMenu = function () {
+	mainMenuTemplate[1].submenu[1].sublabel = 'Error loading';
+	delete mainMenuTemplate[1].submenu[1].submenu;
+	Menu.setApplicationMenu(Menu.buildFromTemplate(mainMenuTemplate));
 }
 module.exports.addNewOverviewerVersionMenu = function(menuItem) {
 	mainMenuTemplate[1].submenu[1].submenu.push(menuItem);

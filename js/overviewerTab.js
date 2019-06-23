@@ -76,11 +76,16 @@ ipcRenderer.on('gotOverviewerVersion', function (event, version) {
 });
 ipcRenderer.on('gotLatestOverviewerVersion', function (event, version) {
 	$(function () {
-		$('body main div#tabs-1 table tbody tr td span#latestOvVersion').text(version).css('color', '#a5d6a7');
-		if ($('body main div#tabs-1 table tbody tr td span#ovVersion').text() == $('span#latestOvVersion').text()) {
-			$('body main div#tabs-1 table tbody tr td span#ovVersion').css('color', '#a5d6a7');
+		if (version == 'Error...') {
+			$('body main div#tabs-1 table tbody tr td span#ovVersion').css('color', '#fff59d');
+			$('body main div#tabs-1 table tbody tr td span#latestOvVersion').text(version).css('color', '#ef9a9a');
 		} else {
-			$('body main div#tabs-1 table tbody tr td span#ovVersion').css('color', '#ef9a9a');
+			$('body main div#tabs-1 table tbody tr td span#latestOvVersion').text(version).css('color', '#a5d6a7');
+			if ($('body main div#tabs-1 table tbody tr td span#ovVersion').text() == $('span#latestOvVersion').text()) {
+				$('body main div#tabs-1 table tbody tr td span#ovVersion').css('color', '#a5d6a7');
+			} else {
+				$('body main div#tabs-1 table tbody tr td span#ovVersion').css('color', '#ef9a9a');
+			}
 		}
 	});
 });

@@ -22,10 +22,10 @@ function updateLocalOverviewerVersion(currentVersionCallback) {
 	});
 }
 
-module.exports.updateOverviewerVersions = function (temp) {
+module.exports.updateOverviewerVersions = function (temp = null) {
 	updateOverviewerVersions(temp);
 };
-function updateOverviewerVersions(latestVersionCallback) {
+function updateOverviewerVersions(latestVersionCallback = null) {
 	const os = require('os');
 	let osType = '';
 	switch (os.platform()) {
@@ -40,7 +40,10 @@ function updateOverviewerVersions(latestVersionCallback) {
 	}
 	request('https://overviewer.org/build/json/builders/' + osType + '/builds/_all', function (error, response, body) {
 		if (error || response.statusCode != 200) {
-			mainMenuTemplate[1].submenu[2].sublabel = 'Error loading';
+			electron.errorOverviewerVersionMenu();
+			logging.messageLog('HTTP ' + response.statusCode + ' | ' + error);
+			if (latestVersionCallback)
+				latestVersionCallback('Error...');
 		} else {
 			let json = Object.values(JSON.parse(body));
 			electron.emptyOverviewerVersionsMenu();
