@@ -1,0 +1,85 @@
+body > aside {
+  height: 100vh;
+  width: 260px;
+  padding: 0 10px;
+  font-family: 'Open Sans Condensed', sans-serif;
+  background-color: #2d6923;
+  box-sizing: border-box;
+  overflow-y: scroll;
+}
+body > aside ul {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+}
+body > aside ul li {
+  padding: 5px;
+}
+body > aside ul li.spacer {
+  padding: 0;
+  margin: 5px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+}
+body > aside ul li .content {
+  width: 100%;
+  padding: 5px;
+  border-radius: 5px;
+}
+body > aside ul li.allowed .content:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+body > aside ul li#appTitle {
+  font-size: large;
+  font-weight: bold;
+}
+body > aside ul li#overviewer {
+  font-size: large;
+}
+body > aside ul li#overviewer ul li div.progressBar {
+  display: none;
+  width: 100%;
+  height: 2px;
+  background-color: rgba(0, 0, 0, 0.33333333);
+  border-radius: 1px;
+  overflow: hidden;
+}
+body > aside ul li#overviewer ul li div.progressBar.downloading {
+  display: block;
+}
+body > aside ul li#overviewer ul li div.progressBar div.status {
+  width: 66%;
+  height: 100%;
+  background-color: white;
+}
+body > aside ul li#worlds ul li span.worldCode {
+  margin-right: 5px;
+  font-size: large;
+  font-weight: bold;
+}
+body > aside ul li > * {
+  display: inline-block;
+}
+body > aside ul li i,
+body > aside ul li img {
+  vertical-align: middle;
+  margin-right: 5px;
+}
+body > aside ul li i {
+  font-size: 24px;
+}
+body > aside ul li img {
+  width: 24px;
+  height: 24px;
+}
+body > aside ul li.open ul {
+  display: block;
+}
+body > aside ul li > ul {
+  display: none;
+  padding-top: 5px;
+  margin-left: 5px;
+  font-size: medium;
+}
+body > aside ul li div.arrow {
+  float: right;
+}

@@ -88,7 +88,7 @@ app.on('ready', () => {
 	// and load the index.html of the app.
 	mainWindow.loadFile('./html/mainWindow.html');
 	Menu.setApplicationMenu(Menu.buildFromTemplate(mainMenuTemplate));
-	//mainWindow.webContents.openDevTools();
+	mainWindow.webContents.openDevTools();
 
 	// Emitted when the window is closed.
 	mainWindow.on('closed', () => {

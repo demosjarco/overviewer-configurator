@@ -1,15 +1,22 @@
-@import url('https://fonts.googleapis.com/css?family=Open+Sans:400,700');
-
-@sideBarWidth: 7.5%;
+@import url('https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,700|Open+Sans:400,700&display=swap');
 
 body {
 	margin: 0;
+	padding: 0;
 	font-family: 'Open Sans', sans-serif;
 	color: white;
 
 	-webkit-user-select: none;
 
-	> * {
+	> aside {
+		float: left;
+	}
+
+	> main {
+		float: right;
+	}
+
+	/*> * {
 		position: absolute;
 		top: 0;
 		bottom: 0;
@@ -22,7 +29,6 @@ body {
 		left: 0;
 		width: @sideBarWidth;
 		padding: 15px 0px;
-		/*background-color: #36b030;*/
 		background-color: #2d6923;
 		text-align: center;
 
@@ -75,7 +81,6 @@ body {
 				&.worldItem a {
 					width: 50%;
 					border-radius: 12.5%;
-					/*background-color: #7F5512;*/
 					background-color: #644533;
 				}
 			}
@@ -272,5 +277,5 @@ body {
 				}
 			}
 		}
-	}
+	}*/
 }
