@@ -6,14 +6,18 @@ $(function () {
 });
 
 function refreshOverviewerVersions() {
+	ipcRenderer.send('getLocalOverviewerVersion');
+	ipcRenderer.on('localOverviewerVersion', function (event, currentVersion) {
+		console.log(currentVersion);
+	});
 	ipcRenderer.send('getOverviewerVersions');
-	$('li#overviewer ul').empty().append('<li><div class="content"><span class="status"><i class="material-icons">cloud</i></span><span>Loading...</span></div></li>');
-	/*ipcRenderer.on('readSetting_global_worldsLocation', function (event, value) {
-		$(function () {
-			$('.setting.global.worldsLocation').text(value);
-		});
-		ipcRenderer.send('readWorlds');
-	});*/
+	$('li#overviewer ul').empty().append('<li class="loading"><div class="content"><span class="status"><i class="material-icons">autorenew</i></span><span>Loading...</span></div></li>');
+	ipcRenderer.on('newOverviewerVersions', function (event, version, url) {
+		$('li#overviewer ul').append('<li><div class="content"><span class="status"><i class="material-icons">cloud_download</i></span><span>' + version + '</span></div></li>');
+	});
+	ipcRenderer.on('doneOverviewerVersions', function (event, version, url) {
+		$('li#overviewer ul').find('li.loading').remove();
+	});
 	ipcRenderer.on('errorOverviewerVersions', function (event, message) {
 		$('li#overviewer ul').append('<li class="error"><div class="content"><span class="status"><i class="material-icons">error</i></span><span>' + message + '</span></div></li>');
 	});
