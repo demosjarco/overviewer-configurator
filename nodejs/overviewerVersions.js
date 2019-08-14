@@ -5,6 +5,7 @@ const electron = require('./electronSetup.js');
 const logging = require('./logging.js');
 
 const overviewerFolderReg = /(?<=(minecraft\-)?overviewer-)\d+\.\d+\.\d+(?!\.\w+(\.\w+)?)/i;
+const versionReg = /(?<=htt(p:|ps:)\/\/overviewer.org\/builds\/(win64|win32|src)\/\d+\/overviewer-)\d+\.\d+\.\d+/;
 
 ipcMain.on('getLocalOverviewerVersion', (event, arg) => {
 	updateLocalOverviewerVersion(function (currentVersion) {
@@ -81,7 +82,6 @@ function updateOverviewerVersions(latestVersionCallback = null, versionsCallback
 							logging.messageLog('HTTP ' + response2.statusCode + ' https://overviewer.org/build/api/v2/builders/' + osType + '/builds/' + buildNumber + '/steps/upload');
 						} else {
 							const archiveUrl = JSON.parse(body2).steps[0].urls[0].url.replace(/http(?!s)/g, "https");
-							const versionReg = /(?<=htt(p:|ps:)\/\/overviewer.org\/builds\/(win64|win32|src)\/\d+\/overviewer-)\d+\.\d+\.\d+/;
 							if (versionReg.test(archiveUrl)) {
 								if (versionsCallback) {
 									versionsCallback(versionReg.exec(archiveUrl)[0], archiveUrl);
