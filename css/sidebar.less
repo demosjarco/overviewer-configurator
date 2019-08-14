@@ -1,4 +1,6 @@
-﻿body {
+﻿@import (reference) 'main.less';
+
+body {
 	> aside {
 		height: 100vh;
 		width: 260px;
@@ -25,13 +27,15 @@
 				.content {
 					width: 100%;
 					padding: 5px;
+					box-sizing: border-box;
 					border-radius: 5px;
 				}
 
 				&.allowed {
 					.content {
 						&:hover {
-							background-color: rgba(255, 255, 255, 1/5);
+							background-color: rgba(255, 255, 255, 0.08);
+							.BoxShadowHelper(2);
 						}
 					}
 				}
@@ -104,9 +108,21 @@
 				}
 
 				&.open {
+					> .content {
+						&:hover {
+							background-color: transparent;
+							.BoxShadowHelper(0);
+						}
+					}
+
 					ul {
 						display: block;
 					}
+
+					border-radius: 5px;
+					border-bottom: none;
+					background-color: rgba(255, 255, 255, 0.16);
+					.BoxShadowHelper(3);
 				}
 
 				> ul {
