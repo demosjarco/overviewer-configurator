@@ -35,6 +35,8 @@
 		"material-design-icons": "^3.0.1",
 		"request": "^2.88.0",
 		"rimraf": "^2.7.1",
-		"tar-fs": "^2.0.0"
+		"tar-fs": "^2.0.0",
+		"typeface-open-sans": "0.0.75",
+		"typeface-open-sans-condensed": "0.0.72"
 	}
 }
