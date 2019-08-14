@@ -52,6 +52,8 @@ body > aside ul li#overviewer ul li div.progressBar div.status {
   background-color: white;
 }
 body > aside ul li#worlds ul li span.worldCode {
+  display: inline-block;
+  width: 24px;
   margin-right: 5px;
   font-size: large;
   font-weight: bold;
