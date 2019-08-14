@@ -14,6 +14,9 @@ function refreshOverviewerVersions() {
 		});
 		ipcRenderer.send('readWorlds');
 	});*/
+	ipcRenderer.on('errorOverviewerVersions', function (event, message) {
+		$('li#overviewer ul').append('<li class="error"><div class="content"><span class="status"><i class="material-icons">error</i></span><span>' + message + '</span></div></li>');
+	});
 	setupMenu();
 }
 

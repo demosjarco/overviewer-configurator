@@ -32,6 +32,9 @@ body > aside ul li#appTitle {
 body > aside ul li#overviewer {
   font-size: large;
 }
+body > aside ul li#overviewer ul li.error .content {
+  background-color: #B00020;
+}
 body > aside ul li#overviewer ul li div.progressBar {
   display: none;
   width: 100%;
