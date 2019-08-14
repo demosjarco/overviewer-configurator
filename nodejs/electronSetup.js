@@ -11,21 +11,6 @@ let mainMenuTemplate = [
 		]
 	},
 	{
-		label: 'Overviewer',
-		submenu: [
-			{
-				label: 'Version Installed',
-				sublabel: 'Loading...',
-				enabled: false
-			},
-			{
-				label: 'Versions',
-				sublabel: 'Loading...',
-				submenu: []
-			}
-		]
-	},
-	{
 		role: 'help',
 		submenu: [
 			{
