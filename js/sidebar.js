@@ -7,12 +7,14 @@ $(function () {
 
 function refreshOverviewerVersions() {
 	ipcRenderer.send('getLocalOverviewerVersion');
+	let installedVersion = '';
 	ipcRenderer.on('localOverviewerVersion', function (event, currentVersion) {
+		installedVersion = currentVersion;
+		ipcRenderer.send('getOverviewerVersions');
 	});
-	ipcRenderer.send('getOverviewerVersions');
 	$('li#overviewer ul').empty().append('<li class="loading"><div class="content"><span class="status"><i class="material-icons">autorenew</i></span><span>Loading...</span></div></li>');
 	ipcRenderer.on('newOverviewerVersions', function (event, version, url) {
-		$('li#overviewer ul').append('<li><div class="content"><span class="status"><i class="material-icons">cloud_download</i></span><span>' + version + '</span></div></li>');
+		$('li#overviewer ul').append('<li><div class="content"><span class="status"><i class="material-icons">' + (installedVersion == version ? 'cloud_done' : 'cloud_download') + '</i></span><span>' + version + '</span></div></li>');
 	});
 	ipcRenderer.on('doneOverviewerVersions', function (event, version, url) {
 		$('li#overviewer ul').find('li.loading').remove();
