@@ -8,7 +8,6 @@ $(function () {
 function refreshOverviewerVersions() {
 	ipcRenderer.send('getLocalOverviewerVersion');
 	ipcRenderer.on('localOverviewerVersion', function (event, currentVersion) {
-		console.log(currentVersion);
 	});
 	ipcRenderer.send('getOverviewerVersions');
 	$('li#overviewer ul').empty().append('<li class="loading"><div class="content"><span class="status"><i class="material-icons">autorenew</i></span><span>Loading...</span></div></li>');
