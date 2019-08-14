@@ -113,9 +113,95 @@ function updateOverviewerVersions(latestVersionCallback = null, versionsCallback
 }
 
 ipcMain.on('updateOverviewerVersion', (event, link) => {
-	updateOverviewer(link);
+	updateOverviewer(link, function (visible, progress) {
+		event.sender.send('progressOverviewerVersion', visible, versionReg.exec(link)[0], progress);
+	});
 });
 
-function updateOverviewer(link) {
+function updateOverviewer(link, chunkUpdate = null) {
+	electron.mainWindow.setProgressBar(Infinity, { mode: 'indeterminate' });
+	if (chunkUpdate)
+		chunkUpdate(true)
+	logging.messageLog('Checking for old overviewer version');
+	fs.readdir(app.getPath('userData'), function (err, files) {
+		if (err) throw err;
 
+		let exists = false;
+		files.forEach(function (fileName) {
+			if (overviewerFolderReg.test(fileName)) {
+				exists = true;
+				logging.messageLog('Deleting old overviewer version');
+				require('rimraf')(app.getPath('userData').replace(/\\/g, "/") + '/' + fileName + '/', function (err2) {
+					if (err2) throw err2;
+
+					logging.messageLog('Deleted old overviewer version');
+					beginDownload();
+				});
+			}
+		});
+		if (!exists) {
+			logging.messageLog('No old version detected');
+			beginDownload();
+		}
+	});
+	function beginDownload() {
+		logging.messageLog('Downloading overviewer zip');
+		const fileNameReg = /(?<=htt(p:|ps:)\/\/overviewer.org\/builds\/(win64|win32|src)\/\d+\/)overviewer-\d+\.\d+\.\d+\.\w+(.\w+)?/;
+		const fileName = fileNameReg.exec(link)[0];
+		let fileSize = 0;
+		let downloadedSize = 0;
+		if (fileNameReg.test(link)) {
+			request(link.replace(/http(?!s)/g, "https")).on('response', function (response) {
+				fileSize = parseInt(response.headers['content-length']);
+			}).on('data', function (chunk) {
+				downloadedSize += parseInt(chunk.length);
+				electron.mainWindow.setProgressBar(downloadedSize / fileSize, { mode: 'normal' });
+				if (chunkUpdate)
+					chunkUpdate(true, downloadedSize / fileSize)
+			}).on('close', function () {
+				logging.messageLog('Downloaded overviewer archive');
+				electron.mainWindow.setProgressBar(Infinity, { mode: 'indeterminate' });
+				if (chunkUpdate)
+					chunkUpdate(true, 1.00)
+				const archiveExtension = /(?<=overviewer-\d+\.\d+\.\d+)\.\w+(\.\w+)?/;
+				switch (archiveExtension.exec(fileName)[0]) {
+					case '.zip':
+						const AdmZip = require('adm-zip');
+						let zip = new AdmZip(app.getPath('userData').replace(/\\/g, "/") + '/' + fileName);
+						zip.extractAllTo(app.getPath('userData').replace(/\\/g, "/") + '/', true);
+						doneExtract();
+						break;
+					case '.tar.gz':
+						const gunzip = require('gunzip-maybe');
+						fs.createReadStream(app.getPath('userData').replace(/\\/g, "/") + '/' + fileName)
+							.pipe(gunzip())
+							.pipe(fs.createWriteStream(app.getPath('userData').replace(/\\/g, "/") + '/' + fileName.replace(/\.gz/g, '')))
+							.on('close', function () {
+								const tar = require('tar-fs');
+								fs.createReadStream(app.getPath('userData').replace(/\\/g, "/") + '/' + fileName.replace(/\.gz/g, '')).pipe(tar.extract(app.getPath('userData').replace(/\\/g, "/") + '/').on('finish', function () {
+									fs.unlink(app.getPath('userData').replace(/\\/g, "/") + '/' + fileName.replace(/\.gz/g, ''), (err) => {
+										if (err) throw err;
+										doneExtract();
+									});
+								}));
+							});
+						break;
+				}
+
+				function doneExtract() {
+					logging.messageLog('Extracted overviewer archive');
+					fs.unlink(app.getPath('userData').replace(/\\/g, "/") + '/' + fileName, (err) => {
+						if (err) throw err;
+						logging.messageLog('Deleted overviewer archive');
+						electron.mainWindow.setProgressBar(-Infinity, { mode: 'none' });
+						if (chunkUpdate)
+							chunkUpdate(false)
+						updateLocalOverviewerVersion(function (currentVersion) {
+							electron.mainWindow.webContents.send('localOverviewerVersion', currentVersion);
+						});
+					});
+				}
+			}).pipe(fs.createWriteStream(app.getPath('userData').replace(/\\/g, "/") + '/' + fileName));
+		}
+	}
 }
