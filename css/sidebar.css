@@ -63,7 +63,7 @@ body > aside ul li > * {
 }
 body > aside ul li i,
 body > aside ul li img {
-  vertical-align: middle;
+  vertical-align: text-bottom;
   margin-right: 5px;
 }
 body > aside ul li i {
