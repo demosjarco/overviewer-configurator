@@ -2,14 +2,19 @@
 @import url('../node_modules/typeface-open-sans/index.css');
 @import url('../node_modules/typeface-open-sans-condensed/index.css');
 @import url('../node_modules/@mdi/font/css/materialdesignicons.min.css');
-body {
+html {
+  height: 100%;
+  overflow: hidden;
+}
+html body {
   margin: 0;
   padding: 0;
+  overflow: auto;
   font-family: 'Open Sans', sans-serif;
   color: white;
   -webkit-user-select: none;
 }
-body > header {
+html body > header {
   position: fixed;
   top: 0;
   right: 0;
@@ -20,7 +25,7 @@ body > header {
   background-color: rgba(255, 255, 255, 0.16);
   box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
 }
-body > header div#appTitle {
+html body > header div#appTitle {
   font-family: 'Open Sans Condensed', sans-serif;
   position: absolute;
   top: 15px;
@@ -28,7 +33,7 @@ body > header div#appTitle {
   font-size: large;
   font-weight: bold;
 }
-body > header div#appTitle i {
+html body > header div#appTitle i {
   display: inline-block;
   margin-right: 5px;
   width: 24px;
@@ -37,47 +42,47 @@ body > header div#appTitle i {
   height: 24px;
   line-height: 24px;
 }
-body > header ul {
+html body > header ul {
   position: absolute;
   top: 0;
   margin: 0;
   padding: 0;
   list-style-type: none;
 }
-body > header ul.windowControls {
+html body > header ul.windowControls {
   right: 0;
 }
-body > header ul.windowControls li {
+html body > header ul.windowControls li {
   line-height: 27px;
   height: 27px;
   width: 20px;
   padding: 0px 3.5px;
 }
-body > header ul.windowControls li i,
-body > header ul.windowControls li span {
+html body > header ul.windowControls li i,
+html body > header ul.windowControls li span {
   font-size: 20px;
 }
-body > header ul li {
+html body > header ul li {
   -webkit-app-region: no-drag;
   display: inline-block;
 }
-body > header .enabled {
+html body > header .enabled {
   cursor: pointer;
 }
-body > header .enabled:hover {
+html body > header .enabled:hover {
   background-color: rgba(204, 204, 204, 0.5);
 }
-body > header .enabled:hover#close {
+html body > header .enabled:hover#close {
   background-color: rgba(255, 0, 0, 0.75);
 }
-body > aside {
+html body > aside {
   position: fixed;
   top: 0;
   width: 260px;
   bottom: 0;
   left: 0;
 }
-body > main {
+html body > main {
   position: fixed;
   top: 0;
   right: 0;
