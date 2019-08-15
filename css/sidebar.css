@@ -25,24 +25,20 @@ body > aside ul li .content {
 }
 body > aside ul li .content img,
 body > aside ul li .content i.material-icons,
-body > aside ul li .content span.mdi,
-body > aside ul li .content .worldCode {
+body > aside ul li .content span.mdi {
   display: inline-block;
-  font-size: 24px;
   margin-right: 5px;
   width: 24px;
+  vertical-align: text-bottom;
+  font-size: 24px;
   height: 24px;
   line-height: 24px;
-  vertical-align: text-bottom;
 }
 body > aside ul li .content span.worldCode {
   font-weight: bold;
   display: inline-block;
-  font-size: 24px;
   margin-right: 5px;
   width: 24px;
-  height: 24px;
-  line-height: 24px;
   vertical-align: text-bottom;
 }
 body > aside ul li .content div.arrow {

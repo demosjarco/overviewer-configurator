@@ -26,23 +26,26 @@ body {
 					box-sizing: border-box;
 					border-radius: 5px;
 
-					.iconStuff() {
+					.iconStuff(@change-font: true) {
 						display: inline-block;
-						font-size: 24px;
 						margin-right: 5px;
 						width: 24px;
-						height: 24px;
-						line-height: 24px;
 						vertical-align: text-bottom;
+
+						& when (@change-font = true) {
+							font-size: 24px;
+							height: 24px;
+							line-height: 24px;
+						}
 					}
 
-					img, i.material-icons, span.mdi, .worldCode {
+					img, i.material-icons, span.mdi {
 						.iconStuff();
 					}
 
 					span.worldCode {
 						font-weight: bold;
-						.iconStuff();
+						.iconStuff(false);
 					}
 
 					span.programTitle {
