@@ -6,7 +6,9 @@ $(function () {
 });
 
 function setupMenu() {
-	$('li.allowed').has('ul').off().click(function () {
+	$('li.allowed').off().click(function () {
+		$(this).toggleClass('selected');
+	}).has('ul').click(function () {
 		$(this).toggleClass('open');
 	}).find('li').off().click(function (e) {
 		e.stopPropagation();

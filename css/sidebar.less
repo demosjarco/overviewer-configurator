@@ -103,7 +103,7 @@ body {
 					height: 24px;
 				}
 
-				&.open {
+				&.selected {
 					> .content {
 						&:hover {
 							background-color: transparent;
@@ -111,13 +111,14 @@ body {
 						}
 					}
 
+					background-color: rgba(255, 255, 255, 0.16);
+					.BoxShadowHelper(3);
+				}
+
+				&.open {
 					ul {
 						display: block;
 					}
-
-					border-bottom: none;
-					background-color: rgba(255, 255, 255, 0.16);
-					.BoxShadowHelper(3);
 				}
 
 				> ul {
