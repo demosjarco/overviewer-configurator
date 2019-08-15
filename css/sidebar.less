@@ -4,12 +4,20 @@ body {
 	> aside {
 		font-family: 'Open Sans Condensed', sans-serif;
 		background-color: #2d6923;
-		box-sizing: border-box;
 
-		ul {
-			margin: 0;
-			padding: 0;
+		> ul {
+			margin: @titlebar-height 0 0 0;
+			padding: 10px 10px 10px 10px;
+			@padding-num: 20px + @titlebar-height;
+			height: calc(~"100vh - "@padding-num);
 			list-style-type: none;
+			overflow-y: scroll;
+
+			ul {
+				list-style-type: none;
+				margin: 0;
+				padding: 0;
+			}
 
 			li {
 				padding: 5px;
