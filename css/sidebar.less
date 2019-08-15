@@ -26,6 +26,28 @@ body {
 					box-sizing: border-box;
 					border-radius: 5px;
 
+					.iconStuff() {
+						display: inline-block;
+						font-size: 24px;
+						margin-right: 5px;
+						width: 24px;
+						height: 24px;
+						line-height: 24px;
+						vertical-align: text-bottom;
+					}
+
+					img, i.material-icons, span.mdi, .worldCode {
+						.iconStuff();
+					}
+
+					span.worldCode {
+						font-weight: bold;
+						.iconStuff();
+					}
+
+					span.programTitle {
+					}
+
 					div.arrow {
 						float: right;
 					}
@@ -71,23 +93,6 @@ body {
 
 				> * {
 					display: inline-block;
-				}
-
-				i {
-					font-size: 24px;
-				}
-
-				i, img, span.worldCode {
-					display: inline-block;
-					margin-right: 5px;
-					font-weight: bold;
-					width: 24px;
-					height: 24px;
-					line-height: 24px;
-					vertical-align: text-bottom;
-				}
-
-				span.worldCode, span.programTitle {
 				}
 
 				&.selected {

@@ -23,6 +23,28 @@ body > aside ul li .content {
   box-sizing: border-box;
   border-radius: 5px;
 }
+body > aside ul li .content img,
+body > aside ul li .content i.material-icons,
+body > aside ul li .content span.mdi,
+body > aside ul li .content .worldCode {
+  display: inline-block;
+  font-size: 24px;
+  margin-right: 5px;
+  width: 24px;
+  height: 24px;
+  line-height: 24px;
+  vertical-align: text-bottom;
+}
+body > aside ul li .content span.worldCode {
+  font-weight: bold;
+  display: inline-block;
+  font-size: 24px;
+  margin-right: 5px;
+  width: 24px;
+  height: 24px;
+  line-height: 24px;
+  vertical-align: text-bottom;
+}
 body > aside ul li .content div.arrow {
   float: right;
 }
@@ -49,20 +71,6 @@ body > aside ul li.programs ul li div.progressBar div.status {
 }
 body > aside ul li > * {
   display: inline-block;
-}
-body > aside ul li i {
-  font-size: 24px;
-}
-body > aside ul li i,
-body > aside ul li img,
-body > aside ul li span.worldCode {
-  display: inline-block;
-  margin-right: 5px;
-  font-weight: bold;
-  width: 24px;
-  height: 24px;
-  line-height: 24px;
-  vertical-align: text-bottom;
 }
 body > aside ul li.selected {
   background-color: rgba(255, 255, 255, 0.16);
