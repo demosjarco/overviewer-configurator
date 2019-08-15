@@ -23,6 +23,9 @@ body > aside ul li .content {
   box-sizing: border-box;
   border-radius: 5px;
 }
+body > aside ul li .content div.arrow {
+  float: right;
+}
 body > aside ul li.allowed .content:hover {
   background-color: rgba(255, 255, 255, 0.08);
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
@@ -77,7 +80,4 @@ body > aside ul li > ul {
   padding-top: 5px;
   margin-left: 5px;
   font-size: medium;
-}
-body > aside ul li div.arrow {
-  float: right;
 }
