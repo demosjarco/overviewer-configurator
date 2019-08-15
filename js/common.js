@@ -7,11 +7,11 @@ $(function () {
 });
 
 function minimize() {
-	window.ipc.send('minimize');
+	ipcRenderer.send('minimize');
 }
 function maximize() {
-	window.ipc.send('maximize');
+	ipcRenderer.send('maximize');
 }
 function close() {
-	window.ipc.send('close');
+	ipcRenderer.send('close');
 }
