@@ -10,6 +10,11 @@ function setupMenu() {
 		$(this).toggleClass('selected');
 	}).has('ul').click(function () {
 		$(this).toggleClass('open');
+		if ($(this).hasClass('open')) {
+			$(this).find('i.material-icons:contains(arrow_drop_down)').text('arrow_drop_up');
+		} else {
+			$(this).find('i.material-icons:contains(arrow_drop_up)').text('arrow_drop_down');
+		}
 	}).find('li').off().click(function (e) {
 		e.stopPropagation();
 	});
