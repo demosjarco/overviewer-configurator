@@ -29,7 +29,6 @@ app.on('ready', () => {
 			enableRemoteModule: false,
 			webSecurity: true,
 			allowRunningInsecureContent: false,
-			scrollBounce: true,
 			enableBlinkFeatures: 'OverlayScrollbars'
 		}
 	});
