@@ -65,38 +65,25 @@ body {
 					}
 				}
 
-				&#worlds {
-					ul {
-						li {
-							span.worldCode {
-								display: inline-block;
-								width: 24px;
-								margin-right: 5px;
-								font-weight: bold;
-							}
-
-							span.worldTitle {
-							}
-						}
-					}
-				}
-
 				> * {
 					display: inline-block;
-				}
-
-				i, img {
-					vertical-align: text-bottom;
-					margin-right: 5px;
 				}
 
 				i {
 					font-size: 24px;
 				}
 
-				img {
+				i, img, span.worldCode {
+					display: inline-block;
+					margin-right: 5px;
+					font-weight: bold;
 					width: 24px;
 					height: 24px;
+					line-height: 24px;
+					vertical-align: text-bottom;
+				}
+
+				span.worldCode, span.programTitle {
 				}
 
 				&.selected {

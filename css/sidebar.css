@@ -44,26 +44,22 @@ body > aside ul li.programs ul li div.progressBar div.status {
   height: 100%;
   background-color: white;
 }
-body > aside ul li#worlds ul li span.worldCode {
-  display: inline-block;
-  width: 24px;
-  margin-right: 5px;
-  font-weight: bold;
-}
 body > aside ul li > * {
   display: inline-block;
-}
-body > aside ul li i,
-body > aside ul li img {
-  vertical-align: text-bottom;
-  margin-right: 5px;
 }
 body > aside ul li i {
   font-size: 24px;
 }
-body > aside ul li img {
+body > aside ul li i,
+body > aside ul li img,
+body > aside ul li span.worldCode {
+  display: inline-block;
+  margin-right: 5px;
+  font-weight: bold;
   width: 24px;
   height: 24px;
+  line-height: 24px;
+  vertical-align: text-bottom;
 }
 body > aside ul li.selected {
   background-color: rgba(255, 255, 255, 0.16);
