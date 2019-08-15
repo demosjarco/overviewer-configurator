@@ -43,7 +43,6 @@ body > aside ul li#overviewer ul li div.progressBar {
   overflow: hidden;
 }
 body > aside ul li#overviewer ul li div.progressBar div.status {
-  width: 66%;
   height: 100%;
   background-color: white;
 }
