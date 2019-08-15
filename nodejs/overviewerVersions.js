@@ -22,7 +22,6 @@ function updateLocalOverviewerVersion(currentVersionCallback = null) {
 			if (overviewerFolderReg.test(fileName))
 				currentVersion = overviewerFolderReg.exec(fileName)[0];
 		});
-		electron.setOverviewerCurrentVersionMenu(currentVersion);
 		if (currentVersion && currentVersionCallback)
 			currentVersionCallback(currentVersion);
 	});

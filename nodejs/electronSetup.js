@@ -1,38 +1,4 @@
-let mainMenuTemplate = [
-	{
-		label: 'File',
-		submenu: [
-			{
-				type: 'separator'
-			},
-			{
-				role: 'quit'
-			}
-		]
-	},
-	{
-		role: 'help',
-		submenu: [
-			{
-				role: 'toggleDevTools',
-			},
-			{
-				label: 'Issues',
-				click() {
-					require('electron').shell.openExternal('https://github.com/demosjarco/overviewer-configurator/issues')
-				}
-			},
-			{
-				label: 'GitHub',
-				click() {
-					require('electron').shell.openExternal('https://github.com/demosjarco/overviewer-configurator')
-				}
-			}
-		]
-	}
-];
-
-const { app, BrowserWindow, Menu } = require('electron');
+const { app, BrowserWindow, ipcMain } = require('electron');
 const config = require('./configFile.js');
 const overviewerVersions = require('./overviewerVersions.js');
 const oxipngVersions = require('./oxipngVersions.js');
@@ -53,7 +19,7 @@ app.on('ready', () => {
 		minWidth: 1024,
 		minHeight: 768,
 		title: 'Overviewer Config',
-		frame: true,
+		frame: false,
 		backgroundColor: (process.platform !== 'darwin') ? '#212121' : null,
 		darkTheme: true,
 		vibrancy: 'ultra-dark',
@@ -72,7 +38,6 @@ app.on('ready', () => {
 
 	// and load the index.html of the app.
 	mainWindow.loadFile('./html/mainWindow.html');
-	Menu.setApplicationMenu(Menu.buildFromTemplate(mainMenuTemplate));
 	//mainWindow.webContents.openDevTools();
 
 	// Emitted when the window is closed.
@@ -104,21 +69,16 @@ app.on('activate', () => {
 	}
 });
 
-module.exports.setOverviewerCurrentVersionMenu = function(currentVersion) {
-	mainMenuTemplate[1].submenu[0].sublabel = currentVersion;
-	Menu.setApplicationMenu(Menu.buildFromTemplate(mainMenuTemplate));
-}
-module.exports.emptyOverviewerVersionsMenu = function() {
-	delete mainMenuTemplate[1].submenu[1].sublabel;
-	mainMenuTemplate[1].submenu[1].submenu = [];
-	Menu.setApplicationMenu(Menu.buildFromTemplate(mainMenuTemplate));
-}
-module.exports.errorOverviewerVersionMenu = function () {
-	mainMenuTemplate[1].submenu[1].sublabel = 'Error loading';
-	delete mainMenuTemplate[1].submenu[1].submenu;
-	Menu.setApplicationMenu(Menu.buildFromTemplate(mainMenuTemplate));
-}
-module.exports.addNewOverviewerVersionMenu = function(menuItem) {
-	mainMenuTemplate[1].submenu[1].submenu.push(menuItem);
-	Menu.setApplicationMenu(Menu.buildFromTemplate(mainMenuTemplate));
-}
+ipcMain.on('minimize', (event) => {
+	mainWindow.minimize();
+});
+ipcMain.on('maximize', (event) => {
+	if (mainWindow.isMaximized()) {
+		mainWindow.unmaximize();
+	} else {
+		mainWindow.maximize();
+	}
+});
+ipcMain.on('close', (event) => {
+	mainWindow.close();
+});

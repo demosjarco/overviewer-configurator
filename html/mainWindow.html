@@ -9,9 +9,16 @@
 	<link rel="stylesheet" href="../css/dashboard.css" type="text/css" />
 </head>
 <body id="tabs">
+	<header>
+		<div id="appTitle"><i class="material-icons">desktop_windows</i><span>Overviewer Configurator</span></div>
+		<ul class="windowControls">
+			<li class="enabled" onclick="minimize()"><span class="mdi mdi-window-minimize"></span></li>
+			<li class="enabled" onclick="maximize()"><span class="mdi mdi-window-restore"></span></li>
+			<li class="enabled" onclick="close()" id="close"><span class="mdi mdi-window-close"></span></li>
+		</ul>
+	</header>
 	<aside>
 		<ul>
-			<li id="appTitle"><div class="content"><i class="material-icons">desktop_windows</i><span>Overviewer Configurator</span></div></li>
 			<li id="overviewer" class="programs allowed">
 				<div class="content"><img src="../img/overviewerLogo.png" /><span class="programTitle">Overviewer</span><div class="arrow"><i class="material-icons">arrow_drop_down</i></div></div>
 				<ul></ul>
@@ -42,7 +49,7 @@
 	</aside>
 	<main>
 	</main>
-	<script>window.$ = window.jQuery = require('jquery'); require('jquery-ui-dist/jquery-ui');</script>
+	<script>window.$ = window.jQuery = require('jquery');</script>
 	<script src="../js/common.js"></script>
 	<script src="../js/sidebar.js"></script>
 </body>
