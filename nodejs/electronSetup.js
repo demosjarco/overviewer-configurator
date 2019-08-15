@@ -5,7 +5,7 @@ const oxipngVersions = require('./oxipngVersions.js');
 
 let mainWindow;
 
-app.on('ready', () => {
+function createWindow() {
 	// Create the browser window.
 	let mainWindowState = require('electron-window-state')({
 		defaultWidth: 1024,
@@ -48,6 +48,10 @@ app.on('ready', () => {
 	});
 
 	module.exports.mainWindow = mainWindow;
+}
+
+app.on('ready', () => {
+	createWindow();
 	config.runInit();
 });
 
