@@ -12,6 +12,6 @@ function minimize() {
 function maximize() {
 	ipcRenderer.send('maximize');
 }
-function close() {
+function closeWindow() {
 	ipcRenderer.send('close');
 }
