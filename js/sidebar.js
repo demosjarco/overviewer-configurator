@@ -13,6 +13,9 @@ function setupMenu() {
 	}).find('li').off().click(function (e) {
 		e.stopPropagation();
 	});
+	$('li.allowed').not(':has(ul)').click(function () {
+		$('li.allowed').not(':has(ul)').not(this).removeClass('selected');
+	});
 }
 
 function refreshOverviewerVersions() {
