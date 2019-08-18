@@ -19,6 +19,7 @@ function createWindow() {
 		minWidth: 1024,
 		minHeight: 768,
 		title: 'Overviewer Config',
+		show: false,
 		frame: false,
 		backgroundColor: (process.platform !== 'darwin') ? '#212121' : null,
 		darkTheme: true,
@@ -38,6 +39,10 @@ function createWindow() {
 	// and load the index.html of the app.
 	mainWindow.loadFile('./html/mainWindow.html');
 	//mainWindow.webContents.openDevTools();
+
+	mainWindow.once('ready-to-show', () => {
+		mainWindow.show()
+	})
 
 	// Emitted when the window is closed.
 	mainWindow.on('closed', () => {
