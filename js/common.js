@@ -1,6 +1,7 @@
 'use strict';
 
 const { ipcRenderer } = require('electron');
+const mainWindow = require('electron').remote.getCurrentWindow();
 
 $(function () {
 
