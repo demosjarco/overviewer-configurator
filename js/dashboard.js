@@ -10,7 +10,7 @@ function setupGraphs() {
 }
 
 function getColor() {
-	return "hsl(" + 360 * Math.random() + ',' + (25 + 70 * Math.random()) + '%,' + (45 + 10 * Math.random()) + '%)';
+	return "hsl(" + 360 * Math.random() + ',' + (25 + 70 * Math.random()) + '%,' + (50 + 10 * Math.random()) + '%)';
 }
 
 const os = require('os');
