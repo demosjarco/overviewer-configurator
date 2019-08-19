@@ -152,6 +152,10 @@ function ramGraph(graphCanvas) {
 		}
 	};
 	const graph = new Chart(graphCanvas, ramGraphConfig);
+	Chart.defaults.global.defaultColor = 'white';
+	Chart.defaults.global.defaultFontColor = 'white';
+	Chart.defaults.global.defaultFontFamily = "'Open Sans Condensed', sans-serif";
+
 	setInterval(function () {
 		if (ramGraphConfig.data.datasets[0].data.length >= 10) {
 			ramGraphConfig.data.datasets[0].data.shift();
