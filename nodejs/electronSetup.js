@@ -27,7 +27,7 @@ function createWindow() {
 		webPreferences: {
 			devTools: true,
 			nodeIntegration: true,
-			enableRemoteModule: false,
+			enableRemoteModule: true,
 			webSecurity: true,
 			allowRunningInsecureContent: false,
 			enableBlinkFeatures: 'OverlayScrollbars'
