@@ -36,6 +36,17 @@ function cpuGraph(graphCanvas) {
 			tooltips: {
 				mode: 'index',
 				intersect: false,
+				callbacks: {
+					label: function (tooltipItem, data) {
+						var label = data.datasets[tooltipItem.datasetIndex].label || '';
+
+						if (label) {
+							label += ': ';
+						}
+						label += Math.round(tooltipItem.yLabel * 100) / 100 + '%';
+						return label;
+					}
+				}
 			},
 			hover: {
 				mode: 'nearest',
@@ -109,6 +120,17 @@ function ramGraph(graphCanvas) {
 			tooltips: {
 				mode: 'index',
 				intersect: false,
+				callbacks: {
+					label: function (tooltipItem, data) {
+						var label = data.datasets[tooltipItem.datasetIndex].label || '';
+
+						if (label) {
+							label += ': ';
+						}
+						label += Math.round(tooltipItem.yLabel * 100) / 100 + '%';
+						return label;
+					}
+				}
 			},
 			hover: {
 				mode: 'nearest',
