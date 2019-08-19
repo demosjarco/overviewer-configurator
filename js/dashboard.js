@@ -17,7 +17,7 @@ const os = require('os');
 function cpuGraph(graphCanvas) {
 	let cpuCoresDatasets = [];
 	for (let i = 0; i < os.cpus().length; i++) {
-		let colorChosen = getColor();
+		const colorChosen = getColor();
 		cpuCoresDatasets.push({
 			label: 'CPU Core ' + (i+1),
 			backgroundColor: colorChosen,
@@ -103,7 +103,7 @@ function cpuGraph(graphCanvas) {
 }
 
 function ramGraph(graphCanvas) {
-	let colorChosen = getColor();
+	const colorChosen = getColor();
 	let ramGraphConfig = {
 		type: 'line',
 		data: {
