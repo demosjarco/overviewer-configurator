@@ -34,6 +34,7 @@ function cpuGraph(graphCanvas) {
 		},
 		options: {
 			tooltips: {
+				enabled: false,
 				mode: 'index',
 				intersect: false,
 				callbacks: {
@@ -121,6 +122,7 @@ function ramGraph(graphCanvas) {
 		},
 		options: {
 			tooltips: {
+				enabled: false,
 				mode: 'index',
 				intersect: false,
 				callbacks: {
