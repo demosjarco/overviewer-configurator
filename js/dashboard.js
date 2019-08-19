@@ -6,6 +6,7 @@ $(function () {
 
 function setupGraphs() {
 	cpuGraph($('canvas#cpuGraph'));
+	ramGraph($('canvas#ramGraph'));
 }
 
 var color, letters = '0123456789ABCDEF'.split('')
@@ -16,14 +17,13 @@ function getRandomColor() {
 	color = '#'
 	AddDigitToColor(5)
 	for (var i = 0; i < 5; i++) {
-		AddDigitToColor(13)
+		AddDigitToColor(15)
 	}
 	return color
 }
 
+const os = require('os');
 function cpuGraph(graphCanvas) {
-	const os = require('os');
-	let cpuGraphConfig = {};
 	let cpuCoresDatasets = [];
 	for (let i = 0; i < os.cpus().length; i++) {
 		let colorChosen = getRandomColor();
@@ -31,11 +31,11 @@ function cpuGraph(graphCanvas) {
 			label: 'CPU Core ' + (i+1),
 			backgroundColor: colorChosen,
 			borderColor: colorChosen,
-			data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+			data: [],
 			fill: false,
 		});
 	}
-	cpuGraphConfig = {
+	let cpuGraphConfig = {
 		type: 'line',
 		data: {
 			labels: ['10', '9', '8', '7', '6', '5', '4', '3', '2', '1'],
@@ -52,17 +52,13 @@ function cpuGraph(graphCanvas) {
 			},
 			scales: {
 				xAxes: [{
-					display: true,
-					scaleLabel: {
-						display: true,
-						labelString: 'Seconds',
-					}
+					display: false,
 				}],
 				yAxes: [{
 					display: true,
-					scaleLabel: {
-						display: true,
-						labelString: '% Usage',
+					ticks: {
+						min: 0,
+						max: 100
 					}
 				}]
 			},
@@ -95,9 +91,59 @@ function cpuGraph(graphCanvas) {
 				if (type != 'idle')
 					used += coreInfo.times[type];
 			});
-			cpuGraphConfig.data.datasets[coreIndex].data.shift();
+			if (cpuGraphConfig.data.datasets[coreIndex].data.length >= 10) {
+				cpuGraphConfig.data.datasets[coreIndex].data.shift();
+			}
 			cpuGraphConfig.data.datasets[coreIndex].data.push((parseFloat((used - initialCpuUsed[coreIndex])) / parseFloat(total - initialCpuTotal[coreIndex])) * 100);
 			graph.update();
 		});
+	}, 1000);
+}
+
+function ramGraph(graphCanvas) {
+	let colorChosen = getRandomColor();
+	let ramGraphConfig = {
+		type: 'line',
+		data: {
+			labels: ['10', '9', '8', '7', '6', '5', '4', '3', '2', '1'],
+			datasets: [{
+				label: 'RAM Usage',
+				backgroundColor: colorChosen,
+				borderColor: colorChosen,
+				data: [],
+				fill: false,
+			}]
+		},
+		options: {
+			tooltips: {
+				mode: 'index',
+				intersect: false,
+			},
+			hover: {
+				mode: 'nearest',
+				intersect: true
+			},
+			scales: {
+				xAxes: [{
+					display: false,
+				}],
+				yAxes: [{
+					display: true,
+					ticks: {
+						min: 0,
+						max: 100
+					}
+				}]
+			},
+			maintainAspectRatio: false,
+		}
+	};
+	const graph = new Chart(graphCanvas, ramGraphConfig);
+	setInterval(function () {
+		if (ramGraphConfig.data.datasets[0].data.length >= 10) {
+			ramGraphConfig.data.datasets[0].data.shift();
+		}
+		ramGraphConfig.data.datasets[0].data.push(((os.totalmem() - os.freemem()) / os.totalmem()) * 100);
+		graph.update();
 	}, 1000);
 }
