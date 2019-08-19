@@ -21,6 +21,9 @@ function setupMenu() {
 	$('li.allowed').not(':has(ul)').click(function () {
 		$('li.allowed').not(':has(ul)').not(this).removeClass('selected');
 	});
+	$('li.allowed.tab').click(function () {
+		$('div.tab').removeClass('selected');
+	});
 }
 
 function refreshOverviewerVersions() {
