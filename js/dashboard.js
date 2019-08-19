@@ -38,7 +38,7 @@ function cpuGraph(graphCanvas) {
 				intersect: false,
 				callbacks: {
 					label: function (tooltipItem, data) {
-						var label = data.datasets[tooltipItem.datasetIndex].label || '';
+						let label = data.datasets[tooltipItem.datasetIndex].label || '';
 
 						if (label) {
 							label += ': ';
@@ -122,7 +122,7 @@ function ramGraph(graphCanvas) {
 				intersect: false,
 				callbacks: {
 					label: function (tooltipItem, data) {
-						var label = data.datasets[tooltipItem.datasetIndex].label || '';
+						let label = data.datasets[tooltipItem.datasetIndex].label || '';
 
 						if (label) {
 							label += ': ';
