@@ -46,7 +46,67 @@
 	</aside>
 	<main>
 		<div class="tab dashboard selected">
-			<p>dashboard</p>
+			<div class="grid">
+				<div id="render" class="card graph">
+					<header></header>
+					<section>
+						<p class="name">Render Progress</p>
+						<p class="content"></p>
+					</section>
+					<footer>
+						<i class="material-icons"></i>
+						<span></span>
+					</footer>
+				</div>
+				<div id="worldsLocation" class="card graph">
+					<header></header>
+					<section>
+						<p class="name">Minecraft Worlds</p>
+						<p class="content"></p>
+					</section>
+					<footer>
+						<i class="material-icons"></i>
+						<span></span>
+					</footer>
+				</div>
+				<div id="saveLocation" class="card graph">
+					<header></header>
+					<section>
+						<p class="name">Overviewer Maps</p>
+						<p class="content"></p>
+					</section>
+					<footer>
+						<i class="material-icons"></i>
+						<span></span>
+					</footer>
+				</div>
+				<div id="cpu" class="card graph">
+					<header>
+						<canvas id="cpuGraph"></canvas>
+					</header>
+					<section>
+						<p class="name">CPU</p>
+						<p class="content"></p>
+					</section>
+					<footer>
+						<i class="material-icons">timelapse</i>
+						<span>Last 10 seconds</span>
+					</footer>
+				</div>
+				<div id="ram" class="card graph">
+					<header>
+						<canvas id="ramGraph"></canvas>
+					</header>
+					<section>
+						<p class="name">RAM</p>
+						<p class="content"></p>
+					</section>
+					<footer>
+						<i class="material-icons">timelapse</i>
+						<span>Last 10 seconds</span>
+					</footer>
+				</div>
+			</div>
 		</div>
 		<div class="tab global">
 			<p>global</p>
@@ -56,7 +116,9 @@
 		</div>
 	</main>
 	<script>window.$ = window.jQuery = require('jquery');</script>
+	<script src="../node_modules/chart.js/dist/Chart.bundle.min.js"></script>
 	<script src="../js/common.js"></script>
 	<script src="../js/sidebar.js"></script>
+	<script src="../js/dashboard.js"></script>
 </body>
 </html>
