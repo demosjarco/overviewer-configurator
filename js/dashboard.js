@@ -9,24 +9,15 @@ function setupGraphs() {
 	ramGraph($('canvas#ramGraph'));
 }
 
-var color, letters = '0123456789ABCDEF'.split('')
-function AddDigitToColor(limit) {
-	color += letters[Math.round(Math.random() * limit)]
-}
-function getRandomColor() {
-	color = '#'
-	AddDigitToColor(5)
-	for (var i = 0; i < 5; i++) {
-		AddDigitToColor(15)
-	}
-	return color
+function getColor() {
+	return "hsl(" + 360 * Math.random() + ',' + (25 + 70 * Math.random()) + '%,' + (45 + 10 * Math.random()) + '%)';
 }
 
 const os = require('os');
 function cpuGraph(graphCanvas) {
 	let cpuCoresDatasets = [];
 	for (let i = 0; i < os.cpus().length; i++) {
-		let colorChosen = getRandomColor();
+		let colorChosen = getColor();
 		cpuCoresDatasets.push({
 			label: 'CPU Core ' + (i+1),
 			backgroundColor: colorChosen,
@@ -101,7 +92,7 @@ function cpuGraph(graphCanvas) {
 }
 
 function ramGraph(graphCanvas) {
-	let colorChosen = getRandomColor();
+	let colorChosen = getColor();
 	let ramGraphConfig = {
 		type: 'line',
 		data: {
