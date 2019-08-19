@@ -24,6 +24,15 @@ function setupMenu() {
 	$('li.allowed.tab').click(function () {
 		$('div.tab').removeClass('selected');
 	});
+	$('li.allowed.tab.dashboard').click(function () {
+		$('div.tab.dashboard').addClass('selected');
+	});
+	$('li.allowed.tab.global').click(function () {
+		$('div.tab.global').addClass('selected');
+	});
+	$('li.allowed.tab.pois').click(function () {
+		$('div.tab.pois').addClass('selected');
+	});
 }
 
 function refreshOverviewerVersions() {

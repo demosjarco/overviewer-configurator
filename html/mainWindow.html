@@ -31,9 +31,9 @@
 				<div class="content"><span class="mdi mdi-zip-box-outline"></span><span class="programTitle">jpegoptim</span><div class="arrow"><i class="material-icons">arrow_drop_down</i></div></div>
 				<ul></ul>
 			</li>
-			<li class="allowed selected"><div class="content"><i class="material-icons">dashboard</i><span>Dashboard</span></div></li>
-			<li class="allowed"><div class="content"><i class="material-icons">settings</i><span>Global</span></div></li>
-			<li class="allowed"><div class="content"><i class="material-icons">pin_drop</i><span>POIs</span></div></li>
+			<li class="allowed tab dashboard selected"><div class="content"><i class="material-icons">dashboard</i><span>Dashboard</span></div></li>
+			<li class="allowed tab global"><div class="content"><i class="material-icons">settings</i><span>Global</span></div></li>
+			<li class="allowed tab pois"><div class="content"><i class="material-icons">pin_drop</i><span>POIs</span></div></li>
 			<li id="worlds" class="allowed">
 				<div class="content"><i class="material-icons">explore</i><span>Worlds</span><div class="arrow"><i class="material-icons">arrow_drop_down</i></div></div>
 				<ul>
@@ -43,11 +43,17 @@
 				</ul>
 			</li>
 		</ul>
-		<!--<ul>
-			<li><a href="#tabs-1"><img src="../img/overviewerLogo.png" /></a></li>
-		</ul>-->
 	</aside>
 	<main>
+		<div class="tab dashboard selected">
+			<p>dashboard</p>
+		</div>
+		<div class="tab global">
+			<p>global</p>
+		</div>
+		<div class="tab pois">
+			<p>pois</p>
+		</div>
 	</main>
 	<script>window.$ = window.jQuery = require('jquery');</script>
 	<script src="../js/common.js"></script>
