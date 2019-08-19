@@ -61,7 +61,10 @@ function cpuGraph(graphCanvas) {
 					ticks: {
 						min: 0,
 						max: 100
-					}
+					},
+					gridLines: {
+						color: 'rgba(255, 255, 255, 0.19)'
+					},
 				}]
 			},
 			maintainAspectRatio: false,
@@ -145,7 +148,10 @@ function ramGraph(graphCanvas) {
 					ticks: {
 						min: 0,
 						max: 100
-					}
+					},
+					gridLines: {
+						color: 'rgba(255, 255, 255, 0.19)'
+					},
 				}]
 			},
 			maintainAspectRatio: false,
