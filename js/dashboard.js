@@ -4,7 +4,7 @@ $(function () {
 	setupGraphs();
 });
 
-const numSeconds = 10;
+const numSeconds = 60;
 
 function setupGraphs() {
 	cpuGraph($('canvas#cpuGraph'));
