@@ -4,33 +4,49 @@ $(function () {
 	setupGraphs();
 });
 
+const numSeconds = 10;
+
 function setupGraphs() {
 	cpuGraph($('canvas#cpuGraph'));
+	$('div#cpu footer p span span.duration').text(numSeconds);
 	ramGraph($('canvas#ramGraph'));
+	$('div#ram footer p span span.duration').text(numSeconds);
 }
 
 function getColor() {
 	return "hsl(" + 360 * Math.random() + ',' + (25 + 70 * Math.random()) + '%,' + (50 + 10 * Math.random()) + '%)';
 }
 
+function setDatasetLabels() {
+	let datasetLabels = [];
+	for (let i = 0; i < numSeconds; i++) {
+		datasetLabels.push('' + (i + 1));
+	}
+	return datasetLabels;
+}
+
 const os = require('os');
 function cpuGraph(graphCanvas) {
-	let cpuCoresDatasets = [];
-	for (let i = 0; i < os.cpus().length; i++) {
-		const colorChosen = getColor();
-		cpuCoresDatasets.push({
-			label: 'CPU Core ' + (i+1),
-			backgroundColor: colorChosen,
-			borderColor: colorChosen,
-			data: [],
-			fill: false,
-		});
+	function setupDatasets() {
+		let cpuCoresDatasets = [];
+		for (let i = 0; i < os.cpus().length; i++) {
+			const colorChosen = getColor();
+			cpuCoresDatasets.push({
+				label: 'CPU Core ' + (i + 1),
+				backgroundColor: colorChosen,
+				borderColor: colorChosen,
+				data: [],
+				fill: false,
+			});
+		}
+		return cpuCoresDatasets;
 	}
+
 	let cpuGraphConfig = {
 		type: 'line',
 		data: {
-			labels: ['10', '9', '8', '7', '6', '5', '4', '3', '2', '1'],
-			datasets: cpuCoresDatasets
+			labels: setDatasetLabels(),
+			datasets: setupDatasets()
 		},
 		options: {
 			tooltips: {
@@ -97,7 +113,7 @@ function cpuGraph(graphCanvas) {
 				if (type != 'idle')
 					used += coreInfo.times[type];
 			});
-			if (cpuGraphConfig.data.datasets[coreIndex].data.length >= 10) {
+			if (cpuGraphConfig.data.datasets[coreIndex].data.length >= numSeconds) {
 				cpuGraphConfig.data.datasets[coreIndex].data.shift();
 			}
 			cpuGraphConfig.data.datasets[coreIndex].data.push((parseFloat((used - initialCpuUsed[coreIndex])) / parseFloat(total - initialCpuTotal[coreIndex])) * 100);
@@ -111,7 +127,7 @@ function ramGraph(graphCanvas) {
 	let ramGraphConfig = {
 		type: 'line',
 		data: {
-			labels: ['10', '9', '8', '7', '6', '5', '4', '3', '2', '1'],
+			labels: setDatasetLabels(),
 			datasets: [{
 				label: 'RAM Usage',
 				backgroundColor: colorChosen,
@@ -165,7 +181,7 @@ function ramGraph(graphCanvas) {
 	Chart.defaults.global.defaultFontFamily = "'Open Sans Condensed', sans-serif";
 
 	setInterval(function () {
-		if (ramGraphConfig.data.datasets[0].data.length >= 10) {
+		if (ramGraphConfig.data.datasets[0].data.length >= numSeconds) {
 			ramGraphConfig.data.datasets[0].data.shift();
 		}
 		ramGraphConfig.data.datasets[0].data.push(((os.totalmem() - os.freemem()) / os.totalmem()) * 100);
