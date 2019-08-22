@@ -1,6 +1,9 @@
+body > main div.tab.logs {
+  padding-top: 0;
+}
 body > main div.tab.logs div#timeline {
   border-left: rgba(255, 255, 255, 0.6) solid 4px;
-  padding: 8px 0;
+  padding: 23px 0 8px 0;
   margin-left: 20px;
   width: calc(100% - 20px);
 }
