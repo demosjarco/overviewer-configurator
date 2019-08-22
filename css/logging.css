@@ -10,7 +10,7 @@ body > main div.tab.logs div#timeline {
 }
 body > main div.tab.logs div#timeline div.log {
   display: block;
-  padding: 4px 0 4px 4px;
+  padding: 8px 0 8px 4px;
 }
 body > main div.tab.logs div#timeline div.log span.time {
   margin-left: -32px;
