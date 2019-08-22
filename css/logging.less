@@ -4,12 +4,28 @@ body {
 	> main {
 		div.tab.logs {
 			div#timeline {
-				div.time {
+				border-left: rgba(255, 255, 255, 0.6) solid 4px;
+				padding: 8px 0;
+				margin-left: 20px;
+				width: calc(~"100% - 20px");
 
-				}
+				div.log {
+					display: block;
 
-				div.message {
+					> div {
+						display: inline-block;
+					}
 
+					div.time {
+						margin-left: -28px;
+						margin-right: 4px;
+						padding: 2px;
+						border-radius: 4px;
+						background-color: red;
+					}
+
+					div.message {
+					}
 				}
 			}
 		}
