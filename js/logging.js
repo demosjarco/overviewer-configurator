@@ -10,7 +10,7 @@ ipcRenderer.on('visualLog', function (event, message) {
 function newVisualLog(message) {
 	let tempDate = new Date();
 	$(function () {
-		$('div#timeline').prepend('<div class="log"><div class="time">' + tempDate.toLocaleTimeString() + '</div><div class="message">' + message + '</div></div>');
+		$('div#timeline').prepend('<div class="log"><span class="time">' + tempDate.toLocaleTimeString() + '</span><span class="message">' + message + '</span></div>');
 		if ($('div#timeline div.log').length > numVisibleMessages)
 			$('div#timeline div.log').slice(numVisibleMessages - 1).remove();
 	});
