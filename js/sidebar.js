@@ -33,6 +33,9 @@ function setupMenu() {
 	$('li.allowed.tab.pois').click(function () {
 		$('div.tab.pois').addClass('selected');
 	});
+	$('li.allowed.tab.logs').click(function () {
+		$('div.tab.logs').addClass('selected');
+	});
 }
 
 function refreshOverviewerVersions() {
