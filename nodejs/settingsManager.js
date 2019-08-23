@@ -186,6 +186,11 @@ function processJsonReadQueue() {
 			}
 		}
 
+		if (!('markers' in json)) {
+			changed = true;
+			tempJson.markers = {};
+		}
+
 		if (!('worlds' in json)) {
 			changed = true;
 			tempJson.worlds = {};
