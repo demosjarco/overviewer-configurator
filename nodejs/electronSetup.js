@@ -1,7 +1,9 @@
 const { app, BrowserWindow, ipcMain } = require('electron');
+const overviewerVersions = require('./overviewerVersions.js');
+
 const setMan = require("./settingsManager.js");
 const SettingsManager = new setMan();
-const overviewerVersions = require('./overviewerVersions.js');
+module.exports.settingsManager = SettingsManager;
 
 let mainWindow;
 
