@@ -54,6 +54,10 @@ function createPyConfigFile(timestamp = new Date(), permJson = {}) {
 
 	overviewerConfigFile += globalConfig(permJson.global);
 
+	overviewerConfigFile += markersConfig(permJson.markers);
+
+	overviewerConfigFile += renderConfig(permJson.worlds);
+
 	return overviewerConfigFile;
 }
 
@@ -83,6 +87,8 @@ function globalConfig(global) {
 	} else {
 		globalsString += 'cave_custom = [Base(), EdgeLines(), Cave()]\n';
 	}
+	globalsString += '\n';
+
 	// Progress
 	if (global && global.renderProgress) {
 		globalsString += '# Progress\n';
@@ -100,6 +106,7 @@ function globalConfig(global) {
 			globalsString += 'observer = LoggingObserver()\n';
 			globalsString += '\n';
 		}
+		globalsString += '\n';
 	}
 
 	// Image Settings
@@ -129,8 +136,21 @@ function globalConfig(global) {
 					break;
 			}
 		}
+		globalsString += '\n';
 	}
 
-	globalsString += '\n';
 	return globalsString;
+}
+
+function markersConfig(markers) {
+	let markersString = '# Markers Config\n';
+
+	markersString += '\n';
+	return markersString;
+}
+
+function renderConfig(worlds) {
+	let renderString = '# World Render Config\n';
+
+	return renderString;
 }
