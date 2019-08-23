@@ -31,6 +31,7 @@
 		"@mdi/font": "^4.1.95",
 		"adm-zip": "^0.4.13",
 		"chart.js": "^2.8.0",
+		"command-exists": "^1.2.8",
 		"electron-window-state": "^5.0.3",
 		"gunzip-maybe": "^1.4.1",
 		"jquery": "^3.4.1",
