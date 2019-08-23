@@ -50,10 +50,28 @@
 		<div class="tab dashboard selected">
 			<div class="grid">
 				<div id="render" class="card">
-					<header></header>
+					<header><i class="material-icons">blur_on</i></header>
 					<section>
 						<p class="name">Render Progress</p>
 						<p class="content">Render Progress</p>
+						<p class="button">
+							<button class="progress">
+								<span class="bar">
+									<span class="inner">Update Web Assets</span>
+								</span>
+								Update Web Assets
+							</button><button class="progress">
+								<span class="bar">
+									<span class="inner">Render POIs</span>
+								</span>
+								Render POIs
+							</button><button class="progress">
+								<span class="bar">
+									<span class="inner">Render Map</span>
+								</span>
+								Render Map
+							</button>
+						</p>
 					</section>
 					<footer>
 						<i class="material-icons"></i>
@@ -61,10 +79,11 @@
 					</footer>
 				</div>
 				<div id="worldsLocation" class="card">
-					<header></header>
+					<header><i class="material-icons">storage</i></header>
 					<section>
 						<p class="name">Minecraft Worlds</p>
 						<p class="content">Worlds Location & Space</p>
+						<p class="button"><button onclick="chooseWorldsLocation()">Select Folder</button></p>
 					</section>
 					<footer>
 						<i class="material-icons"></i>
@@ -72,10 +91,11 @@
 					</footer>
 				</div>
 				<div id="saveLocation" class="card">
-					<header></header>
+					<header><i class="material-icons">storage</i></header>
 					<section>
 						<p class="name">Overviewer Maps</p>
 						<p class="content">Save Location & Space</p>
+						<p class="button"><button onclick="chooseMapsLocation()">Select Folder</button></p>
 					</section>
 					<footer>
 						<i class="material-icons"></i>
