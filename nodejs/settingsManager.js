@@ -345,17 +345,3 @@ function saveJSON(updatedJSON) {
 		processJsonWriteQueue();
 	}
 }
-
-function readSetting(settingCallback, settingType, optionKey1, optionKey2, optionKey3, optionKey4) {
-	getSavedJSON(function (json) {
-		if (optionKey1 && optionKey2 && optionKey3 && optionKey4) {
-			settingCallback(json[settingType][optionKey1][optionKey2][optionKey3][optionKey4]);
-		} else if (optionKey1 && optionKey2 && optionKey3) {
-			settingCallback(json[settingType][optionKey1][optionKey2][optionKey3]);
-		} else if (optionKey1 && optionKey2) {
-			settingCallback(json[settingType][optionKey1][optionKey2]);
-		} else if (optionKey1) {
-			settingCallback(json[settingType][optionKey1]);
-		}
-	});
-}
