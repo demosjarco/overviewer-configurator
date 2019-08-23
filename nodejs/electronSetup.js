@@ -1,7 +1,5 @@
 const { app, BrowserWindow, ipcMain } = require('electron');
-const config = require('./configFile.js');
 const overviewerVersions = require('./overviewerVersions.js');
-const oxipngVersions = require('./oxipngVersions.js');
 
 let mainWindow;
 
@@ -58,7 +56,6 @@ function createWindow() {
 
 app.on('ready', () => {
 	createWindow();
-	config.runInit();
 });
 
 // Quit when all windows are closed.
