@@ -1,8 +1,38 @@
 'use strict';
 
 $(function () {
+	ipcRenderer.send('getWorldsLocation');
+	ipcRenderer.send('getMapsLocation');
 	setupGraphs();
 });
+
+ipcRenderer.on('gotWorldsLocation', function (event, path) {
+	$('div#worldsLocation footer span').text(path ? path : 'Not yet selected');
+});
+
+function chooseWorldsLocation() {
+	dialog.showOpenDialog({ properties: ['openDirectory'] }, function (canceled, filePaths, bookmarks) {
+		if (!canceled) {
+			const path = filePaths[0].replace(/\\/g, "/");
+			ipcRenderer.send('updateWorldsLocation', path);
+			$('div#worldsLocation footer span').text(path);
+		}
+	});
+}
+
+ipcRenderer.on('gotMapsLocation', function (event, path) {
+	$('div#saveLocation footer span').text(path ? path : 'Not yet selected');
+});
+
+function chooseMapsLocation() {
+	dialog.showOpenDialog({ properties: ['openDirectory'] }, function (canceled, filePaths, bookmarks) {
+		if (!canceled) {
+			const path = filePaths[0].replace(/\\/g, "/");
+			ipcRenderer.send('updateMapsLocation', path);
+			$('div#saveLocation footer span').text(path);
+		}
+	});
+}
 
 const numSeconds = 60;
 
