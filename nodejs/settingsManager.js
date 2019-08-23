@@ -211,7 +211,7 @@ function processJsonReadQueue() {
 				json.markers.signs = {
 					name: 'Signs',
 					filterFunction: {},
-					customFilterFunction: 'def signFilter(poi):\n\tif poi["id"] == "minecraft:sign":\n\t\treturn "\n".join([poi["Text1"], poi["Text2"], poi["Text3"], poi["Text4"]])',
+					customFilterFunction: 'def signFilter(poi):\n\tif poi["id"] == "minecraft:sign":\n\t\treturn "\\n".join([poi["Text1"], poi["Text2"], poi["Text3"], poi["Text4"]])',
 					icon: null,
 					createInfoWindow: true,
 					checked: false
@@ -227,7 +227,7 @@ function processJsonReadQueue() {
 				}
 				if (!('customFilterFunction' in json.markers.signs)) {
 					changed = true;
-					json.markers.signs.customFilterFunction = 'def signFilter(poi):\n\tif poi["id"] == "minecraft:sign":\n\t\treturn "\n".join([poi["Text1"], poi["Text2"], poi["Text3"], poi["Text4"]])';
+					json.markers.signs.customFilterFunction = 'def signFilter(poi):\n\tif poi["id"] == "minecraft:sign":\n\t\treturn "\\n".join([poi["Text1"], poi["Text2"], poi["Text3"], poi["Text4"]])';
 				}
 				if (!('icon' in json.markers.signs)) {
 					changed = true;
