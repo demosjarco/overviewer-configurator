@@ -33,7 +33,7 @@ let jsonReadQueue = [];
 let jsonReadQueueProcessing = false;
 function processJsonReadQueue() {
 	let callback = jsonReadQueue.shift();
-	if (Object.keys(permJson).length > 0) {
+	if (Object.keys(runningJson).length > 0) {
 		updatePreferencesFileIfNeeded(function (json) {
 			if (callback)
 				callback(json);
@@ -43,11 +43,11 @@ function processJsonReadQueue() {
 			} else {
 				jsonReadQueueProcessing = false;
 			}
-		}, permJson);
+		}, runningJson);
 	} else {
 		fs.readFile(settingsPath, (err, data) => {
 			updatePreferencesFileIfNeeded(function (json) {
-				permJson = json;
+				runningJson = json;
 				if (callback)
 					callback(json);
 
