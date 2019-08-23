@@ -154,5 +154,9 @@ function markersConfig(markers) {
 function renderConfig(worlds) {
 	let renderString = '# World Render Config\n';
 
+	Object.keys(worlds).map(function (key, index) {
+		const worldInfo = worlds[key];
+	});
+
 	return renderString;
 }
