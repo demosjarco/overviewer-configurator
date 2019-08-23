@@ -186,9 +186,128 @@ function processJsonReadQueue() {
 			}
 		}
 
+		
 		if (!('markers' in json)) {
 			changed = true;
-			tempJson.markers = {};
+			tempJson.markers = {
+				signs: {
+					name: 'Signs',
+					filterFunction: {},
+					customFilterFunction: 'def signIcons(poi):\n\t\tif poi["id"] == "minecraft:sign":\n\t\t\treturn "\\n".join([poi["Text1"], poi["Text2"], poi["Text3"], poi["Text4"]])\n',
+					icon: null,
+					createInfoWindow: true,
+					checked: false
+				},
+				chests: {
+
+				},
+				players: {
+
+				}
+			};
+		} else {
+			if (!('signs' in json.markers)) {
+				changed = true;
+				json.markers.signs = {
+					name: 'Signs',
+					filterFunction: {},
+					customFilterFunction: 'def signFilter(poi):\n\tif poi["id"] == "minecraft:sign":\n\t\treturn "\n".join([poi["Text1"], poi["Text2"], poi["Text3"], poi["Text4"]])',
+					icon: null,
+					createInfoWindow: true,
+					checked: false
+				};
+			} else {
+				if (!('name' in json.markers.signs)) {
+					changed = true;
+					json.markers.signs.name = 'Signs';
+				}
+				if (!('filterFunction' in json.markers.signs)) {
+					changed = true;
+					json.markers.signs.filterFunction = {};
+				}
+				if (!('customFilterFunction' in json.markers.signs)) {
+					changed = true;
+					json.markers.signs.customFilterFunction = 'def signFilter(poi):\n\tif poi["id"] == "minecraft:sign":\n\t\treturn "\n".join([poi["Text1"], poi["Text2"], poi["Text3"], poi["Text4"]])';
+				}
+				if (!('icon' in json.markers.signs)) {
+					changed = true;
+					json.markers.signs.icon = null;
+				} if (!('createInfoWindow' in json.markers.signs)) {
+					changed = true;
+					json.markers.signs.createInfoWindow = true;
+				} if (!('checked' in json.markers.signs)) {
+					changed = true;
+					json.markers.signs.checked = false;
+				}
+			}
+			if (!('chests' in json.markers)) {
+				changed = true;
+				json.markers.chests = {
+					name: 'Chests',
+					filterFunction: {},
+					customFilterFunction: 'def chestFilter(poi):\n\tif poi["id"] == "minecraft:chest":\n\t\treturn "Chest with %d items" % len(poi.get("Items", []))',
+					icon: 'chest.png',
+					createInfoWindow: true,
+					checked: false
+				};
+			} else {
+				if (!('name' in json.markers.chests)) {
+					changed = true;
+					json.markers.chests.name = 'Chests';
+				}
+				if (!('filterFunction' in json.markers.chests)) {
+					changed = true;
+					json.markers.chests.filterFunction = {};
+				}
+				if (!('customFilterFunction' in json.markers.chests)) {
+					changed = true;
+					json.markers.chests.customFilterFunction = 'def chestFilter(poi):\n\tif poi["id"] == "minecraft:chest":\n\t\treturn "Chest with %d items" % len(poi.get("Items", []))';
+				}
+				if (!('icon' in json.markers.chests)) {
+					changed = true;
+					json.markers.chests.icon = 'chest.png';
+				} if (!('createInfoWindow' in json.markers.chests)) {
+					changed = true;
+					json.markers.chests.createInfoWindow = true;
+				} if (!('checked' in json.markers.chests)) {
+					changed = true;
+					json.markers.chests.checked = false;
+				}
+			}
+			if (!('players' in json.markers)) {
+				changed = true;
+				json.markers.players = {
+					name: 'Players',
+					filterFunction: {},
+					customFilterFunction: 'def playerFilter(poi):\n\tif poi["id"] == "Player":\n\t\tpoi["icon"] = "https://overviewer.org/avatar/%s" % poi["EntityId"]\n\t\treturn "Last known location for %s" % poi["EntityId"]',
+					icon: null,
+					createInfoWindow: true,
+					checked: true
+				};
+			} else {
+				if (!('name' in json.markers.players)) {
+					changed = true;
+					json.markers.players.name = 'Players';
+				}
+				if (!('filterFunction' in json.markers.players)) {
+					changed = true;
+					json.markers.players.filterFunction = {};
+				}
+				if (!('customFilterFunction' in json.markers.players)) {
+					changed = true;
+					json.markers.players.customFilterFunction = 'def playerFilter(poi):\n\tif poi["id"] == "Player":\n\t\tpoi["icon"] = "https://overviewer.org/avatar/%s" % poi["EntityId"]\n\t\treturn "Last known location for %s" % poi["EntityId"]';
+				}
+				if (!('icon' in json.markers.players)) {
+					changed = true;
+					json.markers.players.icon = null;
+				} if (!('createInfoWindow' in json.markers.players)) {
+					changed = true;
+					json.markers.players.createInfoWindow = true;
+				} if (!('checked' in json.markers.players)) {
+					changed = true;
+					json.markers.players.checked = true;
+				}
+			}
 		}
 
 		if (!('worlds' in json)) {
