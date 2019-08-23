@@ -66,27 +66,98 @@ function processJsonReadQueue() {
 		if (!('global' in json)) {
 			changed = true;
 			tempJson.global = {
-				caveDepthShading: true,
-				compressLevel: 0,
+				worldsLocation: null,
 				outputLocation: null,
+				imageSettings: {
+					format: 'png',
+					png: {
+						compressionLevel: 2
+					},
+					jpg: {
+						imgquality: 95,
+					},
+					webp: {
+						compressionLevel: 95,
+						imglossless: true
+					}
+				},
+				caveDepthShading: true,
 				renderProgress: {
 					local: true,
 					web: false
-				},
-				worldsLocation: null
+				}
 			};
 		} else {
-			if (!('caveDepthShading' in json.global)) {
+			if (!('worldsLocation' in json.global)) {
 				changed = true;
-				tempJson.global.caveDepthShading = true;
-			}
-			if (!('compressLevel' in json.global)) {
-				changed = true;
-				tempJson.global.compressLevel = 0;
+				tempJson.global.worldsLocation = null;
 			}
 			if (!('outputLocation' in json.global)) {
 				changed = true;
 				tempJson.global.outputLocation = null;
+			}
+			if (!('imageSettings' in json.global)) {
+				changed = true;
+				tempJson.global.imageSettings = {
+					format: 'png',
+					png: {
+						compressionLevel: 2
+					},
+					jpg: {
+						imgquality: 95
+					},
+					webp: {
+						compressionLevel: 95,
+						imglossless: true
+					}
+				};
+			} else {
+				if (!('format' in json.global.imageSettings)) {
+					changed = true;
+					tempJson.global.imageSettings.format = 'png';
+				}
+				if (!('png' in json.global.imageSettings)) {
+					changed = true;
+					tempJson.global.imageSettings.png = {
+						compressionLevel: 2
+					};
+				} else {
+					if (!('compressionLevel' in tempJson.global.imageSettings.png)) {
+						changed = true;
+						tempJson.global.imageSettings.png.compressionLevel = 2;
+					}
+				}
+				if (!('jpg' in json.global.imageSettings)) {
+					changed = true;
+					tempJson.global.imageSettings.jpg = {
+						imgquality: 95
+					};
+				} else {
+					if (!('imgquality' in tempJson.global.imageSettings.jpg)) {
+						changed = true;
+						tempJson.global.imageSettings.jpg.imgquality = 2;
+					}
+				}
+				if (!('webp' in json.global.imageSettings)) {
+					changed = true;
+					tempJson.global.imageSettings.webp = {
+						compressionLevel: 95,
+						imglossless: true
+					};
+				} else {
+					if (!('compressionLevel' in tempJson.global.imageSettings.webp)) {
+						changed = true;
+						tempJson.global.imageSettings.webp.compressionLevel = 2;
+					}
+					if (!('imglossless' in tempJson.global.imageSettings.webp)) {
+						changed = true;
+						tempJson.global.imageSettings.webp.imglossless = true;
+					}
+				}
+			}
+			if (!('caveDepthShading' in json.global)) {
+				changed = true;
+				tempJson.global.caveDepthShading = true;
 			}
 			if (!('renderProgress' in json.global)) {
 				changed = true;
@@ -103,10 +174,6 @@ function processJsonReadQueue() {
 					changed = true;
 					tempJson.global.renderProgress.web = true;
 				}
-			}
-			if (!('worldsLocation' in json.global)) {
-				changed = true;
-				tempJson.global.worldsLocation = null;
 			}
 		}
 
