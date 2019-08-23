@@ -24,7 +24,7 @@
 		"electromon": "^1.0.10",
 		"electron": "^6.0.3",
 		"electron-packager": "^14.0.4",
-		"less": "^3.10.2",
+		"less": "^3.10.3",
 		"less-watch-compiler": "^1.13.0"
 	},
 	"dependencies": {
