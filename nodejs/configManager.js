@@ -34,6 +34,7 @@ module.exports = class ConfigManager {
 function processSaveQueue() {
 	saveQueueProcessing = true;
 	let info = saveQueue.shift();
+
 	fs.writeFile(configPath, createPyConfigFile(info.timestamp, info.content), (err) => {
 		if (err) throw err;
 
@@ -47,6 +48,89 @@ function processSaveQueue() {
 
 function createPyConfigFile(timestamp = new Date(), permJson = {}) {
 	let overviewerConfigFile = '# Created on ' + timestamp.toLocaleDateString() + ' ' + timestamp.toLocaleTimeString() + ' with Overviewer Config v' + require('../package.json').version + '\n';
+	overviewerConfigFile += '\n';
+
+	overviewerConfigFile += worldsSection(permJson.worlds);
+
+	overviewerConfigFile += globalConfig(permJson.global);
 
 	return overviewerConfigFile;
+}
+
+function worldsSection(worlds) {
+	let worldsString = '# Worlds Setup\n';
+	Object.values(worlds).forEach(function (worldInfo) {
+		if (worldInfo.enabled)
+			worldsString += 'worlds["' + worldInfo.name + '"] = "' + worldInfo.path + '"\n';
+	});
+	worldsString += '\n';
+	return worldsString;
+}
+
+function globalConfig(global) {
+	let globalsString = '# Global Config\n';
+
+	if (global && global.outputLocation)
+		globalsString += 'outputdir = "' + global.outputLocation + '"\n';
+	//globalsString += 'customwebassets = "../web_assets"\n';
+	globalsString += 'bgcolor = "#000000"\n';
+	globalsString += 'end_lighting = [Base(), EdgeLines(), Lighting(strength=0.5)]\n';
+	globalsString += 'end_smooth_lighting = [Base(), EdgeLines(), SmoothLighting(strength=0.5)]\n';
+	globalsString += 'lighter_nether_lighting = [Base(), EdgeLines(), Nether(), Lighting(strength=0.5)]\n';
+	globalsString += 'lighter_nether_smooth_lighting = [Base(), EdgeLines(), Nether(), SmoothLighting(strength=0.5)]\n';
+	if (global && global.caveDepthShading) {
+		globalsString += 'cave_custom = "cave"\n';
+	} else {
+		globalsString += 'cave_custom = [Base(), EdgeLines(), Cave()]\n';
+	}
+	// Progress
+	if (global && global.renderProgress) {
+		globalsString += '# Progress\n';
+
+		if (global.renderProgress.local && global.renderProgress.web) {
+			globalsString += 'from .observer import MultiplexingObserver, LoggingObserver, JSObserver\n';
+			globalsString += 'observer = MultiplexingObserver(LoggingObserver(), JSObserver(outputdir, 10))\n';
+			globalsString += '\n';
+		} else if (global.renderProgress.web) {
+			globalsString += 'from .observer import JSObserver\n';
+			globalsString += 'observer = JSObserver(outputdir, 10)\n';
+			globalsString += '\n';
+		} else if (global.renderProgress.local) {
+			globalsString += 'from .observer import LoggingObserver\n';
+			globalsString += 'observer = LoggingObserver()\n';
+			globalsString += '\n';
+		}
+	}
+
+	// Image Settings
+	if (global && global.imageSettings) {
+		globalsString += '# Image Settings\n';
+
+		if (global.imageSettings.format) {
+			globalsString += 'imgformat = "' + global.imageSettings.format + '"\n';
+
+			switch (global.imageSettings.format) {
+				case 'png':
+					if (require('command-exists').sync('oxipng')) {
+						globalsString += 'from .optimizeimages import oxipng\n';
+						globalsString += 'optimizeimg = [oxipng(olevel=' + global.imageSettings.png.compressionLevel + ')]\n';
+					}
+					break;
+				case 'jpg':
+					globalsString += 'imgquality = ' + global.imageSettings.jpg.imgquality + '\n';
+					if (require('command-exists').sync('jpegoptim')) {
+						globalsString += 'from .optimizeimages import jpegoptim\n';
+						globalsString += 'optimizeimg = [jpegoptim(quality=' + global.imageSettings.jpg.imgquality + ')]\n';
+					}
+					break;
+				case 'webp':
+					globalsString += 'imgquality = ' + global.imageSettings.webp.compressionLevel + '\n';
+					globalsString += 'imglossless = ' + (global.imageSettings.webp.imglossless ? 'True' : 'False') + '\n';
+					break;
+			}
+		}
+	}
+
+	globalsString += '\n';
+	return globalsString;
 }
