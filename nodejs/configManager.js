@@ -96,15 +96,12 @@ function globalConfig(global) {
 		if (global.renderProgress.local && global.renderProgress.web) {
 			globalsString += 'from .observer import MultiplexingObserver, LoggingObserver, JSObserver\n';
 			globalsString += 'observer = MultiplexingObserver(LoggingObserver(), JSObserver(outputdir, 10))\n';
-			globalsString += '\n';
 		} else if (global.renderProgress.web) {
 			globalsString += 'from .observer import JSObserver\n';
 			globalsString += 'observer = JSObserver(outputdir, 10)\n';
-			globalsString += '\n';
 		} else if (global.renderProgress.local) {
 			globalsString += 'from .observer import LoggingObserver\n';
 			globalsString += 'observer = LoggingObserver()\n';
-			globalsString += '\n';
 		}
 		globalsString += '\n';
 	}
