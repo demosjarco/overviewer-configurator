@@ -9,7 +9,18 @@ let saveQueueProcessing = false;
 
 module.exports = class ConfigManager {
 	constructor() {
-
+		fs.access(configPath, fs.constants.F_OK | fs.constants.W_OK, (err) => {
+			if (err) {
+				if (err.code === 'ENOENT') {
+					saveQueue.push({ timestamp: new Date() });
+					if (saveQueue.length > 0 && !saveQueueProcessing) {
+						processSaveQueue();
+					}
+				} else {
+					throw err;
+				}
+			}
+		});
 	}
 
 	updateConfig(json) {
