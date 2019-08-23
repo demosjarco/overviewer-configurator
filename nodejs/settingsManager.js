@@ -7,8 +7,13 @@ let runningJson = {};
 
 module.exports = class SettingsManager {
 	constructor() {
-
+		getSavedJSON(null);
 	}
+
+	getJson(jsonCallback) {
+		getSavedJSON(jsonCallback);
+	}
+
 }
 
 const settingsPath = app.getPath('userData').replace(/\\/g, "/") + '/settings.json';
@@ -187,4 +192,33 @@ function processJsonReadQueue() {
 		if (finishedCallback)
 			finishedCallback(tempJson);
 	}
+}
+
+function getSavedJSON(jsonCallback) {
+	jsonReadQueue.push(jsonCallback);
+	if (jsonReadQueue.length > 0 && !jsonReadQueueProcessing) {
+		processJsonReadQueue();
+	}
+}
+
+function saveJSON(updatedJSON) {
+	runningJson = updatedJSON;
+	jsonSaveQueue.push(updatedJSON);
+	if (jsonSaveQueue.length > 0 && !jsonSaveQueueProcessing) {
+		processJsonWriteQueue();
+	}
+}
+
+function readSetting(settingCallback, settingType, optionKey1, optionKey2, optionKey3, optionKey4) {
+	getSavedJSON(function (json) {
+		if (optionKey1 && optionKey2 && optionKey3 && optionKey4) {
+			settingCallback(json[settingType][optionKey1][optionKey2][optionKey3][optionKey4]);
+		} else if (optionKey1 && optionKey2 && optionKey3) {
+			settingCallback(json[settingType][optionKey1][optionKey2][optionKey3]);
+		} else if (optionKey1 && optionKey2) {
+			settingCallback(json[settingType][optionKey1][optionKey2]);
+		} else if (optionKey1) {
+			settingCallback(json[settingType][optionKey1]);
+		}
+	});
 }
