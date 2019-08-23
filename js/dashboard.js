@@ -44,7 +44,7 @@ function setupGraphs() {
 }
 
 function getColor() {
-	return "hsl(" + 360 * Math.random() + ',' + (25 + 70 * Math.random()) + '%,' + (50 + 10 * Math.random()) + '%)';
+	return "hsl(" + 360 * Math.random() + ',' + (25 + 70 * Math.random()) + '%,' + (60 + 10 * Math.random()) + '%)';
 }
 
 function setDatasetLabels() {
