@@ -17,6 +17,15 @@ module.exports = class SettingsManager {
 	getJson(jsonCallback) {
 		getSavedJSON(jsonCallback);
 	}
+
+	updateWorldsPath(path) {
+		runningJson.global.worldsLocation = path;
+		saveJSON(runningJson);
+	}
+	updateMapsPath(path) {
+		runningJson.global.outputLocation = path;
+		saveJSON(runningJson);
+	}
 }
 
 const settingsPath = app.getPath('userData').replace(/\\/g, "/") + '/settings.json';

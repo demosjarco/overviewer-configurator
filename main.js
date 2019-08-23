@@ -38,7 +38,7 @@ ipcMain.on('getWorldsLocation', (event) => {
 	});
 });
 ipcMain.on('updateWorldsLocation', (event, path) => {
-
+	electron.settingsManager.updateWorldsPath(path);
 });
 ipcMain.on('getMapsLocation', (event) => {
 	electron.settingsManager.getJson(function (json) {
@@ -46,5 +46,5 @@ ipcMain.on('getMapsLocation', (event) => {
 	});
 });
 ipcMain.on('updateMapsLocation', (event, path) => {
-
+	electron.settingsManager.updateMapsPath(path);
 });
