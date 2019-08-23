@@ -1,7 +1,7 @@
 'use strict';
 
 const { app } = require('electron');
-const fs = require('fs'); 'use strict';
+const fs = require('fs');
 
 const configPath = app.getPath('userData').replace(/\\/g, "/") + '/config.py';
 let saveQueue = [];
