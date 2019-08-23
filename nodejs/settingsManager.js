@@ -2,18 +2,21 @@
 
 const { app } = require('electron');
 const fs = require('fs');
+let ConfigManager;
 
 let runningJson = {};
 
 module.exports = class SettingsManager {
 	constructor() {
+		const confMan = require("./configManager.js");
+		ConfigManager = new confMan();
+
 		getSavedJSON(null);
 	}
 
 	getJson(jsonCallback) {
 		getSavedJSON(jsonCallback);
 	}
-
 }
 
 const settingsPath = app.getPath('userData').replace(/\\/g, "/") + '/settings.json';
@@ -32,6 +35,7 @@ function processJsonWriteQueue() {
 			jsonSaveQueueProcessing = false;
 		}
 	});
+	ConfigManager.updateConfig(json);
 }
 
 let jsonReadQueue = [];
