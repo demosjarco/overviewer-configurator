@@ -61,7 +61,7 @@ function createPyConfigFile(timestamp = new Date(), permJson = {}) {
 	return overviewerConfigFile;
 }
 
-function worldsSection(worlds) {
+function worldsSection(worlds = {}) {
 	let worldsString = '# Worlds Setup\n';
 	Object.values(worlds).forEach(function (worldInfo) {
 		if (worldInfo.enabled)
@@ -71,7 +71,7 @@ function worldsSection(worlds) {
 	return worldsString;
 }
 
-function globalConfig(global) {
+function globalConfig(global = {}) {
 	let globalsString = '# Global Config\n';
 
 	if (global && global.outputLocation)
@@ -139,7 +139,7 @@ function globalConfig(global) {
 	return globalsString;
 }
 
-function markersConfig(markers) {
+function markersConfig(markers = {}) {
 	let markersString = '# Markers Config\n';
 	const defRegex = /(?<=^def\s)(\w|\d)+(?=\()/i;
 
@@ -151,7 +151,7 @@ function markersConfig(markers) {
 	return markersString;
 }
 
-function renderConfig(worlds) {
+function renderConfig(worlds = {}) {
 	let renderString = '# World Render Config\n';
 
 	Object.keys(worlds).map(function (key, index) {
