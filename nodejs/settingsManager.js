@@ -217,7 +217,7 @@ function processJsonReadQueue() {
 		} else {
 			if (!('signs' in json.markers)) {
 				changed = true;
-				json.markers.signs = {
+				tempJson.markers.signs = {
 					name: 'Signs',
 					filterFunction: {},
 					customFilterFunction: 'def signFilter(poi):\n\tif poi["id"] == "minecraft:sign":\n\t\treturn "\\n".join([poi["Text1"], poi["Text2"], poi["Text3"], poi["Text4"]])',
@@ -228,30 +228,30 @@ function processJsonReadQueue() {
 			} else {
 				if (!('name' in json.markers.signs)) {
 					changed = true;
-					json.markers.signs.name = 'Signs';
+					tempJson.markers.signs.name = 'Signs';
 				}
 				if (!('filterFunction' in json.markers.signs)) {
 					changed = true;
-					json.markers.signs.filterFunction = {};
+					tempJson.markers.signs.filterFunction = {};
 				}
 				if (!('customFilterFunction' in json.markers.signs)) {
 					changed = true;
-					json.markers.signs.customFilterFunction = 'def signFilter(poi):\n\tif poi["id"] == "minecraft:sign":\n\t\treturn "\\n".join([poi["Text1"], poi["Text2"], poi["Text3"], poi["Text4"]])';
+					tempJson.markers.signs.customFilterFunction = 'def signFilter(poi):\n\tif poi["id"] == "minecraft:sign":\n\t\treturn "\\n".join([poi["Text1"], poi["Text2"], poi["Text3"], poi["Text4"]])';
 				}
 				if (!('icon' in json.markers.signs)) {
 					changed = true;
-					json.markers.signs.icon = null;
+					tempJson.markers.signs.icon = null;
 				} if (!('createInfoWindow' in json.markers.signs)) {
 					changed = true;
-					json.markers.signs.createInfoWindow = true;
+					tempJson.markers.signs.createInfoWindow = true;
 				} if (!('checked' in json.markers.signs)) {
 					changed = true;
-					json.markers.signs.checked = false;
+					tempJson.markers.signs.checked = false;
 				}
 			}
 			if (!('chests' in json.markers)) {
 				changed = true;
-				json.markers.chests = {
+				tempJson.markers.chests = {
 					name: 'Chests',
 					filterFunction: {},
 					customFilterFunction: 'def chestFilter(poi):\n\tif poi["id"] == "minecraft:chest":\n\t\treturn "Chest with %d items" % len(poi.get("Items", []))',
@@ -262,30 +262,30 @@ function processJsonReadQueue() {
 			} else {
 				if (!('name' in json.markers.chests)) {
 					changed = true;
-					json.markers.chests.name = 'Chests';
+					tempJson.markers.chests.name = 'Chests';
 				}
 				if (!('filterFunction' in json.markers.chests)) {
 					changed = true;
-					json.markers.chests.filterFunction = {};
+					tempJson.markers.chests.filterFunction = {};
 				}
 				if (!('customFilterFunction' in json.markers.chests)) {
 					changed = true;
-					json.markers.chests.customFilterFunction = 'def chestFilter(poi):\n\tif poi["id"] == "minecraft:chest":\n\t\treturn "Chest with %d items" % len(poi.get("Items", []))';
+					tempJson.markers.chests.customFilterFunction = 'def chestFilter(poi):\n\tif poi["id"] == "minecraft:chest":\n\t\treturn "Chest with %d items" % len(poi.get("Items", []))';
 				}
 				if (!('icon' in json.markers.chests)) {
 					changed = true;
-					json.markers.chests.icon = 'chest.png';
+					tempJson.markers.chests.icon = 'chest.png';
 				} if (!('createInfoWindow' in json.markers.chests)) {
 					changed = true;
-					json.markers.chests.createInfoWindow = true;
+					tempJson.markers.chests.createInfoWindow = true;
 				} if (!('checked' in json.markers.chests)) {
 					changed = true;
-					json.markers.chests.checked = false;
+					tempJson.markers.chests.checked = false;
 				}
 			}
 			if (!('players' in json.markers)) {
 				changed = true;
-				json.markers.players = {
+				tempJson.markers.players = {
 					name: 'Players',
 					filterFunction: {},
 					customFilterFunction: 'def playerFilter(poi):\n\tif poi["id"] == "Player":\n\t\tpoi["icon"] = "https://overviewer.org/avatar/%s" % poi["EntityId"]\n\t\treturn "Last known location for %s" % poi["EntityId"]',
@@ -296,25 +296,25 @@ function processJsonReadQueue() {
 			} else {
 				if (!('name' in json.markers.players)) {
 					changed = true;
-					json.markers.players.name = 'Players';
+					tempJson.markers.players.name = 'Players';
 				}
 				if (!('filterFunction' in json.markers.players)) {
 					changed = true;
-					json.markers.players.filterFunction = {};
+					tempJson.markers.players.filterFunction = {};
 				}
 				if (!('customFilterFunction' in json.markers.players)) {
 					changed = true;
-					json.markers.players.customFilterFunction = 'def playerFilter(poi):\n\tif poi["id"] == "Player":\n\t\tpoi["icon"] = "https://overviewer.org/avatar/%s" % poi["EntityId"]\n\t\treturn "Last known location for %s" % poi["EntityId"]';
+					tempJson.markers.players.customFilterFunction = 'def playerFilter(poi):\n\tif poi["id"] == "Player":\n\t\tpoi["icon"] = "https://overviewer.org/avatar/%s" % poi["EntityId"]\n\t\treturn "Last known location for %s" % poi["EntityId"]';
 				}
 				if (!('icon' in json.markers.players)) {
 					changed = true;
-					json.markers.players.icon = null;
+					tempJson.markers.players.icon = null;
 				} if (!('createInfoWindow' in json.markers.players)) {
 					changed = true;
-					json.markers.players.createInfoWindow = true;
+					tempJson.markers.players.createInfoWindow = true;
 				} if (!('checked' in json.markers.players)) {
 					changed = true;
-					json.markers.players.checked = true;
+					tempJson.markers.players.checked = true;
 				}
 			}
 		}
