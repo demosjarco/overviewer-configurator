@@ -18,6 +18,7 @@ body > aside > ul li {
   padding: 5px;
   border-radius: 5px;
   font-size: large;
+  color: rgba(255, 255, 255, 0.38);
 }
 body > aside > ul li .content {
   width: 100%;
@@ -45,6 +46,9 @@ body > aside > ul li .content span.worldCode {
 }
 body > aside > ul li .content div.arrow {
   float: right;
+}
+body > aside > ul li.allowed {
+  color: white;
 }
 body > aside > ul li.allowed .content:hover {
   background-color: rgba(255, 255, 255, 0.08);
