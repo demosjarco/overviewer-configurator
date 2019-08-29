@@ -6,9 +6,8 @@ $(function () {
 });
 
 function setupMenu() {
-	$('li.allowed').off().click(function () {
+	$('li.allowed').off().has('ul').click(function () {
 		$(this).toggleClass('selected');
-	}).has('ul').click(function () {
 		$(this).toggleClass('open');
 		if ($(this).hasClass('open')) {
 			$(this).find('i.material-icons:contains(arrow_drop_down)').text('arrow_drop_up');
@@ -19,6 +18,7 @@ function setupMenu() {
 		e.stopPropagation();
 	});
 	$('li.allowed').not(':has(ul)').click(function () {
+		$(this).addClass('selected');
 		$('li.allowed').not(':has(ul)').not(this).removeClass('selected');
 	});
 	$('li.allowed.tab').click(function () {
