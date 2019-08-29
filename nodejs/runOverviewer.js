@@ -1,9 +1,9 @@
 'use strict';
 
-const { app } = require('electron');
-const electron = require('./electronSetup.js');
 const fs = require('fs');
 const spawn = require('child_process').spawn;
+const electron = require('./electronSetup.js');
+const { ipcMain, app } = require('electron');
 const logging = require('./logging.js');
 let mapRenderer;
 let poiRenderer;
@@ -29,122 +29,103 @@ function getOverviewerPaths(callback) {
 	});
 }
 
-module.exports.renderMap = function () {
+function render(runType) {
+	let commandParams = ['--config=../config.py'];
+	switch (runType) {
+		case 'map':
+			commandParams.push('--processes');
+			commandParams.push('' + require('os').cpus().length);
+			break;
+		case 'poi':
+			commandParams.push('--genpoi');
+			break;
+		case 'webass':
+			commandParams.push('--update-web-assets');
+			break;
+	}
+
 	getOverviewerPaths(function (exec, wd) {
-		mapRenderer = spawn(exec, ['--config=../config.py', '--processes', '' + require('os').cpus().length], {
+		let runningRenderer = spawn(exec, commandParams, {
 			cwd: wd,
 			windowsHide: true
 		});
-		electron.mainWindow.webContents.send('overviewerRunProgress', 'map');
+
+		switch (runType) {
+			case 'map':
+				mapRenderer = runningRenderer;
+				break;
+			case 'poi':
+				poiRenderer = runningRenderer;
+				break;
+			case 'webass':
+				webassRenderer = runningRenderer;
+				break;
+		}
+
+		electron.mainWindow.webContents.send('overviewerRunProgress', runType, 0);
 		electron.mainWindow.setProgressBar(1, { mode: 'indeterminate' });
-		mapRenderer.stdout.setEncoding('utf8');
+		runningRenderer.stdout.setEncoding('utf8');
 		const progressTest = /(?<=\d+-\d+-\d+\s\d+:\d+:\d+\s\s\w+\s)\d+\s\w+\s\d+/;
 		const progressCurrent = /(?<=\d+-\d+-\d+\s\d+:\d+:\d+\s\s\w+\s)\d+/;
 		const progressMax = /(?<=\d+-\d+-\d+\s\d+:\d+:\d+\s\s\w+\s\d+\s\w+\s)\d+/;
-		mapRenderer.stdout.on('data', function (data) {
+		runningRenderer.stdout.on('data', function (data) {
 			if (progressTest.test(data)) {
-				electron.mainWindow.webContents.send('overviewerRunProgress', 'map', progressMax.exec(data), progressCurrent.exec(data));
 				if (parseInt(progressCurrent.exec(data)) < parseInt(progressMax.exec(data))) {
+					electron.mainWindow.webContents.send('overviewerRunProgress', runType, (parseFloat(progressCurrent.exec(data)) / parseFloat(progressMax.exec(data))) * 100);
 					electron.mainWindow.setProgressBar(parseFloat(progressCurrent.exec(data)) / parseFloat(progressMax.exec(data)), { mode: 'normal' });
 				} else {
-					electron.mainWindow.setProgressBar(1, { mode: 'none' });
+					endProgress();
 				}
 			}
 			logging.messageLog(data);
-		});
-		mapRenderer.stderr.on('data', function (data) {
-			logging.messageLog(data);
-		});
-		mapRenderer.on('close', function (exitCode) {
-			logging.messageLog('Closed with code ' + exitCode);
-			electron.mainWindow.webContents.send('overviewerRunProgress', 'map', '1', '1');
-			electron.mainWindow.setProgressBar(1, { mode: 'none' });
-		});
-	});
-};
 
-module.exports.renderPoi = function () {
-	getOverviewerPaths(function (exec, wd) {
-		poiRenderer = spawn(exec, ['--config=../config.py', '--genpoi'], {
-			cwd: wd,
-			windowsHide: true
-		});
-		electron.mainWindow.webContents.send('overviewerRunProgress', 'poi');
-		electron.mainWindow.setProgressBar(1, { mode: 'indeterminate' });
-		poiRenderer.stdout.setEncoding('utf8');
-		const progressTest = /(?<=\d+-\d+-\d+\s\d+:\d+:\d+\s\s\w+\s)\d+\s\w+\s\d+/;
-		const progressCurrent = /(?<=\d+-\d+-\d+\s\d+:\d+:\d+\s\s\w+\s)\d+/;
-		const progressMax = /(?<=\d+-\d+-\d+\s\d+:\d+:\d+\s\s\w+\s\d+\s\w+\s)\d+/;
-		poiRenderer.stdout.on('data', function (data) {
-			if (progressTest.test(data)) {
-				electron.mainWindow.webContents.send('overviewerRunProgress', 'poi', progressMax.exec(data), progressCurrent.exec(data));
-				if (parseInt(progressCurrent.exec(data)) < parseInt(progressMax.exec(data))) {
-					electron.mainWindow.setProgressBar(parseFloat(progressCurrent.exec(data)) / parseFloat(progressMax.exec(data)), { mode: 'normal' });
-				} else {
-					electron.mainWindow.setProgressBar(1, { mode: 'none' });
-				}
+			const enterContinueReg = /Press\s\[Enter\]\sto\sclose\sthis\swindow\./gi;
+			if (enterContinueReg.test(data)) {
+				runningRenderer.stdin.write('\n', 'utf8');
 			}
+
+		});
+		runningRenderer.stderr.on('data', (data) => {
 			logging.messageLog(data);
 		});
-		poiRenderer.stderr.on('data', function (data) {
-			logging.messageLog(data);
+		runningRenderer.on('error', (err) => {
+			logging.messageLog('Error: ' + err.message);
 		});
-		poiRenderer.on('close', function (exitCode) {
-			logging.messageLog('Closed with code ' + exitCode);
-			electron.mainWindow.webContents.send('overviewerRunProgress', 'poi', '1', '1');
+		runningRenderer.on('close', (code, signal) => {
+			logging.messageLog('Overviewer closed with code ' + code);
+			endProgress();
+		});
+		runningRenderer.on('exit', (code, signal) => {
+			logging.messageLog('Overviewer exited with code ' + code);
+			endProgress();
+		});
+
+		function endProgress() {
+			electron.mainWindow.webContents.send('overviewerRunProgress', runType, 100.0);
 			electron.mainWindow.setProgressBar(1, { mode: 'none' });
-		});
+		}
 	});
-};
+}
 
-module.exports.renderWebAssets = function () {
-	getOverviewerPaths(function (exec, wd) {
-		webassRenderer = spawn(exec, ['--config=../config.py', '--update-web-assets'], {
-			cwd: wd,
-			windowsHide: true
-		});
-		electron.mainWindow.webContents.send('overviewerRunProgress', 'webass');
-		electron.mainWindow.setProgressBar(1, { mode: 'indeterminate' });
-		webassRenderer.stdout.setEncoding('utf8');
-		const progressTest = /(?<=\d+-\d+-\d+\s\d+:\d+:\d+\s\s\w+\s)\d+\s\w+\s\d+/;
-		const progressCurrent = /(?<=\d+-\d+-\d+\s\d+:\d+:\d+\s\s\w+\s)\d+/;
-		const progressMax = /(?<=\d+-\d+-\d+\s\d+:\d+:\d+\s\s\w+\s\d+\s\w+\s)\d+/;
-		webassRenderer.stdout.on('data', function (data) {
-			if (progressTest.test(data)) {
-				electron.mainWindow.webContents.send('overviewerRunProgress', 'webass', progressMax.exec(data), progressCurrent.exec(data));
-				if (parseInt(progressCurrent.exec(data)) < parseInt(progressMax.exec(data))) {
-					electron.mainWindow.setProgressBar(parseFloat(progressCurrent.exec(data)) / parseFloat(progressMax.exec(data)), { mode: 'normal' });
-				} else {
-					electron.mainWindow.setProgressBar(1, { mode: 'none' });
-				}
-			}
-			logging.messageLog(data);
-		});
-		webassRenderer.stderr.on('data', function (data) {
-			logging.messageLog(data);
-		});
-		webassRenderer.on('close', function (exitCode) {
-			logging.messageLog('Closed with code ' + exitCode);
-			electron.mainWindow.webContents.send('overviewerRunProgress', 'webass', '1', '1');
+ipcMain.on('runOverviewer', (event, runType) => {
+	render(runType);
+});
+ipcMain.on('stopOverviewer', (event, runType) => {
+	switch (runType) {
+		case 'map':
+			mapRenderer.kill();
+			electron.mainWindow.webContents.send('overviewerRunProgress', runType, 100.0);
 			electron.mainWindow.setProgressBar(1, { mode: 'none' });
-		});
-	});
-};
-
-module.exports.stopRenderMap = function () {
-	mapRenderer.kill();
-	electron.mainWindow.webContents.send('overviewerRunProgress', 'map', '1', '1');
-	electron.mainWindow.setProgressBar(1, { mode: 'none' });
-};
-
-module.exports.stopRenderPoi = function () {
-	poiRenderer.kill();
-	electron.mainWindow.webContents.send('overviewerRunProgress', 'poi', '1', '1');
-	electron.mainWindow.setProgressBar(1, { mode: 'none' });
-};
-
-module.exports.stopRenderWebAssets = function () {
-	webassRenderer.kill();
-	electron.mainWindow.webContents.send('overviewerRunProgress', 'webass', '1', '1');
-	electron.mainWindow.setProgressBar(1, { mode: 'none' });
-};
+			break;
+		case 'poi':
+			poiRenderer.kill();
+			electron.mainWindow.webContents.send('overviewerRunProgress', runType, 100.0);
+			electron.mainWindow.setProgressBar(1, { mode: 'none' });
+			break;
+		case 'webass':
+			webassRenderer.kill();
+			electron.mainWindow.webContents.send('overviewerRunProgress', runType, 100.0);
+			electron.mainWindow.setProgressBar(1, { mode: 'none' });
+			break;
+	}
+});

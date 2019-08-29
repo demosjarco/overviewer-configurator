@@ -6,6 +6,30 @@ $(function () {
 	setupGraphs();
 });
 
+let overviewerRunning = {
+	map: false,
+	poi: false,
+	webass: false
+};
+
+ipcRenderer.on('overviewerRunProgress', function (event, renderType = '', renderProgress = 100.0) {
+	if (renderProgress != 100.0) {
+		overviewerRunning[renderType] = true;
+	} else {
+		overviewerRunning[renderType] = false;
+	}
+
+	$('button.progress.' + renderType + ' span.bar').css('width', renderProgress + '%');
+});
+
+function runOverviewer(runType) {
+	if (overviewerRunning[runType]) {
+		ipcRenderer.send('stopOverviewer', runType);
+	} else {
+		ipcRenderer.send('runOverviewer', runType);
+	}
+}
+
 ipcRenderer.on('gotWorldsLocation', function (event, path) {
 	$('div#worldsLocation footer span').text(path ? path : 'Not yet selected');
 });
