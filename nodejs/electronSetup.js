@@ -1,4 +1,4 @@
-const { app, BrowserWindow, ipcMain } = require('electron');
+const { app, BrowserWindow, ipcMain, Menu, shell } = require('electron');
 const overviewerVersions = require('./overviewerVersions.js');
 
 const setMan = require("./settingsManager.js");
@@ -40,6 +40,7 @@ function createWindow() {
 
 	// and load the index.html of the app.
 	mainWindow.loadFile('./html/mainWindow.html');
+	Menu.setApplicationMenu(Menu.buildFromTemplate(createMenu()));
 	//mainWindow.webContents.openDevTools();
 
 	mainWindow.once('ready-to-show', () => {
@@ -79,16 +80,62 @@ app.on('activate', () => {
 	}
 });
 
-ipcMain.on('minimize', (event) => {
-	mainWindow.minimize();
-});
-ipcMain.on('maximize', (event) => {
-	if (mainWindow.isMaximized()) {
-		mainWindow.unmaximize();
-	} else {
-		mainWindow.maximize();
+function createMenu() {
+	let temp = [
+		{
+			role: 'fileMenu'
+		},
+		{
+			role: 'help',
+			submenu: [
+				{
+					role: 'toggleDevTools',
+				},
+				{
+					label: 'Issues',
+					click: async () => {
+						const { shell } = require('electron')
+						await shell.openExternal('https://github.com/demosjarco/overviewer-configurator/issues')
+					}
+				},
+				{
+					label: 'GitHub',
+					click: async () => {
+						const { shell } = require('electron')
+						await shell.openExternal('https://github.com/demosjarco/overviewer-configurator')
+					}
+				},
+				{
+					type: 'separator'
+				},
+				{
+					label: 'Minecraft Overviewer',
+					click: async () => {
+						const { shell } = require('electron')
+						await shell.openExternal('https://github.com/overviewer/Minecraft-Overviewer')
+					}
+				},
+				{
+					label: 'Oxipng',
+					click: async () => {
+						const { shell } = require('electron')
+						await shell.openExternal('https://github.com/shssoichiro/oxipng')
+					}
+				},
+				{
+					label: 'Jpegoptim',
+					click: async () => {
+						const { shell } = require('electron')
+						await shell.openExternal('https://github.com/tjko/jpegoptim')
+					}
+				}
+			]
+		}
+	];
+	if (process.platform === 'darwin') {
+		temp.unshift({
+			role: 'appMenu'
+		});
 	}
-});
-ipcMain.on('close', (event) => {
-	mainWindow.close();
-});
+	return temp;
+}
