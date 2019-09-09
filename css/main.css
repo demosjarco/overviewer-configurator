@@ -25,7 +25,7 @@ body > main {
 }
 body > main div.tab {
   display: none;
-  padding: 15px;
+  padding: 10px;
   width: 100%;
   height: 100%;
   box-sizing: border-box;
