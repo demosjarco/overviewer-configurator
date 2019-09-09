@@ -3,11 +3,9 @@ body > aside {
   background-color: #2d6923;
 }
 body > aside > ul {
-  margin: 54px 0 0 0;
+  margin: 0;
   padding: 10px 10px 10px 10px;
-  height: calc(100vh -  74px);
   list-style-type: none;
-  overflow-y: scroll;
 }
 body > aside > ul ul {
   list-style-type: none;
@@ -46,6 +44,12 @@ body > aside > ul li .content span.worldCode {
 }
 body > aside > ul li .content div.arrow {
   float: right;
+}
+body > aside > ul li#appTitle {
+  font-family: 'Open Sans Condensed', sans-serif;
+  font-size: large;
+  font-weight: bold;
+  color: white;
 }
 body > aside > ul li.allowed {
   color: white;

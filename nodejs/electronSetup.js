@@ -22,7 +22,7 @@ function createWindow() {
 		minHeight: 768,
 		title: 'Overviewer Config',
 		show: false,
-		frame: false,
+		frame: true,
 		backgroundColor: (process.platform !== 'darwin') ? '#212121' : null,
 		darkTheme: true,
 		vibrancy: 'ultra-dark',

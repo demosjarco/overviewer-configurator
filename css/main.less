@@ -11,81 +11,6 @@ body {
 	color: white;
 	-webkit-user-select: none;
 
-	> header {
-		position: fixed;
-		top: 0;
-		right: 0;
-		height: @titlebar-height;
-		left: 0;
-		-webkit-app-region: drag;
-		z-index: 1000;
-		background-color: rgba(255,255,255,0.16);
-		.BoxShadowHelper(4);
-
-		div#appTitle {
-			font-family: 'Open Sans Condensed', sans-serif;
-			position: absolute;
-			top: 15px;
-			left: 15px;
-			font-size: large;
-			font-weight: bold;
-
-			i {
-				display: inline-block;
-				margin-right: 5px;
-				width: 24px;
-				vertical-align: text-bottom;
-				font-size: 24px;
-				height: 24px;
-				line-height: 24px;
-			}
-		}
-
-		ul {
-			position: absolute;
-			top: 0;
-			margin: 0;
-			padding: 0;
-			list-style-type: none;
-
-			&.windowControls {
-				right: 0;
-
-				li {
-					@button-height: 27px;
-					@button-width: 20px;
-					@ideal-height: @titlebar-height * 1 / 2;
-					//padding: 4px 7.5px;
-					line-height: @button-height;
-					height: @button-height;
-					width: @button-width;
-					padding: ((@ideal-height - @button-height) / 2) ((@ideal-height - @button-width) / 2);
-
-					i, span {
-						font-size: 20px;
-					}
-				}
-			}
-
-			li {
-				-webkit-app-region: no-drag;
-				display: inline-block;
-			}
-		}
-
-		.enabled {
-			cursor: pointer;
-
-			&:hover {
-				background-color: rgba(204,204,204,0.5);
-
-				&#close {
-					background-color: rgba(255,0,0,0.75);
-				}
-			}
-		}
-	}
-
 	> aside {
 		position: fixed;
 		top: 0;
@@ -100,7 +25,6 @@ body {
 		right: 0;
 		bottom: 0;
 		left: @sidebar-width;
-		padding-top: @titlebar-height;
 
 		div.tab {
 			display: none;
