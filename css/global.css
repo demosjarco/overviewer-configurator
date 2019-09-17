@@ -5,6 +5,7 @@ button {
   border-radius: 4px;
   box-sizing: border-box;
   cursor: pointer;
+  white-space: nowrap;
 }
 button.progress {
   position: relative;
@@ -30,6 +31,7 @@ button.progress span.bar span.inner {
   right: 0;
   bottom: 0;
   left: 0;
+  white-space: nowrap;
 }
 button.text {
   border: none;
