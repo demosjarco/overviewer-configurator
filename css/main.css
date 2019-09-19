@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 @font-face {
   font-family: 'Open Sans';
   font-style: normal;
@@ -10,222 +11,41 @@
   font-weight: 700;
   src: local('Open Sans Bold'), local('OpenSans-Bold'), url(https://fonts.gstatic.com/s/opensans/v17/mem5YaGs126MiZpBA-UN7rgOUuhs.ttf) format('truetype');
 }
+=======
+@import url('../node_modules/material-design-icons/iconfont/material-icons.css');
+@import url('../node_modules/typeface-open-sans/index.css');
+@import url('../node_modules/typeface-open-sans-condensed/index.css');
+@import url('../node_modules/@mdi/font/css/materialdesignicons.min.css');
+>>>>>>> newUi
 body {
   margin: 0;
+  padding: 0;
   font-family: 'Open Sans', sans-serif;
   color: white;
   -webkit-user-select: none;
 }
-body > * {
-  position: absolute;
+body > aside {
+  position: fixed;
   top: 0;
+  width: 260px;
   bottom: 0;
-  box-sizing: border-box;
-  overflow-x: hidden;
-  overflow-y: auto;
-}
-body aside {
   left: 0;
-  width: 7.5%;
-  padding: 15px 0px;
-  /*background-color: #36b030;*/
-  background-color: #2d6923;
-  text-align: center;
 }
-body aside ul {
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
-  text-align: center;
-}
-body aside ul li {
-  margin: 15px auto;
-  vertical-align: middle;
-}
-body aside ul li.ui-state-default {
-  -webkit-filter: grayscale(100%);
-  filter: grayscale(100%);
-}
-body aside ul li.ui-state-default img,
-body aside ul li.ui-state-default a {
-  opacity: 0.76;
-}
-body aside ul li.ui-state-active {
-  -webkit-filter: grayscale(0%);
-  filter: grayscale(0%);
-}
-body aside ul li.ui-state-active img,
-body aside ul li.ui-state-active a {
-  opacity: 1;
-}
-body aside ul li img {
-  width: 50%;
-  display: inline-block;
-  line-height: normal;
-  vertical-align: middle;
-}
-body aside ul li a {
-  display: inline-block;
-  line-height: normal;
-}
-body aside ul li a:link,
-body aside ul li a:visited,
-body aside ul li a:hover,
-body aside ul li a:active {
-  color: inherit;
-  text-decoration: none;
-  outline: none;
-}
-body aside ul li.worldItem a {
-  width: 50%;
-  border-radius: 12.5%;
-  /*background-color: #7F5512;*/
-  background-color: #644533;
-}
-body main {
+body > main {
+  position: fixed;
+  top: 0;
   right: 0;
-  width: 92.5%;
-  padding: 15px;
-}
-body main div#tabs-1 > * {
-  display: inline-block;
-}
-body main div#tabs-1 img {
-  float: left;
-  padding: 0px 5px 5px 0px;
-  width: 128px;
-}
-body main div#tabs-1 h1 {
-  margin-top: 0px;
-}
-body main div#tabs-1 table {
-  vertical-align: top;
-}
-body main div#tabs-1 div#cpu span,
-body main div#tabs-1 div#ram span {
-  display: block;
-  text-align: center;
-}
-body main div#tabs-1 div#cpu > div,
-body main div#tabs-1 div#ram > div {
-  display: inline-flex;
-  border-right: 1px solid white;
-}
-body main div#tabs-1 div#cpu > div:last-child,
-body main div#tabs-1 div#ram > div:last-child {
-  border-right: none;
-}
-body main div#tabs-1 div#cpu > div div.progressBar,
-body main div#tabs-1 div#ram > div div.progressBar {
-  position: relative;
-  width: 10px;
-  height: 100px;
-  background-color: black;
-}
-body main div#tabs-1 div#cpu > div div.progressBar div.progressBarInside,
-body main div#tabs-1 div#ram > div div.progressBar div.progressBarInside {
-  position: absolute;
   bottom: 0;
+  left: 260px;
+}
+body > main div.tab {
+  display: none;
+  padding: 10px;
   width: 100%;
-  background-color: green;
+  height: 100%;
+  box-sizing: border-box;
+  overflow-y: scroll;
 }
-body main div#tabs-1 div#tabs1-content {
-  width: 100%;
-}
-body main div#tabs-1 div#tabs1-content > ul {
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
-}
-body main div#tabs-1 div#tabs1-content > ul li {
-  display: inline-block;
-  padding: 0px 7.6px 7.6px 7.6px;
-}
-body main div#tabs-1 div#tabs1-content > ul li.ui-state-default {
-  color: rgba(255, 255, 255, 0.66666667);
-  border-bottom: none;
-}
-body main div#tabs-1 div#tabs1-content > ul li.ui-state-active {
-  color: #ffffff;
-  border-bottom: 2px solid #36b030;
-}
-body main div#tabs-1 div#tabs1-content > ul li a:link,
-body main div#tabs-1 div#tabs1-content > ul li a:visited,
-body main div#tabs-1 div#tabs1-content > ul li a:hover,
-body main div#tabs-1 div#tabs1-content > ul li a:active {
-  color: inherit;
-  text-decoration: none;
-  outline: none;
-}
-body main div#tabs-1 div#tabs1-content div#tabs1-1 hr {
-  border-top: 1px solid white;
-  opacity: 0.33333333;
-}
-body main div#tabs-1 div#tabs1-content div#tabs1-1 button + span {
-  padding-left: 5px;
-}
-body main div#tabs-1 div#tabs1-content div#tabs1-2 {
-  overflow-x: hidden;
-  overflow-y: auto;
-}
-body main div#tabs-1 div#tabs1-content div#tabs1-2 ul {
-  margin: 0;
-  padding: 0;
-  list-style-type: none;
-}
-body main div#tabs-1 div#tabs1-content div#tabs1-2 ul li {
-  border-bottom: 1px solid white;
-}
-body main div#tabs-1 div#tabs1-content div#tabs1-2 ul li:last-child {
-  border-bottom: none;
-}
-body main div#tabs-1 div#tabs1-content div#tabs1-2 ul li span.timeStamp {
-  padding-right: 5px;
-  border-right: 1px solid white;
-}
-body main div#tabs-1 div#tabs1-content div#tabs1-2 ul li span.message {
-  padding-left: 5px;
-}
-body main div.worldItem hr {
-  border-top: 1px solid white;
-  opacity: 0.33333333;
-}
-body main div.worldItem button + span {
-  padding-left: 5px;
-}
-body main div.worldItem div.directions {
-  display: inline-flex;
-  float: right;
-}
-body main div.worldItem div.directions div.direction {
-  border: none;
-  width: 83px;
-  height: 43px;
-  background-size: 100% 100%;
-  -webkit-filter: grayscale(100%);
-  filter: grayscale(100%);
-  opacity: 0.5;
-}
-body main div.worldItem div.directions div.direction.selected {
-  -webkit-filter: grayscale(0%);
-  filter: grayscale(0%);
-  opacity: 1;
-}
-body main div.worldItem div.directions div.direction.ul {
-  background-image: url("../img/compass_upper-left.png");
-}
-body main div.worldItem div.directions div.direction.ur {
-  background-image: url("../img/compass_upper-right.png");
-}
-body main div.worldItem div.directions div.direction.ll {
-  background-image: url("../img/compass_lower-left.png");
-}
-body main div.worldItem div.directions div.direction.lr {
-  background-image: url("../img/compass_lower-right.png");
-}
-body main div.worldItem input[type=checkbox] {
-  vertical-align: top;
-}
-body main div.worldItem input[type=checkbox] + details {
-  display: inline-block;
+body > main div.tab.selected {
+  display: block;
 }

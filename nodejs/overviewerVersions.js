@@ -1,31 +1,45 @@
-const { app } = require('electron');
+const { app, ipcMain } = require('electron');
 const fs = require('fs');
 const request = require('request');
 const electron = require('./electronSetup.js');
+const logging = require('./logging.js');
 
-module.exports.updateLocalOverviewerVersion = function (temp) {
-	updateLocalOverviewerVersion(temp);
-};
 const overviewerFolderReg = /(?<=(minecraft\-)?overviewer-)\d+\.\d+\.\d+(?!\.\w+(\.\w+)?)/i;
-function updateLocalOverviewerVersion(currentVersionCallback) {
+const versionReg = /(?<=htt(p:|ps:)\/\/overviewer.org\/builds\/(win64|win32|src)\/\d+\/overviewer-)\d+\.\d+\.\d+/;
+
+ipcMain.on('getLocalOverviewerVersion', (event, arg) => {
+	updateLocalOverviewerVersion(function (currentVersion) {
+		event.sender.send('localOverviewerVersion', currentVersion);
+	});
+});
+
+function updateLocalOverviewerVersion(currentVersionCallback = null) {
 	fs.readdir(app.getPath('userData'), function (err, files) {
 		if (err) throw err;
 
-		let currentVersion = 'Not installed';
+		let currentVersion;
 		files.forEach(function (fileName) {
 			if (overviewerFolderReg.test(fileName))
 				currentVersion = overviewerFolderReg.exec(fileName)[0];
 		});
-		electron.setOverviewerCurrentVersionMenu(currentVersion);
-		if (currentVersionCallback)
+		if (currentVersion && currentVersionCallback)
 			currentVersionCallback(currentVersion);
 	});
 }
 
-module.exports.updateOverviewerVersions = function (temp = null) {
-	updateOverviewerVersions(temp);
-};
-function updateOverviewerVersions(latestVersionCallback = null) {
+ipcMain.on('getOverviewerVersions', (event, arg) => {
+	updateOverviewerVersions(function (versions) {
+		event.sender.send('latestOverviewerVersion', versions);
+	}, function (version, url) {
+		event.sender.send('newOverviewerVersions', version, url);
+	}, function () {
+		event.sender.send('doneOverviewerVersions');
+	}, function (message) {
+		event.sender.send('errorOverviewerVersions', message);
+	});
+});
+
+function updateOverviewerVersions(latestVersionCallback = null, versionsCallback = null, doneCallback = null, errorCallback = null) {
 	const os = require('os');
 	let osType = '';
 	switch (os.platform()) {
@@ -39,10 +53,13 @@ function updateOverviewerVersions(latestVersionCallback = null) {
 			break;
 	}
 	request('https://overviewer.org/build/api/v2/builders/' + osType + '/builds', function (error1, response1, body1) {
-		if (error1 || response1.statusCode != 200) {
-			problemGettingBuilds();
+		if (error1) {
+			errorCallback(error1.message);
+			logging.messageLog('HTTP ' + response1.statusCode + ' https://overviewer.org/build/api/v2/builders/' + osType + '/builds | ' + error1);
+		} else if (response1.statusCode != 200) {
+			errorCallback('HTTP Error ' + response1.statusCode);
+			logging.messageLog('HTTP ' + response1.statusCode + ' https://overviewer.org/build/api/v2/builders/' + osType + '/builds');
 		} else {
-			electron.emptyOverviewerVersionsMenu();
 			let temp = JSON.parse(body1).builds;
 			let builds = [];
 			temp.forEach(function (build) {
@@ -55,52 +72,55 @@ function updateOverviewerVersions(latestVersionCallback = null) {
 				});
 
 				let buildLoopCounter = 0;
+				let goodBuildLimit = 0;
 				function buildLoop(buildNumber) {
 					request('https://overviewer.org/build/api/v2/builders/' + osType + '/builds/' + buildNumber + '/steps/upload', function (error2, response2, body2) {
-						if (error2 || response2.statusCode != 200) {
+						if (error2) {
 							logging.messageLog('HTTP ' + response2.statusCode + ' https://overviewer.org/build/api/v2/builders/' + osType + '/builds/' + buildNumber + '/steps/upload | ' + error2);
+						} else if (response2.statusCode != 200) {
+							logging.messageLog('HTTP ' + response2.statusCode + ' https://overviewer.org/build/api/v2/builders/' + osType + '/builds/' + buildNumber + '/steps/upload');
 						} else {
 							const archiveUrl = JSON.parse(body2).steps[0].urls[0].url.replace(/http(?!s)/g, "https");
-							const versionReg = /(?<=htt(p:|ps:)\/\/overviewer.org\/builds\/(win64|win32|src)\/\d+\/overviewer-)\d+\.\d+\.\d+/;
 							if (versionReg.test(archiveUrl)) {
-								electron.addNewOverviewerVersionMenu({
-									label: versionReg.exec(archiveUrl)[0],
-									click() {
-										latestVersionCallback
-										updateOverviewer(archiveUrl);
-									}
-								});
+								if (versionsCallback) {
+									versionsCallback(versionReg.exec(archiveUrl)[0], archiveUrl);
+								}
 
-								if (buildNumber == builds[0].number && latestVersionCallback) {
+								if (latestVersionCallback && buildNumber == builds[0].number) {
 									latestVersionCallback(versionReg.exec(archiveUrl)[0]);
 								}
 							}
 						}
 
 						buildLoopCounter++;
-						if (buildLoopCounter < builds.length) {
+						goodBuildLimit++;
+						if (buildLoopCounter < builds.length && goodBuildLimit < 10) {
 							buildLoop(builds[buildLoopCounter].number);
+						} else {
+							if (doneCallback)
+								doneCallback();
 						}
 					});
 				}
 				buildLoop(builds[buildLoopCounter].number);
 			} else {
-				problemGettingBuilds();
+				errorCallback('No builds found for ' + osType);
+				logging.messageLog('No builds found for ' + osType);
 			}
-		}
-
-		function problemGettingBuilds() {
-			electron.errorOverviewerVersionMenu();
-			logging.messageLog('HTTP ' + response1.statusCode + ' https://overviewer.org/build/api/v2/builders/' + osType + '/builds | ' + error1);
-			if (latestVersionCallback)
-				latestVersionCallback('Error...');
 		}
 	});
 }
 
-const logging = require('./logging.js');
-function updateOverviewer(link) {
+ipcMain.on('updateOverviewerVersion', (event, link) => {
+	updateOverviewer(link, function (visible, progress) {
+		event.sender.send('progressOverviewerVersion', visible, versionReg.exec(link)[0], progress);
+	});
+});
+
+function updateOverviewer(link, chunkUpdate = null) {
 	electron.mainWindow.setProgressBar(Infinity, { mode: 'indeterminate' });
+	if (chunkUpdate)
+		chunkUpdate(true)
 	logging.messageLog('Checking for old overviewer version');
 	fs.readdir(app.getPath('userData'), function (err, files) {
 		if (err) throw err;
@@ -135,9 +155,13 @@ function updateOverviewer(link) {
 			}).on('data', function (chunk) {
 				downloadedSize += parseInt(chunk.length);
 				electron.mainWindow.setProgressBar(downloadedSize / fileSize, { mode: 'normal' });
+				if (chunkUpdate)
+					chunkUpdate(true, downloadedSize / fileSize)
 			}).on('close', function () {
 				logging.messageLog('Downloaded overviewer archive');
 				electron.mainWindow.setProgressBar(Infinity, { mode: 'indeterminate' });
+				if (chunkUpdate)
+					chunkUpdate(true, 1.00)
 				const archiveExtension = /(?<=overviewer-\d+\.\d+\.\d+)\.\w+(\.\w+)?/;
 				switch (archiveExtension.exec(fileName)[0]) {
 					case '.zip':
@@ -169,8 +193,10 @@ function updateOverviewer(link) {
 						if (err) throw err;
 						logging.messageLog('Deleted overviewer archive');
 						electron.mainWindow.setProgressBar(-Infinity, { mode: 'none' });
+						if (chunkUpdate)
+							chunkUpdate(false)
 						updateLocalOverviewerVersion(function (currentVersion) {
-							electron.mainWindow.webContents.send('gotOverviewerVersion', currentVersion);
+							electron.mainWindow.webContents.send('localOverviewerVersion', currentVersion);
 						});
 					});
 				}

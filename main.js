@@ -1,60 +1,23 @@
 'use strict';
 
 const { ipcMain } = require('electron');
+require('./nodejs/runOverviewer.js');
 
-const runOverviewer = require('./nodejs/runOverviewer.js');
-ipcMain.on('runOverviewer', (event, runType) => {
-	switch (runType) {
-		case 'map':
-			runOverviewer.renderMap();
-			break;
-		case 'poi':
-			runOverviewer.renderPoi();
-			break;
-		case 'webass':
-			runOverviewer.renderWebAssets();
-			break;
-	}
-});
-ipcMain.on('stopOverviewer', (event, runType) => {
-	switch (runType) {
-		case 'map':
-			runOverviewer.stopRenderMap();
-			break;
-		case 'poi':
-			runOverviewer.stopRenderPoi();
-			break;
-		case 'webass':
-			runOverviewer.stopRenderWebAssets();
-			break;
-	}
-});
+const electron = require('./nodejs/electronSetup.js');
 
-const overviewerVersions = require('./nodejs/overviewerVersions.js');
-ipcMain.on('getOverviewerVersion', (event, arg) => {
-	overviewerVersions.updateLocalOverviewerVersion(function (currentVersion) {
-		event.sender.send('gotOverviewerVersion', currentVersion);
+ipcMain.on('getWorldsLocation', (event) => {
+	electron.settingsManager.getJson(function (json) {
+		event.sender.send('gotWorldsLocation', json.global.worldsLocation);
 	});
 });
-
-ipcMain.on('getLatestOverviewerVersion', (event, arg) => {
-	overviewerVersions.updateOverviewerVersions(function (latestVersion) {
-		event.sender.send('gotLatestOverviewerVersion', latestVersion);
+ipcMain.on('updateWorldsLocation', (event, path) => {
+	electron.settingsManager.updateWorldsPath(path);
+});
+ipcMain.on('getMapsLocation', (event) => {
+	electron.settingsManager.getJson(function (json) {
+		event.sender.send('gotMapsLocation', json.global.outputLocation);
 	});
 });
-
-const config = require('./nodejs/configFile.js');
-ipcMain.on('readOldSettings', (event, arg) => {
-	config.readOldSettings();
-});
-ipcMain.on('changedSetting', (event, optionValue, settingType, optionKey1, optionKey2, optionKey3) => {
-	config.changedSetting(optionValue, settingType, optionKey1, optionKey2, optionKey3);
-});
-ipcMain.on('outputFolderSelection', (event, arg) => {
-	config.outputFolderSelection();
-});
-
-const worldManagement = require('./nodejs/worldManagement.js');
-ipcMain.on('worldsFolderSelection', (event, arg) => {
-	worldManagement.worldsFolderSelection();
+ipcMain.on('updateMapsLocation', (event, path) => {
+	electron.settingsManager.updateMapsPath(path);
 });

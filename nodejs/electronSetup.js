@@ -1,60 +1,13 @@
-let mainMenuTemplate = [
-	{
-		label: 'File',
-		submenu: [
-			{
-				type: 'separator'
-			},
-			{
-				role: 'quit'
-			}
-		]
-	},
-	{
-		label: 'Overviewer',
-		submenu: [
-			{
-				label: 'Version Installed',
-				sublabel: 'Loading...',
-				enabled: false
-			},
-			{
-				label: 'Versions',
-				sublabel: 'Loading...',
-				submenu: []
-			}
-		]
-	},
-	{
-		role: 'help',
-		submenu: [
-			{
-				role: 'toggleDevTools',
-			},
-			{
-				label: 'Issues',
-				click() {
-					require('electron').shell.openExternal('https://github.com/demosjarco/overviewer-configurator/issues')
-				}
-			},
-			{
-				label: 'GitHub',
-				click() {
-					require('electron').shell.openExternal('https://github.com/demosjarco/overviewer-configurator')
-				}
-			}
-		]
-	}
-];
-
-const { app, BrowserWindow, Menu } = require('electron');
-const config = require('./configFile.js');
+const { app, BrowserWindow, ipcMain, Menu, shell } = require('electron');
 const overviewerVersions = require('./overviewerVersions.js');
-const oxipngVersions = require('./oxipngVersions.js');
+
+const setMan = require("./settingsManager.js");
+const SettingsManager = new setMan();
+module.exports.settingsManager = SettingsManager;
 
 let mainWindow;
 
-app.on('ready', () => {
+function createWindow() {
 	// Create the browser window.
 	let mainWindowState = require('electron-window-state')({
 		defaultWidth: 1024,
@@ -68,6 +21,7 @@ app.on('ready', () => {
 		minWidth: 1024,
 		minHeight: 768,
 		title: 'Overviewer Config',
+		show: false,
 		frame: true,
 		backgroundColor: (process.platform !== 'darwin') ? '#212121' : null,
 		darkTheme: true,
@@ -75,10 +29,9 @@ app.on('ready', () => {
 		webPreferences: {
 			devTools: true,
 			nodeIntegration: true,
-			enableRemoteModule: false,
+			enableRemoteModule: true,
 			webSecurity: true,
 			allowRunningInsecureContent: false,
-			scrollBounce: true,
 			enableBlinkFeatures: 'OverlayScrollbars'
 		}
 	});
@@ -87,8 +40,12 @@ app.on('ready', () => {
 
 	// and load the index.html of the app.
 	mainWindow.loadFile('./html/mainWindow.html');
-	Menu.setApplicationMenu(Menu.buildFromTemplate(mainMenuTemplate));
+	Menu.setApplicationMenu(Menu.buildFromTemplate(createMenu()));
 	//mainWindow.webContents.openDevTools();
+
+	mainWindow.once('ready-to-show', () => {
+		mainWindow.show()
+	})
 
 	// Emitted when the window is closed.
 	mainWindow.on('closed', () => {
@@ -96,10 +53,14 @@ app.on('ready', () => {
 		// in an array if your app supports multi windows, this is the time
 		// when you should delete the corresponding element.
 		mainWindow = null;
+		module.exports.mainWindow = mainWindow;
 	});
 
 	module.exports.mainWindow = mainWindow;
-	config.runInit();
+}
+
+app.on('ready', () => {
+	createWindow();
 });
 
 // Quit when all windows are closed.
@@ -119,21 +80,62 @@ app.on('activate', () => {
 	}
 });
 
-module.exports.setOverviewerCurrentVersionMenu = function(currentVersion) {
-	mainMenuTemplate[1].submenu[0].sublabel = currentVersion;
-	Menu.setApplicationMenu(Menu.buildFromTemplate(mainMenuTemplate));
-}
-module.exports.emptyOverviewerVersionsMenu = function() {
-	delete mainMenuTemplate[1].submenu[1].sublabel;
-	mainMenuTemplate[1].submenu[1].submenu = [];
-	Menu.setApplicationMenu(Menu.buildFromTemplate(mainMenuTemplate));
-}
-module.exports.errorOverviewerVersionMenu = function () {
-	mainMenuTemplate[1].submenu[1].sublabel = 'Error loading';
-	delete mainMenuTemplate[1].submenu[1].submenu;
-	Menu.setApplicationMenu(Menu.buildFromTemplate(mainMenuTemplate));
-}
-module.exports.addNewOverviewerVersionMenu = function(menuItem) {
-	mainMenuTemplate[1].submenu[1].submenu.push(menuItem);
-	Menu.setApplicationMenu(Menu.buildFromTemplate(mainMenuTemplate));
+function createMenu() {
+	let temp = [
+		{
+			role: 'fileMenu'
+		},
+		{
+			role: 'help',
+			submenu: [
+				{
+					role: 'toggleDevTools',
+				},
+				{
+					label: 'Issues',
+					click: async () => {
+						const { shell } = require('electron')
+						await shell.openExternal('https://github.com/demosjarco/overviewer-configurator/issues')
+					}
+				},
+				{
+					label: 'GitHub',
+					click: async () => {
+						const { shell } = require('electron')
+						await shell.openExternal('https://github.com/demosjarco/overviewer-configurator')
+					}
+				},
+				{
+					type: 'separator'
+				},
+				{
+					label: 'Minecraft Overviewer',
+					click: async () => {
+						const { shell } = require('electron')
+						await shell.openExternal('https://github.com/overviewer/Minecraft-Overviewer')
+					}
+				},
+				{
+					label: 'Oxipng',
+					click: async () => {
+						const { shell } = require('electron')
+						await shell.openExternal('https://github.com/shssoichiro/oxipng')
+					}
+				},
+				{
+					label: 'Jpegoptim',
+					click: async () => {
+						const { shell } = require('electron')
+						await shell.openExternal('https://github.com/tjko/jpegoptim')
+					}
+				}
+			]
+		}
+	];
+	if (process.platform === 'darwin') {
+		temp.unshift({
+			role: 'appMenu'
+		});
+	}
+	return temp;
 }
