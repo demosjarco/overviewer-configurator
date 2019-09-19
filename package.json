@@ -2,7 +2,7 @@
 	"name": "overviewer-configurator",
 	"version": "3.0.0",
 	"productName": "Overviewer Configurator",
-	"description": "",
+	"description": "An UI wrapper for Overviewer that handles everything from map configuration to actually running it",
 	"main": "main.js",
 	"scripts": {
 		"test": "echo \"npm test temporarily disabled\"",
