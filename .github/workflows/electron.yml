@@ -14,10 +14,17 @@ jobs:
     - uses: actions/setup-node@master
       with:
         node-version: '12.x'
+    - uses: Homebrew/actions@master
     - name: Install dependencies
       run: npm install
+    - name: Package electron
+      run: npm run pack:osx
     - name: see directory
       run: ls
+    - name: install Homebrew
+      run: brew install tree
+    - name: see directory
+      run: tree
   build_win:
     runs-on: windows-latest
     steps:
@@ -27,5 +34,11 @@ jobs:
         node-version: '12.x'
     - name: Install dependencies
       run: npm install
+    - name: Package electron
+      run: npm run pack:win
+    - name: Create Installer
+      run: npm run inst:win
     - name: see directory
       run: ls
+    - name: see directory
+      run: tree /f /a
