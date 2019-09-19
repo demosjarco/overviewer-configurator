@@ -21,9 +21,9 @@ jobs:
       run: npm run pack:osx
     - name: see directory
       run: ls
-    - name: install Homebrew
+    - name: install tree
       run: brew install tree
-    - name: see directory
+    - name: see directory tree
       run: tree
   build_win:
     runs-on: windows-latest
@@ -40,5 +40,5 @@ jobs:
       run: npm run inst:win
     - name: see directory
       run: ls
-    - name: see directory
+    - name: see directory tree
       run: tree /f /a
