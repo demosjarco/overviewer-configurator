@@ -18,6 +18,8 @@ jobs:
       run: npm install
     - name: Uninstall unneeded dependencies
       run: npm uninstall electromon less less-watch-compiler -D
+    - name: Delete dev files
+      run: rm -fv css/*.less
     - name: Package electron
       run: npm run pack:osx
     - name: List finished packages
@@ -33,6 +35,8 @@ jobs:
       run: npm install
     - name: Uninstall unneeded dependencies
       run: npm uninstall electromon less less-watch-compiler -D
+    - name: Delete dev files
+      run: rm -fv css/*.less
     - name: Package electron
       run: npm run pack:win
     - name: Create Installer
