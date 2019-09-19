@@ -45,9 +45,7 @@ jobs:
       run: npm run pack:win
     - name: Create Installer
       run: npm run inst:win
-    - name: see directory
-      run: ls
-    - name: Delete node_modules before tree
-      run: rm -rfv node_modules/
-    - name: see directory tree
-      run: tree /f /a
+    - name: List finished packages
+      run: ls builds/packaged
+    - name: List finished installers
+      run: ls builds/installers
