@@ -23,6 +23,8 @@
 	"devDependencies": {
 		"electromon": "^1.0.10",
 		"electron": "^6.0.9",
+		"electron-packager": "^14.0.6",
+		"electron-winstaller": "^4.0.0",
 		"less": "^3.10.3",
 		"less-watch-compiler": "^1.14.1"
 	},
