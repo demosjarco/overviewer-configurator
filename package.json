@@ -11,9 +11,9 @@
 	},
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/victhebeast/overviewer-configurator.git"
+		"url": "git+https://github.com/demosjarco/overviewer-configurator.git"
 	},
-	"author": "",
+	"author": "demosjarco",
 	"license": "GPL-3.0",
 	"bugs": {
 		"url": "https://github.com/victhebeast/overviewer-configurator/issues"
