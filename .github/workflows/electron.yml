@@ -1,5 +1,5 @@
 name: builder
-on:
+on: [push, pull_request]
   push:
     branches:
       - master
