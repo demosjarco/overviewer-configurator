@@ -1,6 +1,7 @@
 {
 	"name": "overviewer-configurator",
 	"version": "3.0.0",
+	"productName": "Overviewer Configurator",
 	"description": "",
 	"main": "main.js",
 	"scripts": {
