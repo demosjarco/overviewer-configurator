@@ -14,5 +14,7 @@ jobs:
     - uses: actions/setup-node@master
       with:
         node-version: '12.x'
+    - name: Install dependencies
+      run: npm install
     - name: see directory
       run: ls
