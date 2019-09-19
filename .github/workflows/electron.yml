@@ -43,5 +43,7 @@ jobs:
       run: npm run inst:win
     - name: see directory
       run: ls
+    - name: Delete node_modules before tree
+      run: rm -rfv node_modules/
     - name: see directory tree
       run: tree /f /a
