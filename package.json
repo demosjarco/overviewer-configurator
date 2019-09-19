@@ -7,8 +7,7 @@
 		"test": "echo \"npm test temporarily disabled\"",
 		"start": "electron .",
 		"dev": "electromon .",
-		"less": "less-watch-compiler css css",
-		"packagewin": "electron-packager . --platform=win32 --arch=x64"
+		"less": "less-watch-compiler css css"
 	},
 	"repository": {
 		"type": "git",
@@ -23,7 +22,6 @@
 	"devDependencies": {
 		"electromon": "^1.0.10",
 		"electron": "^6.0.9",
-		"electron-packager": "^14.0.6",
 		"less": "^3.10.3",
 		"less-watch-compiler": "^1.14.1"
 	},
