@@ -10,7 +10,9 @@ jobs:
   build_mac:
     runs-on: macos-latest
     steps:
+    - name: Checkout
     - uses: actions/checkout@master
+    - name: Install latest NodeJS (12.x)
     - uses: actions/setup-node@master
       with:
         node-version: '12.x'
@@ -27,7 +29,9 @@ jobs:
   build_win:
     runs-on: windows-latest
     steps:
+    - name: Checkout
     - uses: actions/checkout@master
+    - name: Install latest NodeJS (12.x)
     - uses: actions/setup-node@master
       with:
         node-version: '12.x'
