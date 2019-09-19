@@ -4,11 +4,19 @@ on:
     branches:
       - master
 jobs:
-  build:
-    strategy:
-      matrix:
-        platform: [macos-latest, windows-latest]
-    runs-on: ${{ matrix.platform }}
+  build_mac:
+    runs-on: macos-latest
+    steps:
+    - uses: actions/checkout@master
+    - uses: actions/setup-node@master
+      with:
+        node-version: '12.x'
+    - name: Install dependencies
+      run: npm install
+    - name: see directory
+      run: ls
+  build_win:
+    runs-on: windows-latest
     steps:
     - uses: actions/checkout@master
     - uses: actions/setup-node@master
