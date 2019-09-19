@@ -5,7 +5,6 @@
 	"description": "An UI wrapper for Overviewer that handles everything from map configuration to actually running it",
 	"main": "main.js",
 	"scripts": {
-		"test": "echo \"npm test temporarily disabled\"",
 		"start": "electron .",
 		"dev": "electromon .",
 		"less": "less-watch-compiler css css"
