@@ -1,0 +1,45 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+
+	<title>{title}</title>
+
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="generator" content="Minecraft-Overviewer {version}" />
+
+	<meta name="mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+	<meta name="application-name" content="MC Ov">
+	<meta name="apple-mobile-web-app-title" content="MC Ov">
+	<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+
+	<link rel="icon" type="image/x-icon" sizes="72x72 96x96 128x128 256x256" href="favicon.ico">
+	<link rel="apple-touch-icon" type="image/x-icon" sizes="256x256" href="favicon.ico">
+	<link rel="icon" type="image/png" sizes="150x150" href="icon">
+	<link rel="apple-touch-icon" type="image/png" sizes="150x150" href="icon">
+
+	<link rel="manifest" href="manifest.json" type="application/json" />
+	<meta name="msapplication-starturl" content="https://www.demosjarco.dev/mcmaps/">
+
+	<meta name="theme-color" content="#36b030" />
+	<meta name="msapplication-navbutton-color" content="red" />
+	<meta name="msapplication-TileColor" content="#36b030" />
+
+	<link rel="stylesheet" href="leaflet.css" />
+	<link rel="stylesheet" href="overviewer.css" type="text/css" />
+</head>
+
+<!-- Generated at: {time} -->
+<body onload="overviewer.util.initialize()">
+	<script type="text/javascript" src="overviewerConfig.js"></script>
+	<script type="text/javascript" src="overviewer.js"></script>
+	<script type="text/javascript" src="baseMarkers.js"></script>
+	<script src="leaflet.js"></script>
+	<noscript style="color:white; background-color:black">
+		If you can see this message, there is likely a problem loading the Overviewer JavaScript components.
+		Check the JavaScript console for error messages.
+	</noscript>
+	<div id="mcmap"></div>
+</body>
+</html>

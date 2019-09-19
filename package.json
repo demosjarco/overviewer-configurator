@@ -1,0 +1,43 @@
+{
+	"name": "overviewer-configurator",
+	"version": "3.0.0",
+	"description": "",
+	"main": "main.js",
+	"scripts": {
+		"test": "echo \"npm test temporarily disabled\"",
+		"start": "electron .",
+		"dev": "electromon .",
+		"less": "less-watch-compiler css css"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/victhebeast/overviewer-configurator.git"
+	},
+	"author": "",
+	"license": "GPL-3.0",
+	"bugs": {
+		"url": "https://github.com/victhebeast/overviewer-configurator/issues"
+	},
+	"homepage": "https://github.com/victhebeast/overviewer-configurator#readme",
+	"devDependencies": {
+		"electromon": "^1.0.10",
+		"electron": "^6.0.9",
+		"less": "^3.10.3",
+		"less-watch-compiler": "^1.14.1"
+	},
+	"dependencies": {
+		"@mdi/font": "^4.4.95",
+		"adm-zip": "^0.4.13",
+		"chart.js": "^2.8.0",
+		"command-exists": "^1.2.8",
+		"electron-window-state": "^5.0.3",
+		"gunzip-maybe": "^1.4.1",
+		"jquery": "^3.4.1",
+		"material-design-icons": "^3.0.1",
+		"request": "^2.88.0",
+		"rimraf": "^3.0.0",
+		"tar-fs": "^2.0.0",
+		"typeface-open-sans": "0.0.75",
+		"typeface-open-sans-condensed": "0.0.72"
+	}
+}

@@ -1,0 +1,25 @@
+body > main div.tab.logs {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+body > main div.tab.logs div#timeline {
+  border-left: rgba(255, 255, 255, 0.6) solid 4px;
+  padding: 18px 0 8px 0;
+  margin-left: 20px;
+  width: calc(100% - 20px);
+}
+body > main div.tab.logs div#timeline div.log {
+  display: block;
+  padding: 8px 0 8px 4px;
+}
+body > main div.tab.logs div#timeline div.log span.time {
+  margin-left: -32px;
+  margin-right: 4px;
+  padding: 2px;
+  border-radius: 4px;
+  background-color: red;
+  font-family: 'Open Sans Condensed', sans-serif;
+  font-weight: 600;
+  text-align: center;
+  vertical-align: baseline;
+}
