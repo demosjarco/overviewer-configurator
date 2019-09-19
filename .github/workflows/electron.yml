@@ -14,17 +14,12 @@ jobs:
     - uses: actions/setup-node@master
       with:
         node-version: '12.x'
-    - uses: artemnovichkov/action-homebrew@master
     - name: Install dependencies
       run: npm install
     - name: Package electron
       run: npm run pack:osx
-    - name: see directory
-      run: ls
-    - name: install tree
-      run: brew install tree
-    - name: see directory tree
-      run: tree
+    - name: List finished packages
+      run: ls builds/packaged
   build_win:
     runs-on: windows-latest
     steps:
