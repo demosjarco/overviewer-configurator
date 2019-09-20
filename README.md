@@ -3,6 +3,8 @@ An UI wrapper for [Overviewer](https://github.com/overviewer/Minecraft-Overviewe
 
 ## Running
 1. Download from [Releases](https://github.com/demosjarco/overviewer-configurator/releases) tab
+	* Releases that start with `v` are finished releases
+	* Releases that start with `b` are beta releases
 2. Extract zip
 3. Run the `.exe` (for windows) or `.app` (for mac)
 
