@@ -1,11 +1,11 @@
 name: builder
 on:
   push:
-    branches:
-      - master
+    tags:
+      - 'v*.*.*'
   pull_request:
-    branches:
-      - master
+    tags:
+      - 'v*.*.*'
 jobs:
   build_mac:
     runs-on: macos-latest
