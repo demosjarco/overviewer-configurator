@@ -63,10 +63,10 @@ jobs:
       run: rm -fv css/*.less
     - run: npm run pack:win
     - name: Compress package x32
-      run: Compress-Archive builds\packaged\Overviewer Configurator-win32-ia32 Overviewer-Configurator-win32-ia32.zip
+      run: Compress-Archive -Path '.\builds\packaged\Overviewer Configurator-win32-ia32' -DestinationPath '.\Overviewer-Configurator-win32-ia32.zip' -CompressionLevel Optimal
       shell: powershell
     - name: Compress package x64
-      run: Compress-Archive builds\packaged\Overviewer Configurator-win32-x64 Overviewer-Configurator-win32-x64.zip
+      run: Compress-Archive -Path '.\builds\packaged\Overviewer Configurator-win32-x64' -DestinationPath '.\Overviewer-Configurator-win32-x64.zip' -CompressionLevel Optimal
       shell: powershell
     - run: npm run inst:win
     - name: List different packages
