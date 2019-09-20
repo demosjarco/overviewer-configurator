@@ -23,7 +23,7 @@ jobs:
       run: rm -fv css/*.less
     - run: npm run pack:osx
     - name: Compress package x64
-      run: zip -vr Overviewer-Configurator-darwin-x64.zip builds/packaged/Overviewer Configurator-darwin-x64/Overviewer Configurator.app
+      run: zip -vr Overviewer-Configurator-darwin-x64.zip 'builds/packaged/Overviewer Configurator-darwin-x64/Overviewer Configurator.app'
     - name: List different packages
       run: ls builds/packaged/
     - name: List finished package content
