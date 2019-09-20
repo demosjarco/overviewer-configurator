@@ -23,7 +23,7 @@ jobs:
       run: rm -fv css/*.less
     - run: npm run pack:osx
     - name: Compress package x64
-      run: zip -vr Overviewer-Configurator-darwin-x64.zip 'builds/packaged/Overviewer Configurator-darwin-x64/Overviewer Configurator.app'
+      run: zip -vr Overviewer-Configurator-mac-x64.zip 'builds/packaged/Overviewer Configurator-darwin-x64/Overviewer Configurator.app'
     - name: List different packages
       run: ls builds/packaged/
     - name: List finished package content
@@ -63,10 +63,10 @@ jobs:
       run: rm -fv css/*.less
     - run: npm run pack:win
     - name: Compress package x32
-      run: Compress-Archive -Path '.\builds\packaged\Overviewer Configurator-win32-ia32' -DestinationPath '.\Overviewer-Configurator-win32-ia32.zip' -CompressionLevel Optimal
+      run: Compress-Archive -Path '.\builds\packaged\Overviewer Configurator-win32-ia32' -DestinationPath '.\Overviewer-Configurator-win-x32.zip' -CompressionLevel Optimal
       shell: powershell
     - name: Compress package x64
-      run: Compress-Archive -Path '.\builds\packaged\Overviewer Configurator-win32-x64' -DestinationPath '.\Overviewer-Configurator-win32-x64.zip' -CompressionLevel Optimal
+      run: Compress-Archive -Path '.\builds\packaged\Overviewer Configurator-win32-x64' -DestinationPath '.\Overviewer-Configurator-win-x64.zip' -CompressionLevel Optimal
       shell: powershell
     - run: npm run inst:win
     - name: List different packages
