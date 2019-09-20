@@ -16,9 +16,9 @@ jobs:
     - uses: actions/setup-node@master
       with:
         node-version: '12.x'
-    - run: npm install
     - name: Uninstall unneeded dependencies
       run: npm uninstall electromon less less-watch-compiler -D
+    - run: npm install
     - name: Delete dev files
       run: rm -fv css/*.less
     - run: npm run pack:osx
@@ -56,9 +56,9 @@ jobs:
     - uses: actions/setup-node@master
       with:
         node-version: '12.x'
-    - run: npm install
     - name: Uninstall unneeded dependencies
       run: npm uninstall electromon less less-watch-compiler -D
+    - run: npm install
     - name: Delete dev files
       run: rm -fv css/*.less
     - run: npm run pack:win
