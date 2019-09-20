@@ -26,6 +26,14 @@ jobs:
       run: npm run pack:osx
     - name: List finished package content
       run: ls builds/packaged/Overviewer*/
+    - name: Install glob for release
+      run: npm install glob -D
+    - name: Upload to Releases
+      uses: softprops/action-gh-release@v1
+      with:
+        files: builds/packaged/Overviewer*/*.app
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   build_win:
     runs-on: windows-latest
     steps:
@@ -49,3 +57,11 @@ jobs:
       run: ls builds/packaged/Overviewer*/
     - name: List finished installers
       run: ls builds/installers
+    - name: Install glob for release
+      run: npm install glob -D
+    - name: Upload to Releases
+      uses: softprops/action-gh-release@v1
+      with:
+        files: builds/installers/*
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
