@@ -24,10 +24,6 @@ jobs:
     - run: npm run pack:osx
     - name: Compress package x64
       run: zip -vr Overviewer-Configurator-mac-x64.zip 'builds/packaged/Overviewer Configurator-darwin-x64/Overviewer Configurator.app'
-    - name: List different packages
-      run: ls builds/packaged/
-    - name: List finished package content
-      run: ls builds/packaged/Overviewer*/
     - name: Install glob for release
       run: npm install glob -D
     - name: Upload to Beta Releases
@@ -69,12 +65,6 @@ jobs:
       run: Compress-Archive -Path '.\builds\packaged\Overviewer Configurator-win32-x64' -DestinationPath '.\Overviewer-Configurator-win-x64.zip' -CompressionLevel Optimal
       shell: powershell
     - run: npm run inst:win
-    - name: List different packages
-      run: ls builds/packaged/
-    - name: List finished package content
-      run: ls builds/packaged/Overviewer*/
-    - name: List finished installers
-      run: ls builds/installers
     - name: Install glob for release
       run: npm install glob -D
     - name: Upload to Beta Releases
