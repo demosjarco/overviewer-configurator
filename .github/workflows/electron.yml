@@ -3,9 +3,11 @@ on:
   push:
     tags:
       - 'v*.*.*'
+      - 'b*.*.*'
   pull_request:
     tags:
       - 'v*.*.*'
+      - 'b*.*.*'
 jobs:
   build_mac:
     runs-on: macos-latest
@@ -28,8 +30,17 @@ jobs:
       run: ls builds/packaged/Overviewer*/
     - name: Install glob for release
       run: npm install glob -D
-    - name: Upload to Releases
+    - name: Upload to Beta Releases
       uses: softprops/action-gh-release@v1
+      if: startsWith(github.ref, 'refs/tags/b')
+      with:
+        prerelease: true
+        files: builds/packaged/Overviewer*/*.app
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - name: Upload to Final Releases
+      uses: softprops/action-gh-release@v1
+      if: startsWith(github.ref, 'refs/tags/v')
       with:
         files: builds/packaged/Overviewer*/*.app
       env:
@@ -59,8 +70,17 @@ jobs:
       run: ls builds/installers
     - name: Install glob for release
       run: npm install glob -D
-    - name: Upload to Releases
+    - name: Upload to Beta Releases
       uses: softprops/action-gh-release@v1
+      if: startsWith(github.ref, 'refs/tags/b')
+      with:
+        prerelease: true
+        files: builds/installers/*
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - name: Upload to Final Releases
+      uses: softprops/action-gh-release@v1
+      if: startsWith(github.ref, 'refs/tags/v')
       with:
         files: builds/installers/*
       env:
