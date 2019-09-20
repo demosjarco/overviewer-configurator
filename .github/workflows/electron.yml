@@ -36,7 +36,7 @@ jobs:
       with:
         prerelease: true
         files: |
-            Overviewer-Configurator-darwin-x64.zip
+            Overviewer-Configurator-mac-x64.zip
             builds/packaged/Overviewer Configurator-darwin-x64/version
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -45,7 +45,7 @@ jobs:
       if: startsWith(github.ref, 'refs/tags/v')
       with:
         files: |
-            Overviewer-Configurator-darwin-x64.zip
+            Overviewer-Configurator-mac-x64.zip
             builds/packaged/Overviewer Configurator-darwin-x64/version
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -84,8 +84,8 @@ jobs:
         prerelease: true
         files: |
             builds/installers/*
-            Overviewer-Configurator-win32-ia32.zip
-            Overviewer-Configurator-win32-x64.zip
+            Overviewer-Configurator-win-x32.zip
+            Overviewer-Configurator-win-x64.zip
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     - name: Upload to Final Releases
@@ -94,7 +94,7 @@ jobs:
       with:
         files: |
             builds/installers/*
-            Overviewer-Configurator-win32-ia32.zip
-            Overviewer-Configurator-win32-x64.zip
+            Overviewer-Configurator-win-x32.zip
+            Overviewer-Configurator-win-x64.zip
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
