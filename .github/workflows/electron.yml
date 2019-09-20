@@ -26,6 +26,8 @@ jobs:
       run: rm -fv css/*.less
     - name: Package electron
       run: npm run pack:osx
+    - name: List different packages
+      run: ls builds/packaged/
     - name: List finished package content
       run: ls builds/packaged/Overviewer*/
     - name: Install glob for release
@@ -64,6 +66,8 @@ jobs:
       run: npm run pack:win
     - name: Create Installer
       run: npm run inst:win
+    - name: List different packages
+      run: ls builds/packaged/
     - name: List finished package content
       run: ls builds/packaged/Overviewer*/
     - name: List finished installers
