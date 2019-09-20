@@ -62,8 +62,10 @@ jobs:
     - run: npm run pack:win
     - name: Compress package x32
       run: Compress-Archive builds\packaged\Overviewer Configurator-win32-ia32 Overviewer-Configurator-win32-ia32.zip
+      shell: powershell
     - name: Compress package x64
       run: Compress-Archive builds\packaged\Overviewer Configurator-win32-x64 Overviewer-Configurator-win32-x64.zip
+      shell: powershell
     - run: npm run inst:win
     - name: List different packages
       run: ls builds/packaged/
