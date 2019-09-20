@@ -12,20 +12,16 @@ jobs:
   build_mac:
     runs-on: macos-latest
     steps:
-    - name: Checkout
-      uses: actions/checkout@master
-    - name: Install NodeJS (12.x)
-      uses: actions/setup-node@master
+    - uses: actions/checkout@master
+    - uses: actions/setup-node@master
       with:
         node-version: '12.x'
-    - name: Install dependencies
-      run: npm install
+    - run: npm install
     - name: Uninstall unneeded dependencies
       run: npm uninstall electromon less less-watch-compiler -D
     - name: Delete dev files
       run: rm -fv css/*.less
-    - name: Package electron
-      run: npm run pack:osx
+    - run: npm run pack:osx
     - name: List different packages
       run: ls builds/packaged/
     - name: List finished package content
@@ -44,28 +40,23 @@ jobs:
       uses: softprops/action-gh-release@v1
       if: startsWith(github.ref, 'refs/tags/v')
       with:
-        files: builds/packaged/Overviewer*/*.app
+        files: builds/packaged/Overviewer*/Overviewer Configurator.app
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   build_win:
     runs-on: windows-latest
     steps:
-    - name: Checkout
-      uses: actions/checkout@master
-    - name: Install NodeJS (12.x)
-      uses: actions/setup-node@master
+    - uses: actions/checkout@master
+    - uses: actions/setup-node@master
       with:
         node-version: '12.x'
-    - name: Install dependencies
-      run: npm install
+    - run: npm install
     - name: Uninstall unneeded dependencies
       run: npm uninstall electromon less less-watch-compiler -D
     - name: Delete dev files
       run: rm -fv css/*.less
-    - name: Package electron
-      run: npm run pack:win
-    - name: Create Installer
-      run: npm run inst:win
+    - run: npm run pack:win
+    - run: npm run inst:win
     - name: List different packages
       run: ls builds/packaged/
     - name: List finished package content
