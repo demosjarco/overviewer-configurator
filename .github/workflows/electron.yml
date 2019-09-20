@@ -34,7 +34,7 @@ jobs:
       with:
         prerelease: true
         files: |
-            builds/packaged/Overviewer Configurator-darwin-x64/Overviewer Configurator.app
+            builds/packaged/Overviewer Configurator-darwin-x64/*.app
             builds/packaged/Overviewer Configurator-darwin-x64/version
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
