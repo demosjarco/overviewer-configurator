@@ -24,7 +24,7 @@
 	"homepage": "https://github.com/victhebeast/overviewer-configurator#readme",
 	"devDependencies": {
 		"electromon": "^1.0.10",
-		"electron": "^6.0.12",
+		"electron": "^7.0.0",
 		"electron-packager": "^14.0.6",
 		"electron-winstaller": "^4.0.0",
 		"less-watch-compiler": "^1.14.1"
