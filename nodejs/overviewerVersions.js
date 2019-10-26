@@ -30,8 +30,8 @@ function updateLocalOverviewerVersion(currentVersionCallback = null) {
 ipcMain.on('getOverviewerVersions', (event, arg) => {
 	updateOverviewerVersions(function (versions) {
 		event.sender.send('latestOverviewerVersion', versions);
-	}, function (version, url) {
-		event.sender.send('newOverviewerVersions', version, url);
+	}, function (version, url, changeMessage) {
+		event.sender.send('newOverviewerVersions', version, url, changeMessage);
 	}, function () {
 		event.sender.send('doneOverviewerVersions');
 	}, function (message) {
@@ -74,6 +74,7 @@ function updateOverviewerVersions(latestVersionCallback = null, versionsCallback
 				let buildLoopCounter = 0;
 				let goodBuildLimit = 0;
 				function buildLoop(buildNumber) {
+					console.log('https://overviewer.org/build/api/v2/builders/' + osType + '/builds/' + buildNumber);
 					request('https://overviewer.org/build/api/v2/builders/' + osType + '/builds/' + buildNumber + '/steps/upload', function (error2, response2, body2) {
 						if (error2) {
 							logging.messageLog('HTTP ' + response2.statusCode + ' https://overviewer.org/build/api/v2/builders/' + osType + '/builds/' + buildNumber + '/steps/upload | ' + error2);
