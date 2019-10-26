@@ -74,7 +74,6 @@ function updateOverviewerVersions(latestVersionCallback = null, versionsCallback
 				let buildLoopCounter = 0;
 				let goodBuildLimit = 0;
 				function buildLoop(buildNumber) {
-					console.log('https://overviewer.org/build/api/v2/builders/' + osType + '/builds/' + buildNumber);
 					request('https://overviewer.org/build/api/v2/builders/' + osType + '/builds/' + buildNumber + '/steps/upload', function (error2, response2, body2) {
 						if (error2) {
 							logging.messageLog('HTTP ' + response2.statusCode + ' https://overviewer.org/build/api/v2/builders/' + osType + '/builds/' + buildNumber + '/steps/upload | ' + error2);
@@ -83,23 +82,83 @@ function updateOverviewerVersions(latestVersionCallback = null, versionsCallback
 						} else {
 							const archiveUrl = JSON.parse(body2).steps[0].urls[0].url.replace(/http(?!s)/g, "https");
 							if (versionReg.test(archiveUrl)) {
-								if (versionsCallback) {
-									versionsCallback(versionReg.exec(archiveUrl)[0], archiveUrl);
-								}
+								request('https://overviewer.org/build/api/v2/builders/' + osType + '/builds/' + buildNumber + '?field=properties&property=got_revision', function (error3, response3, body3) {
+									if (error3) {
+										logging.messageLog('HTTP ' + response3.statusCode + ' https://overviewer.org/build/api/v2/builders/' + osType + '/builds/' + buildNumber + '?field=properties&property=got_revision ' + error2);
 
-								if (latestVersionCallback && buildNumber == builds[0].number) {
-									latestVersionCallback(versionReg.exec(archiveUrl)[0]);
-								}
+										if (versionsCallback) {
+											versionsCallback(versionReg.exec(archiveUrl)[0], archiveUrl);
+										}
+
+										if (latestVersionCallback && buildNumber == builds[0].number) {
+											latestVersionCallback(versionReg.exec(archiveUrl)[0]);
+										}
+
+										moveOnBuild();
+									} else if (response3.statusCode != 200) {
+										logging.messageLog('HTTP ' + response3.statusCode + ' https://overviewer.org/build/api/v2/builders/' + osType + '/builds/' + buildNumber + '?field=properties&property=got_revision');
+
+										if (versionsCallback) {
+											versionsCallback(versionReg.exec(archiveUrl)[0], archiveUrl);
+										}
+
+										if (latestVersionCallback && buildNumber == builds[0].number) {
+											latestVersionCallback(versionReg.exec(archiveUrl)[0]);
+										}
+
+										moveOnBuild();
+									} else {
+										request({ url: 'https://api.github.com/repos/overviewer/Minecraft-Overviewer/git/commits/' + JSON.parse(body3).builds[0].properties.got_revision[0], headers: { 'User-Agent': 'request'}}, function (error4, response4, body4) {
+											if (error4) {
+												logging.messageLog('HTTP ' + response4.statusCode + ' https://api.github.com/repos/overviewer/Minecraft-Overviewer/git/commits/' + JSON.parse(body3).builds[0].properties.got_revision[0] + ' ' + error2);
+
+												if (versionsCallback) {
+													versionsCallback(versionReg.exec(archiveUrl)[0], archiveUrl);
+												}
+
+												if (latestVersionCallback && buildNumber == builds[0].number) {
+													latestVersionCallback(versionReg.exec(archiveUrl)[0]);
+												}
+
+												moveOnBuild();
+											} else if (response4.statusCode != 200) {
+												logging.messageLog('HTTP ' + response4.statusCode + ' https://api.github.com/repos/overviewer/Minecraft-Overviewer/git/commits/' + JSON.parse(body3).builds[0].properties.got_revision[0]);
+
+												if (versionsCallback) {
+													versionsCallback(versionReg.exec(archiveUrl)[0], archiveUrl);
+												}
+
+												if (latestVersionCallback && buildNumber == builds[0].number) {
+													latestVersionCallback(versionReg.exec(archiveUrl)[0]);
+												}
+
+												moveOnBuild();
+											} else {
+												if (versionsCallback) {
+													versionsCallback(versionReg.exec(archiveUrl)[0], archiveUrl, JSON.parse(body4).message);
+												}
+
+												if (latestVersionCallback && buildNumber == builds[0].number) {
+													latestVersionCallback(versionReg.exec(archiveUrl)[0]);
+												}
+
+												moveOnBuild();
+											}
+										});
+									}
+								});
 							}
 						}
 
-						buildLoopCounter++;
-						goodBuildLimit++;
-						if (buildLoopCounter < builds.length && goodBuildLimit < 10) {
-							buildLoop(builds[buildLoopCounter].number);
-						} else {
-							if (doneCallback)
-								doneCallback();
+						function moveOnBuild() {
+							buildLoopCounter++;
+							goodBuildLimit++;
+							if (buildLoopCounter < builds.length && goodBuildLimit < 10) {
+								buildLoop(builds[buildLoopCounter].number);
+							} else {
+								if (doneCallback)
+									doneCallback();
+							}
 						}
 					});
 				}
