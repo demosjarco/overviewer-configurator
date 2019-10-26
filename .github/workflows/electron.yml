@@ -59,6 +59,7 @@ jobs:
     - name: Delete dev files
       run: |
             rm -fv css/*.less
+      shell: bash
     - run: npm run pack:win
     - name: Compress package x32
       run: Compress-Archive -Path '.\builds\packaged\Overviewer Configurator-win32-ia32' -DestinationPath '.\Overviewer-Configurator-win-x32.zip' -CompressionLevel Optimal
