@@ -1,0 +1,2 @@
+E:\GitHub\overviewer-configurator\overviewer-configurator\obj\Release\overviewer-configurator.njsprojAssemblyReference.cache
+E:\GitHub\overviewer-configurator\overviewer-configurator\bin\Microsoft.NodejsTools.WebRole.dll
