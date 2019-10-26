@@ -1,0 +1,88 @@
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">14.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+    <Name>overviewer-configurator</Name>
+    <RootNamespace>overviewer-configurator</RootNamespace>
+    <SaveNodeJsSettingsInProjectFile>True</SaveNodeJsSettingsInProjectFile>
+  </PropertyGroup>
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>a83034ca-ec33-4bb3-91c6-a0d36346375d</ProjectGuid>
+    <ProjectHome>.</ProjectHome>
+    <StartupFile>
+    </StartupFile>
+    <StartWebBrowser>False</StartWebBrowser>
+    <SearchPath>
+    </SearchPath>
+    <WorkingDirectory>.</WorkingDirectory>
+    <OutputPath>.</OutputPath>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <ProjectTypeGuids>{3AF33F2E-1136-4D97-BBB7-1795711AC8B8};{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}</ProjectTypeGuids>
+    <StartWebBrowser>False</StartWebBrowser>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+  <ItemGroup>
+    <Content Include="..\.github\workflows\electron.yml">
+      <Link>electron.yml</Link>
+    </Content>
+    <Content Include="..\.gitignore">
+      <Link>.gitignore</Link>
+    </Content>
+    <Content Include="css\dashboard.css" />
+    <Content Include="css\dashboard.less" />
+    <Content Include="css\extra.less" />
+    <Content Include="css\global.css" />
+    <Content Include="css\global.less" />
+    <Content Include="css\logging.css" />
+    <Content Include="css\logging.less" />
+    <Content Include="css\main.css" />
+    <Content Include="css\main.less" />
+    <Content Include="css\sidebar.css" />
+    <Content Include="css\sidebar.less" />
+    <Content Include="html\mainWindow.html" />
+    <Content Include="img\compass_lower-left.png" />
+    <Content Include="img\compass_lower-right.png" />
+    <Content Include="img\compass_upper-left.png" />
+    <Content Include="img\compass_upper-right.png" />
+    <Content Include="img\overviewerLogo.png" />
+    <Content Include="js\common.js" />
+    <Content Include="js\dashboard.js" />
+    <Content Include="js\logging.js" />
+    <Content Include="js\sidebar.js" />
+    <Content Include="LICENSE" />
+    <Content Include="main.js" />
+    <Content Include="nodejs\configManager.js" />
+    <Content Include="nodejs\electronSetup.js" />
+    <Content Include="nodejs\logging.js" />
+    <Content Include="nodejs\overviewerVersions.js" />
+    <Content Include="nodejs\oxipngVersions.js" />
+    <Content Include="nodejs\runOverviewer.js" />
+    <Content Include="nodejs\settingsManager.js" />
+    <Content Include="nodejs\worldManagement.js" />
+    <Content Include="package.json" />
+    <Content Include="README.md" />
+    <Content Include="web_assets\chest.png" />
+    <Content Include="web_assets\favicon.ico" />
+    <Content Include="web_assets\icon.png" />
+    <Content Include="web_assets\index.html" />
+    <Content Include="web_assets\manifest.json" />
+    <Content Include="winstaller.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="css\" />
+    <Folder Include="html\" />
+    <Folder Include="img\" />
+    <Folder Include="js\" />
+    <Folder Include="nodejs\" />
+    <Folder Include="web_assets\" />
+  </ItemGroup>
+  <Import Project="$(VSToolsPath)\Node.js Tools\Microsoft.NodejsToolsV2.targets" />
+</Project>
