@@ -1,6 +1,8 @@
 {
   "ExpandedNodes": [
     "",
+    "\\.github",
+    "\\.github\\workflows",
     "\\nodejs"
   ],
   "SelectedNode": "\\nodejs\\overviewerVersions.js",
