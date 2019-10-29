@@ -105,3 +105,6 @@ dist
 
 # Finished product
 builds/
+
+# Visual Studio stuff
+.vs/
