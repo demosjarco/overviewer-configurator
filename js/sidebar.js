@@ -3,6 +3,7 @@
 $(function () {
 	setupMenu();
 	refreshOverviewerVersions();
+	refreshWorlds();
 });
 
 function setupMenu() {
@@ -73,3 +74,8 @@ ipcRenderer.on('progressOverviewerVersion', function (event, visible, version, p
 		$('li#overviewer ul li.v' + version.replace(/\./g, '_') + ' div.content div.progressBar').remove();
 	}
 });
+
+function refreshWorlds() {
+	// https://stackoverflow.com/questions/5827612/node-js-fs-readdir-recursive-directory-search
+	// https://qwtel.com/posts/software/async-generators-in-the-wild/
+}
