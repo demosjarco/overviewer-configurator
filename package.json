@@ -23,7 +23,7 @@
 	},
 	"homepage": "https://github.com/victhebeast/overviewer-configurator#readme",
 	"devDependencies": {
-		"electron": "^7.0.0",
+		"electron": "^7.0.1",
 		"electron-packager": "^14.1.0",
 		"electron-winstaller": "^4.0.0",
 		"electronmon": "^0.6.0",
@@ -32,7 +32,7 @@
 	"dependencies": {
 		"@mdi/font": "^4.5.95",
 		"adm-zip": "^0.4.13",
-		"chart.js": "^2.9.1",
+		"chart.js": "^2.9.2",
 		"command-exists": "^1.2.8",
 		"electron-window-state": "^5.0.3",
 		"gunzip-maybe": "^1.4.1",
