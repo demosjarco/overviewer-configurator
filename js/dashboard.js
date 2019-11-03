@@ -35,12 +35,16 @@ ipcRenderer.on('gotWorldsLocation', function (event, path) {
 });
 
 function chooseWorldsLocation() {
-	dialog.showOpenDialog({ properties: ['openDirectory'] }, (filePaths) => {
-		if (filePaths && filePaths.length > 0) {
-			const path = filePaths[0].replace(/\\/g, "/");
+	dialog.showOpenDialog({ properties: ['openDirectory'] }).then((result) => {
+		console.log(result);
+		if (!result.canceled && result.filePaths && result.filePaths.length > 0) {
+			const path = result.filePaths[0].replace(/\\/g, "/");
 			ipcRenderer.send('updateWorldsLocation', path);
 			$('div#worldsLocation footer span').text(path);
 		}
+	}).catch((err) => {
+		ipcRenderer.send('visualLog', err);
+		console.error(err);
 	});
 }
 
@@ -49,12 +53,16 @@ ipcRenderer.on('gotMapsLocation', function (event, path) {
 });
 
 function chooseMapsLocation() {
-	dialog.showOpenDialog({ properties: ['openDirectory'] }, (filePaths) => {
-		if (filePaths && filePaths.length > 0) {
-			const path = filePaths[0].replace(/\\/g, "/");
+	dialog.showOpenDialog({ properties: ['openDirectory'] }).then((result) => {
+		console.log(result);
+		if (!result.canceled && result.filePaths && result.filePaths.length > 0) {
+			const path = result.filePaths[0].replace(/\\/g, "/");
 			ipcRenderer.send('updateMapsLocation', path);
 			$('div#saveLocation footer span').text(path);
 		}
+	}).catch((err) => {
+		ipcRenderer.send('visualLog', err);
+		console.error(err);
 	});
 }
 
