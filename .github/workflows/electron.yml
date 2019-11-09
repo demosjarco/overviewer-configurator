@@ -52,7 +52,7 @@ jobs:
     - uses: actions/checkout@master
     - uses: actions/setup-node@master
       with:
-        node-version: '12.x'
+        node-version: '13.x'
     - name: Uninstall unneeded dependencies
       run: npm uninstall electronmon less less-watch-compiler -D
     - run: npm install
