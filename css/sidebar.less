@@ -60,6 +60,20 @@ body {
 					span.worldCode {
 						font-weight: bold;
 						.iconStuff(false);
+						font-size: smaller;
+						vertical-align: baseline;
+						text-overflow: ellipsis;
+						white-space: nowrap;
+						overflow: hidden;
+					}
+
+					span.worldTitle {
+						display: inline-block;
+						text-align: left;
+						width: calc(~"100% - 24px - 5px");
+						text-overflow: ellipsis;
+						white-space: nowrap;
+						overflow: hidden;
 					}
 
 					span.programTitle {

@@ -52,6 +52,19 @@ body > aside > ul li .content span.worldCode {
   width: 24px;
   vertical-align: text-bottom;
   text-align: right;
+  font-size: smaller;
+  vertical-align: baseline;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+body > aside > ul li .content span.worldTitle {
+  display: inline-block;
+  text-align: left;
+  width: calc(100% - 24px - 5px);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 }
 body > aside > ul li .content div.arrow {
   float: right;
