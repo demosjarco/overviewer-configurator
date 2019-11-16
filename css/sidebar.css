@@ -40,6 +40,7 @@ body > aside > ul li .content span.mdi {
   margin-right: 5px;
   width: 24px;
   vertical-align: text-bottom;
+  text-align: right;
   font-size: 24px;
   height: 24px;
   line-height: 24px;
@@ -50,6 +51,7 @@ body > aside > ul li .content span.worldCode {
   margin-right: 5px;
   width: 24px;
   vertical-align: text-bottom;
+  text-align: right;
 }
 body > aside > ul li .content div.arrow {
   float: right;
