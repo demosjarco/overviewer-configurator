@@ -2,7 +2,8 @@
 
 const { ipcMain } = require('electron');
 const electron = require('./electronSetup.js');
-const config = require('./configFile.js');
+const setMan = require("./settingsManager.js");
+const SettingsManager = new setMan();
 const { resolve } = require('path');
 const { readdir } = require('fs').promises;
 
