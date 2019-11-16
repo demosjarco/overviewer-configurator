@@ -59,7 +59,7 @@ ipcRenderer.on('newOverviewerVersions', function (event, version, url, changeMes
 		ipcRenderer.send('updateOverviewerVersion', url);
 	});
 });
-ipcRenderer.on('doneOverviewerVersions', function (event, version, url) {
+ipcRenderer.on('doneOverviewerVersions', function (event) {
 	$('li#overviewer ul').find('li.loading').remove();
 });
 ipcRenderer.on('errorOverviewerVersions', function (event, message) {
