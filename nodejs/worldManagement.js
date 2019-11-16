@@ -50,6 +50,7 @@ ipcMain.on('readWorlds', (event, arg) => {
 				});
 			}
 		}
+		electron.mainWindow.webContents.send('doneWorlds');
 	})();
 });
 

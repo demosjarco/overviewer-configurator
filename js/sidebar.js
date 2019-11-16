@@ -84,3 +84,6 @@ ipcRenderer.on('foundWorld', function (event, worldInfo) {
 	let newWorld = $('<li class="allowed"><div class="content" title="' + worldInfo.name + '"><span class="worldCode">' + worldInfo.sc + '</span><span class="worldTitle">' + worldInfo.name + '</span></div></li>');
 	$('li#worlds ul').append(newWorld);
 });
+ipcRenderer.on('doneWorlds', function (event) {
+	$('li#worlds ul').find('li.loading').remove();
+});
