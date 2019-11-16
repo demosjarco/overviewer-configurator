@@ -26,6 +26,35 @@ module.exports = class SettingsManager {
 		runningJson.global.outputLocation = path;
 		saveJSON(runningJson);
 	}
+
+	getWorldsLocation() {
+		return runningJson.global.worldsLocation;
+	}
+
+	addWorld(filePath, needMoreInfo) {
+		const worldFound = runningJson.worlds.filter(world => (world.path === filePath));
+		if (worldFound.length == 1) {
+			// Exist
+		} else if (worldFound.length > 1) {
+			// Clear Duplicates
+			worldFound.pop();
+			worldFound.forEach((item) => {
+				runningJson.worlds.splice(runningJson.worlds.indexOf(item), 1);
+			});
+			runningJson.worlds.sort((a, b) => (a.sc > b.sc) ? 1 : (a.sc === b.sc) ? ((a.name > b.name) ? 1 : -1) : -1);
+			saveJSON(runningJson);
+		} else {
+			// New Entry
+			let newWorld = { path: filePath };
+			needMoreInfo(filePath, (codeName, worldName) => {
+				newWorld.sc = codeName;
+				newWorld.name = worldName;
+				runningJson.worlds.push(newWorld);
+				runningJson.worlds.sort((a, b) => (a.sc > b.sc) ? 1 : (a.sc === b.sc) ? ((a.name > b.name) ? 1 : -1) : -1);
+				saveJSON(runningJson);
+			});
+		}
+	}
 }
 
 const settingsPath = app.getPath('userData').replace(/\\/g, "/") + '/settings.json';
