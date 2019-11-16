@@ -17,7 +17,7 @@ jobs:
       with:
         node-version: '13.x'
     - name: Uninstall unneeded dependencies
-      run: npm uninstall electronmon less less-watch-compiler -D
+      run: npm uninstall electronmon less-watch-compiler -D
     - run: npm install
     - name: Delete dev files
       run: |
@@ -54,7 +54,7 @@ jobs:
       with:
         node-version: '13.x'
     - name: Uninstall unneeded dependencies
-      run: npm uninstall electronmon less less-watch-compiler -D
+      run: npm uninstall electronmon less-watch-compiler -D
     - run: npm install
     - name: Delete dev files
       run: |
