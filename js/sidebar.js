@@ -78,4 +78,6 @@ ipcRenderer.on('progressOverviewerVersion', function (event, visible, version, p
 function refreshWorlds() {
 	// https://stackoverflow.com/questions/5827612/node-js-fs-readdir-recursive-directory-search
 	// https://qwtel.com/posts/software/async-generators-in-the-wild/
+	$('li#worlds ul').empty().append('<li class="loading"><div class="content"><span class="status"><i class="material-icons">autorenew</i></span><span>Loading...</span></div></li>');
+	ipcRenderer.send('readWorlds');
 }
