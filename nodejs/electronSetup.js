@@ -1,5 +1,6 @@
 const { app, BrowserWindow, ipcMain, Menu, shell } = require('electron');
 const overviewerVersions = require('./overviewerVersions.js');
+require('./worldManagement.js');
 
 const setMan = require("./settingsManager.js");
 const SettingsManager = new setMan();
