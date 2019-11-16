@@ -1,6 +1,7 @@
 'use strict';
 
 const { app } = require('electron');
+const electron = require('./electronSetup.js');
 const fs = require('fs');
 let ConfigManager;
 
@@ -35,9 +36,10 @@ module.exports = class SettingsManager {
 		const worldFound = runningJson.worlds.filter(world => (world.path === filePath));
 		if (worldFound.length == 1) {
 			// Exist
+			electron.mainWindow.webContents.send('foundWorld', worldFound[0]);
 		} else if (worldFound.length > 1) {
 			// Clear Duplicates
-			worldFound.pop();
+			electron.mainWindow.webContents.send('foundWorld', worldFound.pop());
 			worldFound.forEach((item) => {
 				runningJson.worlds.splice(runningJson.worlds.indexOf(item), 1);
 			});
@@ -49,6 +51,7 @@ module.exports = class SettingsManager {
 			needMoreInfo(filePath, (codeName, worldName) => {
 				newWorld.sc = codeName;
 				newWorld.name = worldName;
+				electron.mainWindow.webContents.send('foundWorld', newWorld);
 				runningJson.worlds.push(newWorld);
 				runningJson.worlds.sort((a, b) => (a.sc > b.sc) ? 1 : (a.sc === b.sc) ? ((a.name > b.name) ? 1 : -1) : -1);
 				saveJSON(runningJson);
