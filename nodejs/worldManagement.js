@@ -25,3 +25,6 @@ ipcMain.on('readWorlds', (event, arg) => {
 		console.log(f);
 	}
 })()
+
+// https://stackoverflow.com/questions/5827612/node-js-fs-readdir-recursive-directory-search
+	// https://qwtel.com/posts/software/async-generators-in-the-wild/
