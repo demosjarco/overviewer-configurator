@@ -1,3 +1,5 @@
+'use strict';
+
 const { ipcMain, dialog } = require('electron');
 const electron = require('./electronSetup.js');
 const config = require('./configFile.js');
