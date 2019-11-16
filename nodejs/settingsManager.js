@@ -321,7 +321,7 @@ function processJsonReadQueue() {
 
 		if (!('worlds' in json)) {
 			changed = true;
-			tempJson.worlds = {};
+			tempJson.worlds = [];
 		}
 
 		if (changed)
