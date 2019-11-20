@@ -75,7 +75,7 @@ body > aside > ul li#appTitle {
   font-weight: bold;
   color: white;
 }
-body > aside > ul li.allowed {
+body > aside > ul li.allowed:not([disabled]) {
   color: white;
 }
 body > aside > ul li.allowed .content:hover {

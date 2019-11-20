@@ -92,7 +92,9 @@ body {
 				}
 
 				&.allowed {
-					color: white;
+					&:not([disabled]) {
+						color: white;
+					}
 
 					.content {
 						&:hover {
