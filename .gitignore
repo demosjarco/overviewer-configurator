@@ -108,3 +108,6 @@ builds/
 
 # Visual Studio stuff
 .vs/
+
+# Extra file is already included in other css files
+css/extra.css
