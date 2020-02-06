@@ -123,6 +123,7 @@ function updateOverviewerVersions(latestVersionCallback = null, versionsCallback
 												moveOnBuild();
 											} else if (response4.statusCode != 200) {
 												logging.messageLog('HTTP ' + response4.statusCode + ' https://api.github.com/repos/overviewer/Minecraft-Overviewer/git/commits/' + JSON.parse(body3).builds[0].properties.got_revision[0]);
+												console.log(JSON.parse(body4));
 
 												if (versionsCallback) {
 													versionsCallback(versionReg.exec(archiveUrl)[0], archiveUrl);
