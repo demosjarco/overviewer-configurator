@@ -22,36 +22,40 @@ async function* getFiles(dir) {
 ipcMain.on('readWorlds', (event, arg) => {
 	const path = require('path');
 	const levelReg = /(?=.?\/?)level\.dat$/i;
-	(async () => {
-		for await (const f of getFiles(SettingsManager.getWorldsLocation())) {
-			if (levelReg.test(f)) {
-				SettingsManager.addWorld(path.dirname(f).replace(/\\/g, "/"), (tempPath, callback) => {
-					const fs = require('fs');
-					const temp2 = path.resolve(tempPath, '../server.properties');
-					fs.readFile(temp2, { encoding: 'utf8' }, (err, data) => {
-						const serverNameReg = /(?<=motd\s?\=\w?).+(?:\n)/i;
-						if (err) {
-							// server.properties doesn't exist, use current folder name
-							const serverName = path.basename(tempPath);
-							callback(worldNickName(serverName), serverName);
-						} else {
-							// server.properties exists
-							if (serverNameReg.test(data)) {
-								// use motd
-								const serverName = serverNameReg.exec(data)[0].trim();
+	if (SettingsManager.getWorldsLocation() != null) {
+		(async () => {
+			for await (const f of getFiles(SettingsManager.getWorldsLocation())) {
+				if (levelReg.test(f)) {
+					SettingsManager.addWorld(path.dirname(f).replace(/\\/g, "/"), (tempPath, callback) => {
+						const fs = require('fs');
+						const temp2 = path.resolve(tempPath, '../server.properties');
+						fs.readFile(temp2, { encoding: 'utf8' }, (err, data) => {
+							const serverNameReg = /(?<=motd\s?\=\w?).+(?:\n)/i;
+							if (err) {
+								// server.properties doesn't exist, use current folder name
+								const serverName = path.basename(tempPath);
 								callback(worldNickName(serverName), serverName);
 							} else {
-								// motd detection failed, use parent folder name
-								const serverName = path.basename(path.resolve(tempPath, '..'));
-								callback(worldNickName(serverName), serverName);
+								// server.properties exists
+								if (serverNameReg.test(data)) {
+									// use motd
+									const serverName = serverNameReg.exec(data)[0].trim();
+									callback(worldNickName(serverName), serverName);
+								} else {
+									// motd detection failed, use parent folder name
+									const serverName = path.basename(path.resolve(tempPath, '..'));
+									callback(worldNickName(serverName), serverName);
+								}
 							}
-						}
+						});
 					});
-				});
+				}
 			}
-		}
+			electron.mainWindow.webContents.send('doneWorlds');
+		})();
+	} else {
 		electron.mainWindow.webContents.send('doneWorlds');
-	})();
+	}
 });
 
 function worldNickName(worldName) {

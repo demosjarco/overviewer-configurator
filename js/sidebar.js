@@ -52,7 +52,7 @@ ipcRenderer.on('localOverviewerVersion', function (event, currentVersion) {
 	$('li#overviewer ul li.v' + currentVersion.replace(/\./g, '_') + ' div.content span.status i.material-icons').text('cloud_done');
 });
 ipcRenderer.on('newOverviewerVersions', function (event, version, url, changeMessage) {
-	let newVersion = $('<li class="allowed v' + version.replace(/\./g, '_') + '"><div class="content" title="' + changeMessage + '"><span class="status"><i class="material-icons">' + (installedVersion == version ? 'cloud_done' : 'cloud_download') + '</i></span><span>' + version + '</span></div></li>');
+	let newVersion = $('<li class="allowed v' + version.replace(/\./g, '_') + '"><div class="content" title="' + (changeMessage ? changeMessage : '') + '"><span class="status"><i class="material-icons">' + (installedVersion == version ? 'cloud_done' : 'cloud_download') + '</i></span><span>' + version + '</span></div></li>');
 	$('li#overviewer ul').append(newVersion);
 	newVersion.click(function (e) {
 		e.stopPropagation();
