@@ -38,7 +38,6 @@
 		"gunzip-maybe": "^1.4.1",
 		"jquery": "^3.4.1",
 		"material-design-icons": "^3.0.1",
-		"request": "^2.88.2",
 		"rimraf": "^3.0.2",
 		"tar-fs": "^2.0.0",
 		"typeface-open-sans": "0.0.75",
