@@ -1,6 +1,6 @@
 const { app, ipcMain } = require('electron');
 const fs = require('fs');
-const request = require('request');
+const axios = require('axios').default;
 const electron = require('./electronSetup.js');
 const logging = require('./logging.js');
 
@@ -52,121 +52,127 @@ function updateOverviewerVersions(latestVersionCallback = null, versionsCallback
 			osType = platformReg.exec(os.platform()) + archReg.exec(os.arch());
 			break;
 	}
-	request('https://overviewer.org/build/api/v2/builders/' + osType + '/builds', function (error1, response1, body1) {
-		if (error1) {
-			errorCallback(error1.message);
-			logging.messageLog('HTTP ' + response1.statusCode + ' https://overviewer.org/build/api/v2/builders/' + osType + '/builds | ' + error1);
-		} else if (response1.statusCode != 200) {
-			errorCallback('HTTP Error ' + response1.statusCode);
-			logging.messageLog('HTTP ' + response1.statusCode + ' https://overviewer.org/build/api/v2/builders/' + osType + '/builds');
-		} else {
-			let temp = JSON.parse(body1).builds;
-			let builds = [];
-			temp.forEach(function (build) {
-				if (build.complete && build.state_string == 'build successful')
-					builds.push(build);
-			});
-			if (builds.length > 0) {
-				builds.sort(function (a, b) {
-					return new Date(b.started_at) - new Date(a.started_at);
+	axios.get('https://overviewer.org/build/api/v2/builders/' + osType + '/builds').catch((error1) => {
+		errorCallback(error1.message);
+		logging.messageLog('https://overviewer.org/build/api/v2/builders/' + osType + '/builds | ' + error1);
+	}).then((response1) => {
+		if (response1) {
+			if (response1.statusText.toLowerCase() != 'ok') {
+				errorCallback('HTTP Error ' + response1.status);
+				logging.messageLog('HTTP ' + response1.status + ' https://overviewer.org/build/api/v2/builders/' + osType + '/builds');
+			} else {
+				let builds = [];
+				response1.data.builds.forEach(function (build) {
+					if (build.complete && build.state_string == 'build successful')
+						builds.push(build);
 				});
+				if (builds.length > 0) {
+					builds.sort(function (a, b) {
+						return new Date(b.started_at) - new Date(a.started_at);
+					});
 
-				let buildLoopCounter = 0;
-				let goodBuildLimit = 0;
-				function buildLoop(buildNumber) {
-					request('https://overviewer.org/build/api/v2/builders/' + osType + '/builds/' + buildNumber + '/steps/upload', function (error2, response2, body2) {
-						if (error2) {
-							logging.messageLog('HTTP ' + response2.statusCode + ' https://overviewer.org/build/api/v2/builders/' + osType + '/builds/' + buildNumber + '/steps/upload | ' + error2);
-						} else if (response2.statusCode != 200) {
-							logging.messageLog('HTTP ' + response2.statusCode + ' https://overviewer.org/build/api/v2/builders/' + osType + '/builds/' + buildNumber + '/steps/upload');
-						} else {
-							const archiveUrl = JSON.parse(body2).steps[0].urls[0].url.replace(/http(?!s)/g, "https");
-							if (versionReg.test(archiveUrl)) {
-								request('https://overviewer.org/build/api/v2/builders/' + osType + '/builds/' + buildNumber + '?field=properties&property=got_revision', function (error3, response3, body3) {
-									if (error3) {
-										logging.messageLog('HTTP ' + response3.statusCode + ' https://overviewer.org/build/api/v2/builders/' + osType + '/builds/' + buildNumber + '?field=properties&property=got_revision ' + error2);
+					let buildLoopCounter = 0;
+					let goodBuildLimit = 0;
+					function buildLoop(buildNumber) {
+						axios.get('https://overviewer.org/build/api/v2/builders/' + osType + '/builds/' + buildNumber + '/steps/upload').catch((error2) => {
+							logging.messageLog('https://overviewer.org/build/api/v2/builders/' + osType + '/builds/' + buildNumber + '/steps/upload | ' + error2);
+						}).then((response2) => {
+							if (response2) {
+								if (response2.statusText.toLowerCase() != 'ok') {
+									logging.messageLog('HTTP ' + response2.status + ' https://overviewer.org/build/api/v2/builders/' + osType + '/builds/' + buildNumber + '/steps/upload');
+								} else {
+									const archiveUrl = response2.data.steps[0].urls[0].url.replace(/http(?!s)/g, "https");
+									if (versionReg.test(archiveUrl)) {
+										axios.get('https://overviewer.org/build/api/v2/builders/' + osType + '/builds/' + buildNumber + '?field=properties&property=got_revision').catch((error3) => {
+											logging.messageLog('https://overviewer.org/build/api/v2/builders/' + osType + '/builds/' + buildNumber + '?field=properties&property=got_revision ' + error3);
 
-										if (versionsCallback) {
-											versionsCallback(versionReg.exec(archiveUrl)[0], archiveUrl);
-										}
+											if (versionsCallback) {
+												versionsCallback(versionReg.exec(archiveUrl)[0], archiveUrl);
+											}
 
-										if (latestVersionCallback && buildNumber == builds[0].number) {
-											latestVersionCallback(versionReg.exec(archiveUrl)[0]);
-										}
+											if (latestVersionCallback && buildNumber == builds[0].number) {
+												latestVersionCallback(versionReg.exec(archiveUrl)[0]);
+											}
 
-										moveOnBuild();
-									} else if (response3.statusCode != 200) {
-										logging.messageLog('HTTP ' + response3.statusCode + ' https://overviewer.org/build/api/v2/builders/' + osType + '/builds/' + buildNumber + '?field=properties&property=got_revision');
+											moveOnBuild();
+										}).then((response3) => {
+											if (response3) {
+												if (response3.statusText.toLowerCase() != 'ok') {
+													logging.messageLog('HTTP ' + response3.status + ' https://overviewer.org/build/api/v2/builders/' + osType + '/builds/' + buildNumber + '?field=properties&property=got_revision');
 
-										if (versionsCallback) {
-											versionsCallback(versionReg.exec(archiveUrl)[0], archiveUrl);
-										}
+													if (versionsCallback) {
+														versionsCallback(versionReg.exec(archiveUrl)[0], archiveUrl);
+													}
 
-										if (latestVersionCallback && buildNumber == builds[0].number) {
-											latestVersionCallback(versionReg.exec(archiveUrl)[0]);
-										}
+													if (latestVersionCallback && buildNumber == builds[0].number) {
+														latestVersionCallback(versionReg.exec(archiveUrl)[0]);
+													}
 
-										moveOnBuild();
-									} else {
-										request({ url: 'https://api.github.com/repos/overviewer/Minecraft-Overviewer/git/commits/' + JSON.parse(body3).builds[0].properties.got_revision[0], headers: { 'User-Agent': 'request'}}, function (error4, response4, body4) {
-											if (error4) {
-												logging.messageLog('HTTP ' + response4.statusCode + ' https://api.github.com/repos/overviewer/Minecraft-Overviewer/git/commits/' + JSON.parse(body3).builds[0].properties.got_revision[0] + ' ' + error2);
+													moveOnBuild();
+												} else {
+													axios.get('https://api.github.com/repos/overviewer/Minecraft-Overviewer/git/commits/' + response3.data.builds[0].properties.got_revision[0]).catch((error4) => {
+														logging.messageLog('https://api.github.com/repos/overviewer/Minecraft-Overviewer/git/commits/' + response3.data.builds[0].properties.got_revision[0] + ' ' + error4);
 
-												if (versionsCallback) {
-													versionsCallback(versionReg.exec(archiveUrl)[0], archiveUrl);
+														if (versionsCallback) {
+															versionsCallback(versionReg.exec(archiveUrl)[0], archiveUrl);
+														}
+
+														if (latestVersionCallback && buildNumber == builds[0].number) {
+															latestVersionCallback(versionReg.exec(archiveUrl)[0]);
+														}
+
+														moveOnBuild();
+													}).then((response4) => {
+														if (response4) {
+															if (response4.statusText.toLowerCase() != 'ok') {
+																logging.messageLog('HTTP ' + response4.status + ' https://api.github.com/repos/overviewer/Minecraft-Overviewer/git/commits/' + response3.data.builds[0].properties.got_revision[0]);
+
+																if (versionsCallback) {
+																	versionsCallback(versionReg.exec(archiveUrl)[0], archiveUrl);
+																}
+
+																if (latestVersionCallback && buildNumber == builds[0].number) {
+																	latestVersionCallback(versionReg.exec(archiveUrl)[0]);
+																}
+
+																moveOnBuild();
+															} else {
+																if (versionsCallback) {
+																	versionsCallback(versionReg.exec(archiveUrl)[0], archiveUrl, response4.data.message);
+																}
+
+																if (latestVersionCallback && buildNumber == builds[0].number) {
+																	latestVersionCallback(versionReg.exec(archiveUrl)[0]);
+																}
+
+																moveOnBuild();
+															}
+														}
+													});
 												}
-
-												if (latestVersionCallback && buildNumber == builds[0].number) {
-													latestVersionCallback(versionReg.exec(archiveUrl)[0]);
-												}
-
-												moveOnBuild();
-											} else if (response4.statusCode != 200) {
-												logging.messageLog('HTTP ' + response4.statusCode + ' https://api.github.com/repos/overviewer/Minecraft-Overviewer/git/commits/' + JSON.parse(body3).builds[0].properties.got_revision[0]);
-												console.log(JSON.parse(body4));
-
-												if (versionsCallback) {
-													versionsCallback(versionReg.exec(archiveUrl)[0], archiveUrl);
-												}
-
-												if (latestVersionCallback && buildNumber == builds[0].number) {
-													latestVersionCallback(versionReg.exec(archiveUrl)[0]);
-												}
-
-												moveOnBuild();
-											} else {
-												if (versionsCallback) {
-													versionsCallback(versionReg.exec(archiveUrl)[0], archiveUrl, JSON.parse(body4).message);
-												}
-
-												if (latestVersionCallback && buildNumber == builds[0].number) {
-													latestVersionCallback(versionReg.exec(archiveUrl)[0]);
-												}
-
-												moveOnBuild();
 											}
 										});
 									}
-								});
+								}
 							}
-						}
 
-						function moveOnBuild() {
-							buildLoopCounter++;
-							goodBuildLimit++;
-							if (buildLoopCounter < builds.length && goodBuildLimit < 10) {
-								buildLoop(builds[buildLoopCounter].number);
-							} else {
-								if (doneCallback)
-									doneCallback();
+							function moveOnBuild() {
+								buildLoopCounter++;
+								goodBuildLimit++;
+								if (buildLoopCounter < builds.length && goodBuildLimit < 10) {
+									buildLoop(builds[buildLoopCounter].number);
+								} else {
+									if (doneCallback)
+										doneCallback();
+								}
 							}
-						}
-					});
+						});
+					}
+					buildLoop(builds[buildLoopCounter].number);
+				} else {
+					errorCallback('No builds found for ' + osType);
+					logging.messageLog('No builds found for ' + osType);
 				}
-				buildLoop(builds[buildLoopCounter].number);
-			} else {
-				errorCallback('No builds found for ' + osType);
-				logging.messageLog('No builds found for ' + osType);
 			}
 		}
 	});
@@ -211,57 +217,63 @@ function updateOverviewer(link, chunkUpdate = null) {
 		let fileSize = 0;
 		let downloadedSize = 0;
 		if (fileNameReg.test(link)) {
-			request(link.replace(/http(?!s)/g, "https")).on('response', function (response) {
+			axios.get(link.replace(/http(?!s)/g, "https"), {
+				responseType: 'stream',
+				maxContentLength: 4294967296
+			}).catch((error) => {
+				errorCallback(error.message);
+			}).then((response) => {
 				fileSize = parseInt(response.headers['content-length']);
-			}).on('data', function (chunk) {
-				downloadedSize += parseInt(chunk.length);
-				electron.mainWindow.setProgressBar(downloadedSize / fileSize, { mode: 'normal' });
-				if (chunkUpdate)
-					chunkUpdate(true, downloadedSize / fileSize)
-			}).on('close', function () {
-				logging.messageLog('Downloaded overviewer archive');
-				electron.mainWindow.setProgressBar(Infinity, { mode: 'indeterminate' });
-				if (chunkUpdate)
-					chunkUpdate(true, 1.00)
-				const archiveExtension = /(?<=overviewer-\d+\.\d+\.\d+)\.\w+(\.\w+)?/;
-				switch (archiveExtension.exec(fileName)[0]) {
-					case '.zip':
-						const AdmZip = require('adm-zip');
-						let zip = new AdmZip(app.getPath('userData').replace(/\\/g, "/") + '/' + fileName);
-						zip.extractAllTo(app.getPath('userData').replace(/\\/g, "/") + '/', true);
-						doneExtract();
-						break;
-					case '.tar.gz':
-						const gunzip = require('gunzip-maybe');
-						fs.createReadStream(app.getPath('userData').replace(/\\/g, "/") + '/' + fileName)
-							.pipe(gunzip())
-							.pipe(fs.createWriteStream(app.getPath('userData').replace(/\\/g, "/") + '/' + fileName.replace(/\.gz/g, '')))
-							.on('close', function () {
-								const tar = require('tar-fs');
-								fs.createReadStream(app.getPath('userData').replace(/\\/g, "/") + '/' + fileName.replace(/\.gz/g, '')).pipe(tar.extract(app.getPath('userData').replace(/\\/g, "/") + '/').on('finish', function () {
-									fs.unlink(app.getPath('userData').replace(/\\/g, "/") + '/' + fileName.replace(/\.gz/g, ''), (err) => {
-										if (err) throw err;
-										doneExtract();
-									});
-								}));
-							});
-						break;
-				}
+				response.data.on('data', function (chunk) {
+					downloadedSize += parseInt(chunk.length);
+					electron.mainWindow.setProgressBar(downloadedSize / fileSize, { mode: 'normal' });
+					if (chunkUpdate)
+						chunkUpdate(true, downloadedSize / fileSize)
+				}).on('close', function () {
+					logging.messageLog('Downloaded overviewer archive');
+					electron.mainWindow.setProgressBar(Infinity, { mode: 'indeterminate' });
+					if (chunkUpdate)
+						chunkUpdate(true, 1.00)
+					const archiveExtension = /(?<=overviewer-\d+\.\d+\.\d+)\.\w+(\.\w+)?/;
+					switch (archiveExtension.exec(fileName)[0]) {
+						case '.zip':
+							const AdmZip = require('adm-zip');
+							let zip = new AdmZip(app.getPath('userData').replace(/\\/g, "/") + '/' + fileName);
+							zip.extractAllTo(app.getPath('userData').replace(/\\/g, "/") + '/', true);
+							doneExtract();
+							break;
+						case '.tar.gz':
+							const gunzip = require('gunzip-maybe');
+							fs.createReadStream(app.getPath('userData').replace(/\\/g, "/") + '/' + fileName)
+								.pipe(gunzip())
+								.pipe(fs.createWriteStream(app.getPath('userData').replace(/\\/g, "/") + '/' + fileName.replace(/\.gz/g, '')))
+								.on('close', function () {
+									const tar = require('tar-fs');
+									fs.createReadStream(app.getPath('userData').replace(/\\/g, "/") + '/' + fileName.replace(/\.gz/g, '')).pipe(tar.extract(app.getPath('userData').replace(/\\/g, "/") + '/').on('finish', function () {
+										fs.unlink(app.getPath('userData').replace(/\\/g, "/") + '/' + fileName.replace(/\.gz/g, ''), (err) => {
+											if (err) throw err;
+											doneExtract();
+										});
+									}));
+								});
+							break;
+					}
 
-				function doneExtract() {
-					logging.messageLog('Extracted overviewer archive');
-					fs.unlink(app.getPath('userData').replace(/\\/g, "/") + '/' + fileName, (err) => {
-						if (err) throw err;
-						logging.messageLog('Deleted overviewer archive');
-						electron.mainWindow.setProgressBar(-Infinity, { mode: 'none' });
-						if (chunkUpdate)
-							chunkUpdate(false)
-						updateLocalOverviewerVersion(function (currentVersion) {
-							electron.mainWindow.webContents.send('localOverviewerVersion', currentVersion);
+					function doneExtract() {
+						logging.messageLog('Extracted overviewer archive');
+						fs.unlink(app.getPath('userData').replace(/\\/g, "/") + '/' + fileName, (err) => {
+							if (err) throw err;
+							logging.messageLog('Deleted overviewer archive');
+							electron.mainWindow.setProgressBar(-Infinity, { mode: 'none' });
+							if (chunkUpdate)
+								chunkUpdate(false)
+							updateLocalOverviewerVersion(function (currentVersion) {
+								electron.mainWindow.webContents.send('localOverviewerVersion', currentVersion);
+							});
 						});
-					});
-				}
-			}).pipe(fs.createWriteStream(app.getPath('userData').replace(/\\/g, "/") + '/' + fileName));
+					}
+				}).pipe(fs.createWriteStream(app.getPath('userData').replace(/\\/g, "/") + '/' + fileName));
+			});
 		}
 	}
 }
