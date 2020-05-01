@@ -1,47 +1,51 @@
 {
-	"name": "overviewer-configurator",
-	"version": "3.0.0",
-	"productName": "Overviewer Configurator",
-	"description": "An UI wrapper for Overviewer that handles everything from map configuration to actually running it",
-	"main": "main.js",
-	"scripts": {
-		"start": "electron .",
-		"dev": "electronmon .",
-		"less": "less-watch-compiler css css",
-		"pack:osx": "electron-packager . --out=builds/packaged --ignore='^/builds' --platform=darwin --arch=x64 --asar --overwrite",
-		"pack:win": "electron-packager . --out=builds/packaged --ignore='^/builds' --platform=win32 --arch=ia32,x64 --asar --overwrite",
-		"inst:win": "node winstaller.js"
-	},
-	"repository": {
-		"type": "git",
-		"url": "git+https://github.com/demosjarco/overviewer-configurator.git"
-	},
-	"author": "demosjarco",
-	"license": "GPL-3.0",
-	"bugs": {
-		"url": "https://github.com/victhebeast/overviewer-configurator/issues"
-	},
-	"homepage": "https://github.com/victhebeast/overviewer-configurator#readme",
-	"devDependencies": {
-		"electron": "^8.2.1",
-		"electron-packager": "^14.2.1",
-		"electron-winstaller": "^4.0.0",
-		"electronmon": "^1.0.1",
-		"less-watch-compiler": "^1.14.6"
-	},
-	"dependencies": {
-		"@mdi/font": "^5.0.45",
-		"adm-zip": "^0.4.14",
-		"axios": "^0.19.2",
-		"chart.js": "^2.9.3",
-		"command-exists": "^1.2.8",
-		"electron-window-state": "^5.0.3",
-		"gunzip-maybe": "^1.4.1",
-		"jquery": "^3.5.0",
-		"material-design-icons": "^3.0.1",
-		"rimraf": "^3.0.2",
-		"tar-fs": "^2.0.1",
-		"typeface-open-sans": "0.0.75",
-		"typeface-open-sans-condensed": "0.0.72"
-	}
+  "name": "overviewer-configurator",
+  "version": "3.0.0",
+  "productName": "Overviewer Configurator",
+  "description": "An UI wrapper for Overviewer that handles everything from map configuration to actually running it",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "dev": "electronmon .",
+    "less": "less-watch-compiler css css",
+    "pack:osx": "electron-packager . --out=builds/packaged --ignore='^/builds' --platform=darwin --arch=x64 --asar --overwrite",
+    "pack:win": "electron-packager . --out=builds/packaged --ignore='^/builds' --platform=win32 --arch=ia32,x64 --asar --overwrite",
+    "inst:win": "node winstaller.js",
+    "snyk-protect": "snyk protect",
+    "prepublish": "npm run snyk-protect"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/demosjarco/overviewer-configurator.git"
+  },
+  "author": "demosjarco",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/victhebeast/overviewer-configurator/issues"
+  },
+  "homepage": "https://github.com/victhebeast/overviewer-configurator#readme",
+  "devDependencies": {
+    "electron": "^8.2.1",
+    "electron-packager": "^14.2.1",
+    "electron-winstaller": "^4.0.0",
+    "electronmon": "^1.0.1",
+    "less-watch-compiler": "^1.14.6"
+  },
+  "dependencies": {
+    "@mdi/font": "^5.0.45",
+    "adm-zip": "^0.4.14",
+    "axios": "^0.19.2",
+    "chart.js": "^2.9.3",
+    "command-exists": "^1.2.8",
+    "electron-window-state": "^5.0.3",
+    "gunzip-maybe": "^1.4.1",
+    "jquery": "^3.5.0",
+    "material-design-icons": "^3.0.1",
+    "rimraf": "^3.0.2",
+    "tar-fs": "^2.0.1",
+    "typeface-open-sans": "0.0.75",
+    "typeface-open-sans-condensed": "0.0.72",
+    "snyk": "^1.316.1"
+  },
+  "snyk": true
 }
