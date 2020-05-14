@@ -23,24 +23,24 @@
 	},
 	"homepage": "https://github.com/victhebeast/overviewer-configurator#readme",
 	"devDependencies": {
-		"electron": "^8.2.1",
+		"electron": "^8.2.5",
 		"electron-packager": "^14.2.1",
 		"electron-winstaller": "^4.0.0",
-		"electronmon": "^1.0.1",
+		"electronmon": "^1.1.0",
 		"less-watch-compiler": "^1.14.6"
 	},
 	"dependencies": {
-		"@mdi/font": "^5.0.45",
+		"@mdi/font": "^5.2.45",
 		"adm-zip": "^0.4.14",
 		"axios": "^0.19.2",
 		"chart.js": "^2.9.3",
-		"command-exists": "^1.2.8",
+		"command-exists": "^1.2.9",
 		"electron-window-state": "^5.0.3",
-		"gunzip-maybe": "^1.4.1",
-		"jquery": "^3.5.0",
+		"gunzip-maybe": "^1.4.2",
+		"jquery": "^3.5.1",
 		"material-design-icons": "^3.0.1",
 		"rimraf": "^3.0.2",
-		"tar-fs": "^2.0.1",
+		"tar-fs": "^2.1.0",
 		"typeface-open-sans": "0.0.75",
 		"typeface-open-sans-condensed": "0.0.72"
 	}
