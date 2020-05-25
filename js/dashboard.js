@@ -41,6 +41,8 @@ function chooseWorldsLocation() {
 			const path = result.filePaths[0].replace(/\\/g, "/");
 			ipcRenderer.send('updateWorldsLocation', path);
 			$('div#worldsLocation footer span').text(path);
+			$('li#worlds ul').empty().append('<li class="loading"><div class="content"><span class="status"><i class="material-icons">autorenew</i></span><span>Loading...</span></div></li>');
+			ipcRenderer.send('readWorlds', path);
 		}
 	}).catch((err) => {
 		ipcRenderer.send('visualLog', err);
