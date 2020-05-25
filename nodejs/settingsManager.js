@@ -49,10 +49,11 @@ module.exports = class SettingsManager {
 			saveJSON(runningJson);
 		} else {
 			// New Entry
-			let newWorld = { path: filePath };
+			let newWorld = { enabled: true };
 			needMoreInfo(filePath, (codeName, worldName) => {
-				newWorld.sc = codeName;
 				newWorld.name = worldName;
+				newWorld.path = filePath;
+				newWorld.sc = codeName;
 				electron.mainWindow.webContents.send('foundWorld', newWorld);
 				runningJson.worlds.push(newWorld);
 				runningJson.worlds.sort((a, b) => (a.sc > b.sc) ? 1 : (a.sc === b.sc) ? ((a.name > b.name) ? 1 : -1) : -1);
@@ -60,6 +61,7 @@ module.exports = class SettingsManager {
 				logging.messageLog('Found world: [' + worldFound[0].sc + '] ' + worldFound[0].name);
 			});
 		}
+		ConfigManager.updateConfig(runningJson);
 	}
 }
 
