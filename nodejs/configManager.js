@@ -63,10 +63,12 @@ function createPyConfigFile(timestamp = new Date(), permJson = {}) {
 
 function worldsSection(worlds = {}) {
 	let worldsString = '# Worlds Setup\n';
-	Object.values(worlds).forEach(function (worldInfo) {
-		if (worldInfo.enabled)
-			worldsString += 'worlds["' + worldInfo.name + '"] = "' + worldInfo.path + '"\n';
-	});
+	if (worlds.length > 0) {
+		worlds.forEach(function (worldInfo) {
+			if (worldInfo.enabled)
+				worldsString += 'worlds["' + worldInfo.name + '"] = "' + worldInfo.path + '"\n';
+		});
+	}
 	worldsString += '\n';
 	return worldsString;
 }
