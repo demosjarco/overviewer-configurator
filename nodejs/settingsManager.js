@@ -2,6 +2,7 @@
 
 const { app } = require('electron');
 const electron = require('./electronSetup.js');
+const logging = require('./logging.js');
 const fs = require('fs');
 let ConfigManager;
 
@@ -37,6 +38,7 @@ module.exports = class SettingsManager {
 		if (worldFound.length == 1) {
 			// Exist
 			electron.mainWindow.webContents.send('foundWorld', worldFound[0]);
+			logging.messageLog('Found world: [' + worldFound[0].sc + '] ' + worldFound[0].name);
 		} else if (worldFound.length > 1) {
 			// Clear Duplicates
 			electron.mainWindow.webContents.send('foundWorld', worldFound.pop());
@@ -55,6 +57,7 @@ module.exports = class SettingsManager {
 				runningJson.worlds.push(newWorld);
 				runningJson.worlds.sort((a, b) => (a.sc > b.sc) ? 1 : (a.sc === b.sc) ? ((a.name > b.name) ? 1 : -1) : -1);
 				saveJSON(runningJson);
+				logging.messageLog('Found world: [' + worldFound[0].sc + '] ' + worldFound[0].name);
 			});
 		}
 	}
