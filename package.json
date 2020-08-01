@@ -26,11 +26,11 @@
 		"electron": "^9.1.0",
 		"electron-packager": "^15.0.0",
 		"electron-winstaller": "^4.0.1",
-		"electronmon": "^1.1.1",
+		"electronmon": "^1.1.2",
 		"less-watch-compiler": "^1.14.6"
 	},
 	"dependencies": {
-		"@mdi/font": "^5.3.45",
+		"@mdi/font": "^5.4.55",
 		"adm-zip": "^0.4.16",
 		"axios": "^0.19.2",
 		"chart.js": "^2.9.3",
