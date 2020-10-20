@@ -15,7 +15,7 @@ jobs:
     - uses: actions/checkout@master
     - uses: actions/setup-node@master
       with:
-        node-version: '14.x'
+        node-version: '15.x'
     - run: npm install
     - name: Uninstall unneeded dependencies
       run: npm uninstall electronmon less-watch-compiler -D
@@ -52,7 +52,7 @@ jobs:
     - uses: actions/checkout@master
     - uses: actions/setup-node@master
       with:
-        node-version: '14.x'
+        node-version: '15.x'
     - run: npm install
     - name: Uninstall unneeded dependencies
       run: npm uninstall electronmon less-watch-compiler -D
