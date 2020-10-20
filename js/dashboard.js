@@ -96,7 +96,7 @@ function cpuGraph(graphCanvas) {
 		for (let i = 0; i < os.cpus().length; i++) {
 			const colorChosen = getColor();
 			cpuCoresDatasets.push({
-				label: 'CPU Core ' + (i + 1),
+				label: 'CPU Core ' + i,
 				backgroundColor: colorChosen,
 				borderColor: colorChosen,
 				data: [],
