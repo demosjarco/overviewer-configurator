@@ -202,18 +202,14 @@ function ramGraph(graphCanvas) {
 		},
 		options: {
 			tooltips: {
-				enabled: false,
-				mode: 'index',
-				intersect: false,
+				enabled: true,
+				mode: 'nearest',
 				callbacks: {
-					label: function (tooltipItem, data) {
-						let label = data.datasets[tooltipItem.datasetIndex].label || '';
-
-						if (label) {
-							label += ': ';
-						}
-						label += tooltipItem.yLabel + 'GB';
-						return label;
+					title: (tooltipItem, data) => {
+						return '';
+					},
+					label: (tooltipItem, data) => {
+						return tooltipItem.yLabel.toFixed(2) + 'GB';
 					}
 				}
 			},
