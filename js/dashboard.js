@@ -212,7 +212,7 @@ function ramGraph(graphCanvas) {
 						if (label) {
 							label += ': ';
 						}
-						label += Math.round(tooltipItem.yLabel * 100) / 100 + '%';
+						label += tooltipItem.yLabel + 'GB';
 						return label;
 					}
 				}
@@ -229,7 +229,7 @@ function ramGraph(graphCanvas) {
 					display: true,
 					ticks: {
 						min: 0,
-						max: 100
+						max: os.totalmem() / 1024 / 1024 / 1024 // bytes / kb / mb / gb
 					},
 					gridLines: {
 						color: 'rgba(255, 255, 255, 0.19)'
@@ -248,7 +248,7 @@ function ramGraph(graphCanvas) {
 		if (ramGraphConfig.data.datasets[0].data.length >= numSeconds) {
 			ramGraphConfig.data.datasets[0].data.shift();
 		}
-		ramGraphConfig.data.datasets[0].data.push(((os.totalmem() - os.freemem()) / os.totalmem()) * 100);
+		ramGraphConfig.data.datasets[0].data.push((os.totalmem() - os.freemem()) / 1024 / 1024 / 1024); // (used bytes) / kb / mb / gb
 		graph.update();
 	}, 1000);
 }
