@@ -30,7 +30,7 @@
 		"less-watch-compiler": "^1.14.6"
 	},
 	"dependencies": {
-		"@mdi/font": "^5.7.55",
+		"@mdi/font": "^5.8.55",
 		"adm-zip": "^0.4.16",
 		"axios": "^0.20.0",
 		"chart.js": "^2.9.4",
