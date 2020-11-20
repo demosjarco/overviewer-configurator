@@ -23,7 +23,7 @@
 	},
 	"homepage": "https://github.com/victhebeast/overviewer-configurator#readme",
 	"devDependencies": {
-		"electron": "^10.1.4",
+		"electron": "^10.1.6",
 		"electron-packager": "^15.1.0",
 		"electron-winstaller": "^4.0.1",
 		"electronmon": "^1.1.2",
