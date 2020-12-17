@@ -16,7 +16,7 @@ jobs:
     - uses: actions/setup-node@master
       with:
         node-version: '15.x'
-    - run: npm install
+    - run: npm ci
     - name: Uninstall unneeded dependencies
       run: npm uninstall electronmon less-watch-compiler -D
     - name: Delete dev files
@@ -53,7 +53,7 @@ jobs:
     - uses: actions/setup-node@master
       with:
         node-version: '15.x'
-    - run: npm install
+    - run: npm ci
     - name: Uninstall unneeded dependencies
       run: npm uninstall electronmon less-watch-compiler -D
     - name: Delete dev files
