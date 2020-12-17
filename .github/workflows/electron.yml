@@ -25,8 +25,6 @@ jobs:
     - run: npm run pack:osx
     - name: Compress package x64
       run: zip -vr Overviewer-Configurator-mac-x64.zip 'builds/packaged/Overviewer Configurator-darwin-x64/Overviewer Configurator.app'
-    - name: Install glob for release
-      run: npm install glob -O
     - name: Upload to Beta Releases
       uses: softprops/action-gh-release@v1
       if: startsWith(github.ref, 'refs/tags/b')
@@ -68,8 +66,6 @@ jobs:
       run: Compress-Archive -Path '.\builds\packaged\Overviewer Configurator-win32-x64' -DestinationPath '.\Overviewer-Configurator-win-x64.zip' -CompressionLevel Optimal
       shell: powershell
     - run: npm run inst:win
-    - name: Install glob for release
-      run: npm install glob -O
     - name: Upload to Beta Releases
       uses: softprops/action-gh-release@v1
       if: startsWith(github.ref, 'refs/tags/b')
