@@ -22,20 +22,15 @@
 		"url": "https://github.com/victhebeast/overviewer-configurator/issues"
 	},
 	"homepage": "https://github.com/victhebeast/overviewer-configurator#readme",
-	"devDependencies": {
-		"electron": "^11.0.3",
-		"electron-packager": "^15.1.0",
-		"electron-winstaller": "^4.0.1",
-		"electronmon": "^1.1.2",
-		"less-watch-compiler": "^1.14.6"
-	},
 	"dependencies": {
 		"@mdi/font": "^5.8.55",
 		"adm-zip": "^0.5.1",
 		"axios": "^0.21.0",
 		"chart.js": "^2.9.4",
 		"command-exists": "^1.2.9",
+		"electron-packager": "^15.2.0",
 		"electron-window-state": "^5.0.3",
+		"electron-winstaller": "^4.0.1",
 		"gunzip-maybe": "^1.4.2",
 		"jquery": "^3.5.1",
 		"material-design-icons": "^3.0.1",
@@ -43,5 +38,14 @@
 		"tar-fs": "^2.1.1",
 		"typeface-open-sans": "^1.1.13",
 		"typeface-open-sans-condensed": "^1.1.13"
+	},
+	"devDependencies": {
+		"electron": "^11.1.0",
+		"electronmon": "^1.1.2",
+		"less-watch-compiler": "^1.14.6"
+	},
+	"optionalDependencies": {
+		"electron-packager": "^15.2.0",
+		"electron-winstaller": "^4.0.1"
 	}
 }
