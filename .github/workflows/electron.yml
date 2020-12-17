@@ -59,9 +59,6 @@ jobs:
             rm -fv css/*.less
       shell: bash
     - run: npm run pack:win
-    - name: temp list files
-      run: dir builds/packaged/
-      shell: powershell
     - name: Compress package x32
       run: Compress-Archive -Path '.\builds\packaged\Overviewer Configurator-win32-ia32' -DestinationPath '.\Overviewer-Configurator-win-x32.zip' -CompressionLevel Optimal
       shell: powershell
