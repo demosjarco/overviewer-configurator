@@ -23,6 +23,8 @@ jobs:
       run: |
             rm -fv css/*.less
     - run: npm run pack:osx
+    - name: temp list files
+      run: ls -lA builds/packaged/
     - name: Compress package x64
       run: zip -vr Overviewer-Configurator-mac-x64.zip 'builds/packaged/Overviewer Configurator-darwin-x64/Overviewer Configurator.app'
     - name: Upload to Beta Releases
