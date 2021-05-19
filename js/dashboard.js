@@ -113,15 +113,12 @@ function cpuGraph(graphCanvas) {
 			datasets: setupDatasets()
 		},
 		options: {
-			tooltips: {
-				enabled: true,
-				mode: 'nearest',
-				callbacks: {
-					title: (tooltipItem, data) => {
-						return '';
-					},
-					label: (tooltipItem, data) => {
-						return tooltipItem.yLabel.toFixed(2) + '%';
+			plugins: {
+				tooltip: {
+					callbacks: {
+						label: (context) => {
+							return `${context.parsed.y.toFixed(2)}%`;
+						}
 					}
 				}
 			},
@@ -198,15 +195,12 @@ function ramGraph(graphCanvas) {
 			}]
 		},
 		options: {
-			tooltips: {
-				enabled: true,
-				mode: 'nearest',
-				callbacks: {
-					title: (tooltipItem, data) => {
-						return '';
-					},
-					label: (tooltipItem, data) => {
-						return tooltipItem.yLabel.toFixed(2) + 'GB';
+			plugins: {
+				tooltip: {
+					callbacks: {
+						label: (context) => {
+							return `${context.parsed.y.toFixed(2)}%`;
+						}
 					}
 				}
 			},
