@@ -68,7 +68,7 @@ function chooseMapsLocation() {
 	});
 }
 
-const numSeconds = 60;
+const numSeconds = 30;
 
 function setupGraphs() {
 	cpuGraph($('canvas#cpuGraph'));
