@@ -130,27 +130,28 @@ function cpuGraph(graphCanvas) {
 				intersect: true
 			},
 			scales: {
-				xAxes: [{
+				x: {
 					display: false,
-				}],
-				yAxes: [{
+				},
+				y: {
 					display: true,
-					ticks: {
-						min: 0,
-						max: 100
-					},
-					gridLines: {
+					min: 0,
+					max: 100,
+					grid: {
 						color: 'rgba(255, 255, 255, 0.19)'
-					},
-				}]
+					}
+				},
+				
 			},
 			maintainAspectRatio: false,
 		}
 	};
+	
 	const graph = new Chart(graphCanvas, cpuGraphConfig);
-	Chart.defaults.global.defaultColor = 'white';
-	Chart.defaults.global.defaultFontColor = 'white';
-	Chart.defaults.global.defaultFontFamily = "'Open Sans Condensed', sans-serif";
+	Chart.defaults.backgroundColor = 'white';
+	Chart.defaults.borderColor = 'white';
+	Chart.defaults.color = 'white';
+	Chart.defaults.font.family = "'Open Sans Condensed', sans-serif";
 
 	let initialCpuUsed = {};
 	let initialCpuTotal = {};
@@ -214,27 +215,26 @@ function ramGraph(graphCanvas) {
 				intersect: true
 			},
 			scales: {
-				xAxes: [{
+				x: {
 					display: false,
-				}],
-				yAxes: [{
+				},
+				y: {
 					display: true,
-					ticks: {
-						min: 0,
-						max: os.totalmem() / 1024 / 1024 / 1024 // bytes / kb / mb / gb
-					},
-					gridLines: {
-						color: 'rgba(255, 255, 255, 0.19)'
-					},
-				}]
+					min: 0,
+					max: os.totalmem() / 1024 / 1024 / 1024, // bytes / kb / mb / gb
+					grid: {
+						color: 'rgba(255, 255, 255, 0.19)',
+					}
+				},
+
 			},
 			maintainAspectRatio: false,
 		}
 	};
 	const graph = new Chart(graphCanvas, ramGraphConfig);
-	Chart.defaults.global.defaultColor = 'white';
-	Chart.defaults.global.defaultFontColor = 'white';
-	Chart.defaults.global.defaultFontFamily = "'Open Sans Condensed', sans-serif";
+	Chart.defaults.borderColor = 'white';
+	Chart.defaults.color = 'white';
+	Chart.defaults.font.family = "'Open Sans Condensed', sans-serif";
 
 	setInterval(function () {
 		if (ramGraphConfig.data.datasets[0].data.length >= numSeconds) {
