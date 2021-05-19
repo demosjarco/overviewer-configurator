@@ -30,6 +30,7 @@ function createWindow() {
 		webPreferences: {
 			devTools: true,
 			nodeIntegration: true,
+			contextIsolation: false,
 			enableRemoteModule: true,
 			webSecurity: true,
 			allowRunningInsecureContent: false,
