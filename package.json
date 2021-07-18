@@ -26,7 +26,7 @@
 		"@mdi/font": "^5.9.55",
 		"adm-zip": "^0.5.5",
 		"axios": "^0.21.1",
-		"chart.js": "^3.2.1",
+		"chart.js": "^3.4.1",
 		"command-exists": "^1.2.9",
 		"electron-window-state": "^5.0.3",
 		"gunzip-maybe": "^1.4.2",
@@ -38,12 +38,12 @@
 		"typeface-open-sans-condensed": "^1.1.13"
 	},
 	"devDependencies": {
-		"electron": "^13.1.1",
+		"electron": "^13.1.7",
 		"electronmon": "^2.0.1",
-		"less-watch-compiler": "^1.15.1"
+		"less-watch-compiler": "^1.16.2"
 	},
 	"optionalDependencies": {
-		"electron-packager": "^15.2.0",
+		"electron-packager": "^15.3.0",
 		"electron-winstaller": "^5.0.0"
 	}
 }
