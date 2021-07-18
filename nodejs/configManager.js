@@ -62,7 +62,7 @@ function createPyConfigFile(timestamp = new Date(), permJson = {}) {
 }
 
 function worldsSection(worlds = {}) {
-	let worldsString = '# Worlds Setup\n';
+	let worldsString = '#\tWorlds Setup\n';
 	if (worlds.length > 0) {
 		worlds.forEach(function (worldInfo) {
 			if (worldInfo.enabled)
@@ -74,7 +74,7 @@ function worldsSection(worlds = {}) {
 }
 
 function globalConfig(global = {}) {
-	let globalsString = '# Global Config\n';
+	let globalsString = '#\tGlobal Config\n';
 
 	if (global && global.outputLocation)
 		globalsString += 'outputdir = "' + global.outputLocation + '"\n';
@@ -93,7 +93,7 @@ function globalConfig(global = {}) {
 
 	// Progress
 	if (global && global.renderProgress) {
-		globalsString += '# Progress\n';
+		globalsString += '#\tProgress\n';
 
 		if (global.renderProgress.local && global.renderProgress.web) {
 			globalsString += 'from .observer import MultiplexingObserver, LoggingObserver, JSObserver\n';
@@ -110,7 +110,7 @@ function globalConfig(global = {}) {
 
 	// Image Settings
 	if (global && global.imageSettings) {
-		globalsString += '# Image Settings\n';
+		globalsString += '#\tImage Settings\n';
 
 		if (global.imageSettings.format) {
 			globalsString += 'imgformat = "' + global.imageSettings.format + '"\n';
@@ -142,7 +142,7 @@ function globalConfig(global = {}) {
 }
 
 function markersConfig(markers = {}) {
-	let markersString = '# Markers Config\n';
+	let markersString = '#\tMarkers Config\n';
 	const defRegex = /(?<=^def\s)(\w|\d)+(?=\()/i;
 
 	Object.keys(markers).map(function (key, index) {
@@ -156,10 +156,23 @@ function markersConfig(markers = {}) {
 }
 
 function renderConfig(worlds = {}) {
-	let renderString = '# World Render Config\n';
+	let renderString = '#\tWorld Render Config\n';
 
 	Object.keys(worlds).map(function (key, index) {
 		const worldInfo = worlds[key];
+		if (worldInfo.enabled) {
+			renderString += `##\t${worldInfo.name}\n`;
+
+			renderString += `renders["${worldInfo.sc}-"] = {\n`;
+			renderString += `\t"world": "${worldInfo.name}",\n`;
+			renderString += `\t"title": "Day NW ${worldInfo.name}",\n`;
+			renderString += `\t"dimension": "overworld",\n`;
+			renderString += `\t"rendermode": "smooth_lighting",\n`;
+			renderString += `\t"northdirection": "upper-left",\n`;
+			renderString += `\t"overlay": [],\n`;
+			renderString += `\t"markers": [],\n`;
+			renderString += `}\n`;
+		}
 	});
 
 	return renderString;

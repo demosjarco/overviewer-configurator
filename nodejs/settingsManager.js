@@ -49,7 +49,98 @@ module.exports = class SettingsManager {
 			saveJSON(runningJson);
 		} else {
 			// New Entry
-			let newWorld = { enabled: true };
+			let newWorld = {
+				enabled: true,
+				renderTypes: {
+					day: {
+						enabled: true,
+						smoothLighting: true,
+						directions: {
+							ul: true,
+							ur: false,
+							ll: false,
+							lr: false
+						},
+						markers: {
+							sign: true,
+							chest: true,
+							player: true
+						}
+					},
+					caves: {
+						enabled: true,
+						smoothLighting: true,
+						directions: {
+							ul: true,
+							ur: false,
+							ll: false,
+							lr: false
+						},
+						markers: {
+							sign: true,
+							chest: true,
+							player: true
+						}
+					},
+					night: {
+						enabled: true,
+						smoothLighting: true,
+						directions: {
+							ul: true,
+							ur: false,
+							ll: false,
+							lr: false
+						},
+						markers: {
+							sign: true,
+							chest: true,
+							player: true
+						}
+					},
+					nether: {
+						enabled: true,
+						smoothLighting: true,
+						directions: {
+							ul: true,
+							ur: false,
+							ll: false,
+							lr: false
+						},
+						markers: {
+							sign: true,
+							chest: true,
+							player: true
+						}
+					},
+					end: {
+						enabled: true,
+						smoothLighting: true,
+						directions: {
+							ul: true,
+							ur: false,
+							ll: false,
+							lr: false
+						},
+						markers: {
+							sign: true,
+							chest: true,
+							player: true
+						}
+					}
+				},
+				overlayTypes: {
+					minerals: {
+						day: true,
+						caves: true,
+						night: true
+					},
+					spawn: {
+						day: true,
+						caves: true,
+						night: true
+					}
+				}
+			};
 			needMoreInfo(filePath, (codeName, worldName) => {
 				newWorld.name = worldName;
 				newWorld.path = filePath;
