@@ -245,13 +245,32 @@ function renderConfig(worlds = {}) {
 								}
 							}
 
+							let markerList = [];
+							for (const markerTypeKey in renderType.markers) {
+								if (renderType.markers[markerTypeKey]) {
+									switch (markerTypeKey) {
+										case "sign":
+											markerList.push("signsFilter");
+											break;
+										case "chest":
+											markerList.push("chestsFilter");
+											break;
+										case "player":
+											markerList.push("playersFilter");
+											break;
+									}
+								}
+							}
+
 							renderString += `renders["${worldInfo.sc}-${renderTypeKey}-${directionKey}"] = {\n`;
 							renderString += `\t"world": "${worldInfo.name}",\n`;
 							renderString += `\t"title": "${renderTypeKey.capitalize()} ${directionKey.toUpperCase()} ${worldInfo.name}",\n`;
 							renderString += `\t"dimension": "${getDimension()}",\n`;
 							renderString += `\t"rendermode": ${getRenderQuality()},\n`;
 							renderString += `\t"northdirection": "${getDirection(directionKey)}",\n`;
-							renderString += `\t"markers": [],\n`;
+							if (renderType.markers) {
+								renderString += `\t"markers": [${markerList}]\n`;
+							}
 							renderString += `}\n`;
 						}
 					}
