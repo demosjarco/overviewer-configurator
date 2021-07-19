@@ -227,6 +227,8 @@ function processJsonReadQueue() {
 					}
 				},
 				caveDepthShading: true,
+				lighterNetherShading: true,
+				lighterEndShading: true,
 				renderProgress: {
 					local: true,
 					web: false
@@ -303,6 +305,14 @@ function processJsonReadQueue() {
 			if (!('caveDepthShading' in json.global)) {
 				changed = true;
 				tempJson.global.caveDepthShading = true;
+			}
+			if (!('lighterNetherShading' in json.global)) {
+				changed = true;
+				tempJson.global.lighterNetherShading = true;
+			}
+			if (!('lighterEndShading' in json.global)) {
+				changed = true;
+				tempJson.global.lighterEndShading = true;
 			}
 			if (!('renderProgress' in json.global)) {
 				changed = true;
