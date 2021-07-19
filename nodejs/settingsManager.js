@@ -69,7 +69,6 @@ module.exports = class SettingsManager {
 					},
 					caves: {
 						enabled: true,
-						smoothLighting: true,
 						directions: {
 							ul: true,
 							ur: false,
