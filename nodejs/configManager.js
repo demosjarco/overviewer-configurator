@@ -178,6 +178,19 @@ function renderConfig(worlds = {}) {
 		if (worldInfo.enabled) {
 			renderString += `##\t\t${worldInfo.name}\n`;
 
+			function getDirection(directionKey) {
+				switch (directionKey) {
+					case "ul":
+						return "upper-left";
+					case "ur":
+						return "upper-right";
+					case "ll":
+						return "lower-left";
+					case "lr":
+						return "lower-right";
+				}
+			}
+
 			for (const renderTypeKey in worldInfo.renderTypes) {
 				const renderType = worldInfo.renderTypes[renderTypeKey];
 
@@ -232,26 +245,12 @@ function renderConfig(worlds = {}) {
 								}
 							}
 
-							function getDirection() {
-								switch (directionKey) {
-									case "ul":
-										return "upper-left";
-									case "ur":
-										return "upper-right";
-									case "ll":
-										return "lower-left";
-									case "lr":
-										return "lower-right";
-								}
-							}
-
 							renderString += `renders["${worldInfo.sc}-${renderTypeKey}-${directionKey}"] = {\n`;
 							renderString += `\t"world": "${worldInfo.name}",\n`;
 							renderString += `\t"title": "${renderTypeKey.capitalize()} ${directionKey.toUpperCase()} ${worldInfo.name}",\n`;
 							renderString += `\t"dimension": "${getDimension()}",\n`;
 							renderString += `\t"rendermode": ${getRenderQuality()},\n`;
-							renderString += `\t"northdirection": "${getDirection()}",\n`;
-							renderString += `\t"overlay": [],\n`;
+							renderString += `\t"northdirection": "${getDirection(directionKey)}",\n`;
 							renderString += `\t"markers": [],\n`;
 							renderString += `}\n`;
 						}
