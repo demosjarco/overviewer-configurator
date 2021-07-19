@@ -74,11 +74,6 @@ module.exports = class SettingsManager {
 							ur: false,
 							ll: false,
 							lr: false
-						},
-						markers: {
-							sign: true,
-							chest: true,
-							player: true
 						}
 					},
 					night: {
@@ -104,11 +99,6 @@ module.exports = class SettingsManager {
 							ur: false,
 							ll: false,
 							lr: false
-						},
-						markers: {
-							sign: true,
-							chest: true,
-							player: true
 						}
 					},
 					end: {
@@ -119,11 +109,6 @@ module.exports = class SettingsManager {
 							ur: false,
 							ll: false,
 							lr: false
-						},
-						markers: {
-							sign: true,
-							chest: true,
-							player: true
 						}
 					}
 				},
