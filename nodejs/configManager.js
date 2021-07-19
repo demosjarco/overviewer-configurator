@@ -257,8 +257,48 @@ function renderConfig(worlds = {}) {
 					}
 				}
 			}
+
+			for (const overlayTypeKey in worldInfo.overlayTypes) {
+				const overlayType = worldInfo.overlayTypes[overlayTypeKey];
+
+				if (Object.values(overlayType).some((e) => { return e; })) {
+					renderString += `###\t\t${overlayTypeKey.capitalize()}\n`;
+					let directionsToRender = {
+						"ul": [],
+						"ur": [],
+						"ll": [],
+						"lr": []
+					};
+
+					for (const renderTypeKey in overlayType) {
+						const renderTypeEnabled = overlayType[renderTypeKey];
+						
+						for (const directionKey in worldInfo.renderTypes[renderTypeKey].directions) {
+							if (worldInfo.renderTypes[renderTypeKey].directions[directionKey]) {
+								directionsToRender[directionKey].push(`${worldInfo.sc}-${renderTypeKey}-${directionKey}`);
+							}
+						}
+					}
+
+					for (const directionKey in directionsToRender) {
+						const directionEnabled = directionsToRender[directionKey];
+
+						if (directionEnabled.length > 0) {
+							renderString += `####\t${directionKey.toUpperCase()}\n`;
+
+							renderString += `renders["${worldInfo.sc}-${overlayTypeKey}-${directionKey}"] = {\n`;
+							renderString += `\t"world": "${worldInfo.name}",\n`;
+							renderString += `\t"title": "${overlayTypeKey.capitalize()} ${directionKey.toUpperCase()}",\n`;
+							renderString += `\t"rendermode": [ClearBase(), MineralOverlay()],\n`;
+							renderString += `\t"northdirection": "${getDirection(directionKey)}",\n`;
+							renderString += `\t"overlay": ${JSON.stringify(directionEnabled)},\n`;
+							renderString += `}\n`;
+						}
+					}
+				}
+			}
 		}
-	});
+	}
 
 	return renderString;
 }
