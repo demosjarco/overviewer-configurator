@@ -7,6 +7,10 @@ const configPath = app.getPath('userData').replace(/\\/g, "/") + '/config.py';
 let saveQueue = [];
 let saveQueueProcessing = false;
 
+String.prototype.capitalize = function () {
+	return this.charAt(0).toUpperCase() + this.slice(1);
+}
+
 module.exports = class ConfigManager {
 	constructor() {
 		fs.access(configPath, fs.constants.F_OK | fs.constants.W_OK, (err) => {
