@@ -66,7 +66,7 @@ function createPyConfigFile(timestamp = new Date(), permJson = {}) {
 }
 
 function worldsSection(worlds = {}) {
-	let worldsString = '#\tWorlds Setup\n';
+	let worldsString = '#\t\tWorlds Setup\n';
 	if (worlds.length > 0) {
 		worlds.forEach(function (worldInfo) {
 			if (worldInfo.enabled)
@@ -78,26 +78,36 @@ function worldsSection(worlds = {}) {
 }
 
 function globalConfig(global = {}) {
-	let globalsString = '#\tGlobal Config\n';
+	let globalsString = '#\t\tGlobal Config\n';
 
 	if (global && global.outputLocation)
 		globalsString += 'outputdir = "' + global.outputLocation + '"\n';
 	//globalsString += 'customwebassets = "../web_assets"\n';
 	globalsString += 'bgcolor = "#000000"\n';
-	globalsString += 'end_lighting = [Base(), EdgeLines(), Lighting(strength=0.5)]\n';
-	globalsString += 'end_smooth_lighting = [Base(), EdgeLines(), SmoothLighting(strength=0.5)]\n';
-	globalsString += 'lighter_nether_lighting = [Base(), EdgeLines(), Nether(), Lighting(strength=0.5)]\n';
-	globalsString += 'lighter_nether_smooth_lighting = [Base(), EdgeLines(), Nether(), SmoothLighting(strength=0.5)]\n';
 	if (global && global.caveDepthShading) {
-		globalsString += 'cave_custom = "cave"\n';
+		globalsString += 'custom_cave = "cave"\n';
 	} else {
-		globalsString += 'cave_custom = [Base(), EdgeLines(), Cave()]\n';
+		globalsString += 'custom_cave = [Base(), EdgeLines(), Cave()]\n';
+	}
+	if (global && global.lighterNetherShading) {
+		globalsString += 'custom_nether_lighting = [Base(), EdgeLines(), Nether(), Lighting(strength=0.5)]\n';
+		globalsString += 'custom_nether_smooth_lighting = [Base(), EdgeLines(), Nether(), SmoothLighting(strength=0.5)]\n';
+	} else {
+		globalsString += 'custom_nether_lighting = "nether_lighting"\n';
+		globalsString += 'custom_nether_smooth_lighting = "nether_smooth_lighting"\n';
+	}
+	if (global && global.lighterEndShading) {
+		globalsString += 'custom_end_lighting = [Base(), EdgeLines(), Lighting(strength=0.5)]\n';
+		globalsString += 'custom_end_smooth_lighting = [Base(), EdgeLines(), SmoothLighting(strength=0.5)]\n';
+	} else {
+		globalsString += 'custom_end_lighting = [Base(), EdgeLines(), Lighting()]\n';
+		globalsString += 'custom_end_smooth_lighting = [Base(), EdgeLines(), SmoothLighting()]\n';
 	}
 	globalsString += '\n';
 
 	// Progress
 	if (global && global.renderProgress) {
-		globalsString += '#\tProgress\n';
+		globalsString += '#\t\tProgress\n';
 
 		if (global.renderProgress.local && global.renderProgress.web) {
 			globalsString += 'from .observer import MultiplexingObserver, LoggingObserver, JSObserver\n';
@@ -114,7 +124,7 @@ function globalConfig(global = {}) {
 
 	// Image Settings
 	if (global && global.imageSettings) {
-		globalsString += '#\tImage Settings\n';
+		globalsString += '#\t\tImage Settings\n';
 
 		if (global.imageSettings.format) {
 			globalsString += 'imgformat = "' + global.imageSettings.format + '"\n';
@@ -146,7 +156,7 @@ function globalConfig(global = {}) {
 }
 
 function markersConfig(markers = {}) {
-	let markersString = '#\tMarkers Config\n';
+	let markersString = '#\t\tMarkers Config\n';
 	const defRegex = /(?<=^def\s)(\w|\d)+(?=\()/i;
 
 	Object.keys(markers).map(function (key, index) {
@@ -160,22 +170,80 @@ function markersConfig(markers = {}) {
 }
 
 function renderConfig(worlds = {}) {
-	let renderString = '#\tWorld Render Config\n';
+	let renderString = '#\t\tWorld Render Config\n';
 
 	Object.keys(worlds).map(function (key, index) {
 		const worldInfo = worlds[key];
 		if (worldInfo.enabled) {
-			renderString += `##\t${worldInfo.name}\n`;
+			renderString += `##\t\t${worldInfo.name}\n`;
 
-			renderString += `renders["${worldInfo.sc}-"] = {\n`;
-			renderString += `\t"world": "${worldInfo.name}",\n`;
-			renderString += `\t"title": "Day NW ${worldInfo.name}",\n`;
-			renderString += `\t"dimension": "overworld",\n`;
-			renderString += `\t"rendermode": "smooth_lighting",\n`;
-			renderString += `\t"northdirection": "upper-left",\n`;
-			renderString += `\t"overlay": [],\n`;
-			renderString += `\t"markers": [],\n`;
-			renderString += `}\n`;
+			for (const renderTypeKey in worldInfo.renderTypes) {
+				const renderType = worldInfo.renderTypes[renderTypeKey];
+
+				if (renderType.enabled) {
+					renderString += `###\t\t${renderTypeKey.capitalize()}\n`;
+
+					for (const directionKey in renderType.directions) {
+						const directionEnabled = renderType.directions[directionKey];
+
+						if (directionEnabled) {
+							renderString += `####\t${directionKey.toUpperCase()}\n`;
+
+							function getDimension() {
+								switch (renderTypeKey) {
+									case "nether":
+										return "nether";
+									case "end":
+										return "end";
+									default:
+										return "overworld";
+								}
+							}
+
+							function getRenderQuality() {
+								switch (renderTypeKey) {
+									case "day":
+										if (renderType.smoothLighting) {
+											return `"smooth_lighting"`;
+										} else {
+											return `"lighting"`;
+										}
+									case "caves":
+										return "custom_cave";
+									case "night":
+										if (renderType.smoothLighting) {
+											return `"smooth_night"`;
+										} else {
+											return `"night"`;
+										}
+									case "nether":
+										if (renderType.smoothLighting) {
+											return "custom_nether_smooth_lighting";
+										} else {
+											return "custom_nether_lighting";
+										}
+									case "end":
+										if (renderType.smoothLighting) {
+											return "custom_end_smooth_lighting";
+										} else {
+											return "custom_end_lighting";
+										}
+								}
+							}
+
+							renderString += `renders["${worldInfo.sc}-"] = {\n`;
+							renderString += `\t"world": "${worldInfo.name}",\n`;
+							renderString += `\t"title": "${renderTypeKey.capitalize()} ${directionKey.toUpperCase()} ${worldInfo.name}",\n`;
+							renderString += `\t"dimension": "${getDimension()}",\n`;
+							renderString += `\t"rendermode": ${getRenderQuality()},\n`;
+							renderString += `\t"northdirection": "upper-left",\n`;
+							renderString += `\t"overlay": [],\n`;
+							renderString += `\t"markers": [],\n`;
+							renderString += `}\n`;
+						}
+					}
+				}
+			}
 		}
 	});
 
