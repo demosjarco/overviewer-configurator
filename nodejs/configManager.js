@@ -162,7 +162,7 @@ function markersConfig(markers = {}) {
 	Object.keys(markers).map(function (key, index) {
 		if (markers[key].customFilterFunction) {
 			markersString += markers[key].customFilterFunction + '\n\n';
-			markersString += key + 'Markers = dict(name="' + markers[key].name + '", filterFunction=' + defRegex.exec(markers[key].customFilterFunction)[0] + (markers[key].icon ? ', icon="' + markers[key].icon + '"' : '') + ', createInfoWindow=' + (markers[key].createInfoWindow ? 'True' : 'False') + ', checked=' + (markers[key].checked ? 'True' : 'False') + ')\n\n';
+			markersString += key + 'Filter = dict(name="' + markers[key].name + '", filterFunction=' + defRegex.exec(markers[key].customFilterFunction)[0] + (markers[key].icon ? ', icon="' + markers[key].icon + '"' : '') + ', createInfoWindow=' + (markers[key].createInfoWindow ? 'True' : 'False') + ', checked=' + (markers[key].checked ? 'True' : 'False') + ')\n\n';
 		}
 	});
 
