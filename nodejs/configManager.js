@@ -232,12 +232,25 @@ function renderConfig(worlds = {}) {
 								}
 							}
 
-							renderString += `renders["${worldInfo.sc}-"] = {\n`;
+							function getDirection() {
+								switch (directionKey) {
+									case "ul":
+										return "upper-left";
+									case "ur":
+										return "upper-right";
+									case "ll":
+										return "lower-left";
+									case "lr":
+										return "lower-right";
+								}
+							}
+
+							renderString += `renders["${worldInfo.sc}-${renderTypeKey}-${directionKey}"] = {\n`;
 							renderString += `\t"world": "${worldInfo.name}",\n`;
 							renderString += `\t"title": "${renderTypeKey.capitalize()} ${directionKey.toUpperCase()} ${worldInfo.name}",\n`;
 							renderString += `\t"dimension": "${getDimension()}",\n`;
 							renderString += `\t"rendermode": ${getRenderQuality()},\n`;
-							renderString += `\t"northdirection": "upper-left",\n`;
+							renderString += `\t"northdirection": "${getDirection()}",\n`;
 							renderString += `\t"overlay": [],\n`;
 							renderString += `\t"markers": [],\n`;
 							renderString += `}\n`;
