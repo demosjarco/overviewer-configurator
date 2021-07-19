@@ -209,8 +209,6 @@ function renderConfig(worlds = {}) {
 										return "nether";
 									case "end":
 										return "end";
-									default:
-										return "overworld";
 								}
 							}
 
@@ -264,8 +262,10 @@ function renderConfig(worlds = {}) {
 
 							renderString += `renders["${worldInfo.sc}-${renderTypeKey}-${directionKey}"] = {\n`;
 							renderString += `\t"world": "${worldInfo.name}",\n`;
-							renderString += `\t"title": "${renderTypeKey.capitalize()} ${directionKey.toUpperCase()} ${worldInfo.name}",\n`;
-							renderString += `\t"dimension": "${getDimension()}",\n`;
+							renderString += `\t"title": "${renderTypeKey.capitalize()} ${directionKey.toUpperCase()}",\n`;
+							if (renderTypeKey == "nether" || renderTypeKey == "end") {
+								renderString += `\t"dimension": "${getDimension()}",\n`;
+							}
 							renderString += `\t"rendermode": ${getRenderQuality()},\n`;
 							renderString += `\t"northdirection": "${getDirection(directionKey)}",\n`;
 							if (renderType.markers) {
