@@ -172,8 +172,9 @@ function markersConfig(markers = {}) {
 function renderConfig(worlds = {}) {
 	let renderString = '#\t\tWorld Render Config\n';
 
-	Object.keys(worlds).map(function (key, index) {
-		const worldInfo = worlds[key];
+	for (const worldKey in worlds) {
+		const worldInfo = worlds[worldKey];
+
 		if (worldInfo.enabled) {
 			renderString += `##\t\t${worldInfo.name}\n`;
 
