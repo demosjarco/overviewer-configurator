@@ -305,10 +305,19 @@ function renderConfig(worlds = {}) {
 						if (directionEnabled.length > 0) {
 							renderString += `####\t${directionKey.toUpperCase()}\n`;
 
+							function overlayType() {
+								switch (overlayTypeKey) {
+									case "minerals":
+										return "MineralOverlay()";
+									case "spawn":
+										return "SpawnOverlay()";
+								}
+							}
+
 							renderString += `renders["${worldInfo.sc}-${overlayTypeKey}-${directionKey}"] = {\n`;
 							renderString += `\t"world": "${worldInfo.name}",\n`;
 							renderString += `\t"title": "${overlayTypeKey.capitalize()} ${directionKey.toUpperCase()}",\n`;
-							renderString += `\t"rendermode": [ClearBase(), MineralOverlay()],\n`;
+							renderString += `\t"rendermode": [ClearBase(), ${overlayType()}],\n`;
 							renderString += `\t"northdirection": "${getDirection(directionKey)}",\n`;
 							renderString += `\t"overlay": ${JSON.stringify(directionEnabled)},\n`;
 							renderString += `}\n`;
