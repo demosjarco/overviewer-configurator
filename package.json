@@ -5,6 +5,7 @@
 	"description": "An UI wrapper for Overviewer that handles everything from map configuration to actually running it",
 	"main": "main.js",
 	"scripts": {
+		"reset-deps": "npm un @mdi/font adm-zip axios chart.js command-exists electron-window-state gunzip-maybe jquery material-design-icons rimraf tar-fs typeface-open-sans typeface-open-sans-condensed electron electronmon less-watch-compiler electron-packager electron-winstaller && npm i @mdi/font adm-zip axios chart.js command-exists electron-window-state gunzip-maybe jquery material-design-icons rimraf tar-fs typeface-open-sans typeface-open-sans-condensed && npm i -D electron@13 electronmon less-watch-compiler && npm i -O electron-packager electron-winstaller",
 		"start": "electron .",
 		"dev": "electronmon .",
 		"less": "less-watch-compiler css css",
