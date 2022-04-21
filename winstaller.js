@@ -5,6 +5,7 @@ require('electron-winstaller').createWindowsInstaller({
 	outputDirectory: 'builds/installers',
 	exe: 'Overviewer Configurator.exe',
 	setupExe: 'overviewer-configurator-installer.exe',
+	noMsi: true
 }).then(() => {
 	console.log('Installer created');
 }, (error) => {
