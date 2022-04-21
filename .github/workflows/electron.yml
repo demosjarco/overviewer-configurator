@@ -76,7 +76,10 @@ jobs:
       with:
         prerelease: true
         files: |
-            builds/installers/*
+            builds/installers/overviewer-configurator-installer-x32.exe
+            builds/installers/overviewer-configurator-installer-x64.exe
+            builds/installers/overviewer-configurator-installer-x32.msi
+            builds/installers/overviewer-configurator-installer-x64.msi
             Overviewer-Configurator-win-x32.zip
             Overviewer-Configurator-win-x64.zip
       env:
@@ -86,7 +89,10 @@ jobs:
       if: startsWith(github.ref, 'refs/tags/v')
       with:
         files: |
-            builds/installers/*
+            builds/installers/overviewer-configurator-installer-x32.exe
+            builds/installers/overviewer-configurator-installer-x64.exe
+            builds/installers/overviewer-configurator-installer-x32.msi
+            builds/installers/overviewer-configurator-installer-x64.msi
             Overviewer-Configurator-win-x32.zip
             Overviewer-Configurator-win-x64.zip
       env:
