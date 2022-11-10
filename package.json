@@ -39,7 +39,7 @@
 		"typeface-open-sans-condensed": "^1.1.13"
 	},
 	"devDependencies": {
-		"electron": "^13.6.9",
+		"electron": "^18.3.7",
 		"electronmon": "^2.0.2",
 		"less-watch-compiler": "^1.16.3"
 	},
