@@ -1,5 +1,6 @@
 {
 	"background_color": "black",
+	"categories": ["navigation", "games"],
 	"display": "standalone",
 	"icons": [
 		{
