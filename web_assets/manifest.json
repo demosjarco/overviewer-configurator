@@ -1,10 +1,6 @@
 {
-	"name": "Minecraft Overviewer",
-	"short_name": "MC Ov",
-	"lang": "en-US",
-	"display": "standalone",
 	"background_color": "black",
-	"theme_color": "#36b030",
+	"display": "standalone",
 	"icons": [
 		{
 			"src": "favicon.ico",
@@ -16,5 +12,9 @@
 			"sizes": "150x150",
 			"type": "image/png"
 		}
-	]
+	],
+	"name": "Minecraft Overviewer",
+	"short_name": "MC Ov",
+	"lang": "en-US",
+	"theme_color": "#36b030"
 }
