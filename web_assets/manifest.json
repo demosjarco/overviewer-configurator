@@ -16,5 +16,6 @@
 	],
 	"name": "Minecraft Overviewer",
 	"short_name": "MC Ov",
+	"start_url": "./",
 	"theme_color": "#36b030"
 }
